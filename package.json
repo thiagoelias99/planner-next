@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "npx eslint ./src --fix"
+    "lint:fix": "npx eslint ./src --fix",
+    "migrate": "npx prisma migrate dev",
+    "migrate:deploy": "npx prisma migrate deploy",
+    "db:push": "npx prisma db push",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
