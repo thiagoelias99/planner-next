@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 193 15% 88%; /* #dde4e6 */
+    --foreground: 0 0% 13%; /* #222222 */
+
+    --card: 180 2% 92%; /* #eaebeb */
+    --card-foreground: 222.2 84% 4.9%; /* #020817 */
+ 
+    --popover: 0 0% 100%; /* #fff */
+    --popover-foreground: 222.2 84% 4.9%; /* #020817 */
+ 
+    --primary: 212 57% 41%; /* #2d64a3 */
+    --primary-foreground: 108 100% 100%; /* #fdffff */
+ 
+    --secondary: 204 5% 64%; /* #9fa5a9 */
+    --secondary-foreground: 108 100% 100%; /* #fdffff */
+ 
+    --muted: 200 15% 84%; /* #d0d8dc */
+    --muted-foreground: 222.2 84% 4.9%; /* #020817 */
+ 
+    --accent: 212 57% 41%; /* #2d64a3 */
+    --accent-foreground: 108 100% 100%; /* #fdffff */
+ 
+    --destructive: 1 100% 38%; /* #c00400 */
+    --destructive-foreground: 0 0% 100%; /* #fff */
+
+    --border: 200 15% 84%; /* #d0d8dc */
+    --input: 200 15% 84%; /* #d0d8dc */
+    --ring: 200 15% 84%; /* #d0d8dc */
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 204 18% 22%; /* #2d3941 */
+    --foreground: 0 0% 100%; /* #ffffff */
+ 
+    --card: 199 19% 26%; /* #374850 */
+    --card-foreground: 0 0% 100%; /* #ffffff */
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 212 57% 41%; /* #2d64a3 */
+    --primary-foreground: 108 100% 100%; /* #fdffff */
+ 
+    --secondary: 204 5% 64%; /* #9fa5a9 */
+    --secondary-foreground: 108 100% 100%; /* #fdffff */
+ 
+    --muted: 0 0% 100%; /* #fff */
+    --muted-foreground: 200 15% 84%; /* #d0d8dc */
+ 
+    --accent: 212 57% 41%; /* #2d64a3 */
+    --accent-foreground: 108 100% 100%; /* #fdffff */
+ 
+    --destructive: 0 100% 70%; /* #ff6666 */
+    --destructive-foreground: 108 100% 100%; /* #fdffff */
+ 
+    --border: 200 3% 45%; /* #6f7375 */
+    --input: 200 3% 45%; /* #6f7375 */
+    --ring: 200 3% 45%; /* #6f7375 */
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
