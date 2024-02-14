@@ -7,7 +7,7 @@ export default function Home() {
   const { data, status } = useSession()
 
   async function handleLoginClick() {
-    await signIn("google") //Acessa direto o google
+    await signIn()
   }
 
   async function handleLogoutClick() {
