@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { signIn, signOut, useSession } from "next-auth/react"
+import NextLink from "next/link"
 
 export default function Home() {
   const { data, status } = useSession()
@@ -20,6 +21,11 @@ export default function Home() {
       <Button onClick={handleLogoutClick}>Logout</Button>
       <h1>{data?.user?.email}</h1>
       <h1>{data?.user?.id}</h1>
+
+      <NextLink href="/stocks" passHref>
+        <Button>Stocks</Button>
+      </NextLink >
+
     </main>
   )
 }
