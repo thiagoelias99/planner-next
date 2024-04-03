@@ -1,9 +1,12 @@
-import Image from 'next/image'
+import NextLink from 'next/link'
 
 export default function Home() {
+
   return (
     <main>
-      <h1>Planner</h1>
+      <NextLink href="/stocks" passHref>
+        <p>Stocks</p>
+      </NextLink >
     </main>
   )
 }
