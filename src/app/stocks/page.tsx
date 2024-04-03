@@ -1,7 +1,10 @@
+import { GraphSection } from './components/graph-section'
+
+
 export default function Stocks() {
   return (
-    <main className="">
-      <h1>Stocks Page</h1>
+    <main className=''>
+      <GraphSection />
     </main>
   )
-}  
+} 
