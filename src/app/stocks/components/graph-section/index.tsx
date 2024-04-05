@@ -1,24 +1,33 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
+import { UserStock } from '@/models/user-stock'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, ChartData } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 
-export const GraphSection = () => {
+interface Props {
+  userStockData: UserStock
+}
+
+export const GraphSection = ({ userStockData }: Props) => {
   ChartJS.register(ArcElement, Tooltip, Legend, Colors)
 
+  const labels = ['Ações', 'FIIs', 'Internacionais', 'Criptomoedas', 'Ouro']
+
+  const values = [
+    userStockData.stocks.percentage,
+    userStockData.reits.percentage,
+    userStockData.internationals.percentage,
+    userStockData.cryptos.percentage,
+    userStockData.gold.percentage
+  ]
+
   const data = {
-    labels: [
-      'Ações',
-      'FIIs',
-      'Internacional',
-      'Cripto',
-      'Ouro'
-    ],
+    labels,
     datasets: [{
-      label: 'Porcentagem',
-      data: [300, 50, 100, 30, 40],
-      hoverOffset: 4
+      label: '%',
+      data: values,
+      hoverOffset: 1
     }]
   }
 
@@ -29,6 +38,7 @@ export const GraphSection = () => {
           options={{
             plugins: {
               legend: {
+                display: false,
                 position: 'bottom',
                 labels: {
                   color: 'white',

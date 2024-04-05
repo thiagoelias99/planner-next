@@ -12,26 +12,27 @@ import { cn } from '@/lib/utils'
 
 interface Props {
   classnames?: ClassNameValue
+  values?: {value: string, label: string}[]
   value?: string
   onValueChange?: (value: string) => void
 }
 
-const StockGroupSelect = ({ classnames, value, onValueChange }: Props) => {
+const StockGroupSelect = ({ classnames, values, value, onValueChange }: Props) => {
   return (
     <Select
       value={value}
       onValueChange={onValueChange}
     >
       <SelectTrigger className={cn(
-        'w-[98px] h-[28px]',
+        'w-[138px] h-[28px]',
         classnames
       )}>
         <SelectValue placeholder="" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">Todos</SelectItem>
-        <SelectItem value="stocks">Ações</SelectItem>
-        <SelectItem value="fiis">FIIs</SelectItem>
+        {values?.map((item, index) => (
+          <SelectItem key={index} value={item.value}>{item.label}</SelectItem>
+        ))}
       </SelectContent>
     </Select>
 
