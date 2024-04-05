@@ -21,7 +21,7 @@ const StockCard = ({ classnames, stock }: StockCardProps) => {
         </div>
         <div>
           <p className='text-sm'>Lucro/Prejuizo</p>
-          <p className='text-sm font-semibold'>{`R$ 100,00 | ${stock.profitability.toFixed(2)}%`}</p>
+          <p className='text-sm font-semibold'>{`R$ ${stock.profit.toFixed(2)} | ${stock.profitability.toFixed(2)}%`}</p>
         </div>
       </div>
       <div className='h-full flex flex-col justify-between items-end'>

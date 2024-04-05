@@ -22,7 +22,8 @@ export default function Stocks() {
           'totalDepositValue': 1256.9999999999998,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 14.788235294117644,
-          'profitability': -17.028639618138406
+          'profitability': -17.028639618138406,
+          'profit': 100
         },
         {
           'id': '1a0a54e9-4a8e-4731-a87d-126973684084',
@@ -35,7 +36,8 @@ export default function Stocks() {
           'totalDepositValue': 7065.490000000001,
           'totalWithdrawValue': 3972.9500000000007,
           'averageStockBuyPrice': 12.914551578947366,
-          'profitability': -9.172223841502635
+          'profitability': -9.172223841502635,
+          'profit': 100
         },
         {
           'id': 'ceb9fee5-9991-477a-afcc-5ac5d166f1f0',
@@ -48,7 +50,8 @@ export default function Stocks() {
           'totalDepositValue': 2178.8200000000006,
           'totalWithdrawValue': 1552.42,
           'averageStockBuyPrice': 34.16,
-          'profitability': 64.43208430913351
+          'profitability': 64.43208430913351,
+          'profit': 100
         },
         {
           'id': 'd328124b-aaba-40d0-ab9f-d7e72e7caa83',
@@ -61,7 +64,8 @@ export default function Stocks() {
           'totalDepositValue': 7198.029999999999,
           'totalWithdrawValue': 6733.349999999999,
           'averageStockBuyPrice': 9.528703296703299,
-          'profitability': -45.008257295482025
+          'profitability': -45.008257295482025,
+          'profit': 100
         },
         {
           'id': '968ed27d-2017-4435-b1ff-f12d13b041f0',
@@ -74,7 +78,8 @@ export default function Stocks() {
           'totalDepositValue': 7429.929999999999,
           'totalWithdrawValue': 5980.72,
           'averageStockBuyPrice': 23.522726563669448,
-          'profitability': 37.10145340808286
+          'profitability': 37.10145340808286,
+          'profit': 100
         },
         {
           'id': '614a4f26-51a5-4664-8799-29000fc6e543',
@@ -87,7 +92,8 @@ export default function Stocks() {
           'totalDepositValue': 6788.959999999999,
           'totalWithdrawValue': 3638.08,
           'averageStockBuyPrice': 10.772451936030812,
-          'profitability': -5.499694401506005
+          'profitability': -5.499694401506005,
+          'profit': 100
         },
         {
           'id': '6a9f0d67-cce7-49ca-a3e8-2cb56a77fe9d',
@@ -100,7 +106,8 @@ export default function Stocks() {
           'totalDepositValue': 12369.329999999998,
           'totalWithdrawValue': 8604.339999999998,
           'averageStockBuyPrice': 3.7403527157011647,
-          'profitability': -53.48032305360218
+          'profitability': -53.48032305360218,
+          'profit': 100
         },
         {
           'id': '4b411035-908c-48b4-be50-71823ceea2b4',
@@ -113,7 +120,8 @@ export default function Stocks() {
           'totalDepositValue': 516.2,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 12.91,
-          'profitability': -36.483346243222314
+          'profitability': -36.483346243222314,
+          'profit': 100
         },
         {
           'id': 'c66d7099-cc9f-414a-ac6e-4fd82e408afb',
@@ -126,7 +134,8 @@ export default function Stocks() {
           'totalDepositValue': 8280.249999999998,
           'totalWithdrawValue': 5405.620000000001,
           'averageStockBuyPrice': 21.714047422366505,
-          'profitability': -20.604391872875915
+          'profitability': -20.604391872875915,
+          'profit': 100
         },
         {
           'id': '468e7a23-d285-4ac1-9e7c-7fb70bd85d5b',
@@ -139,7 +148,8 @@ export default function Stocks() {
           'totalDepositValue': 8433.270000000002,
           'totalWithdrawValue': 5002.25,
           'averageStockBuyPrice': 27.349125272457385,
-          'profitability': 41.211097668608886
+          'profitability': 41.211097668608886,
+          'profit': 100
         },
         {
           'id': 'c0fa3fb7-bc09-4caa-869f-f1be936b7794',
@@ -152,7 +162,8 @@ export default function Stocks() {
           'totalDepositValue': 4187.42,
           'totalWithdrawValue': 3001.7999999999997,
           'averageStockBuyPrice': 8.162749999999999,
-          'profitability': 34.023460230927085
+          'profitability': 34.023460230927085,
+          'profit': 100
         },
         {
           'id': '60ec55d0-1ad5-425e-b815-afdb6b765dec',
@@ -165,7 +176,8 @@ export default function Stocks() {
           'totalDepositValue': 6789.820000000001,
           'totalWithdrawValue': 6081.640000000001,
           'averageStockBuyPrice': 55.35341912799763,
-          'profitability': -6.329182881903694
+          'profitability': -6.329182881903694,
+          'profit': 100
         },
         {
           'id': '4587e8b4-6dcd-4e1f-98ee-caa476781e9e',
@@ -178,7 +190,8 @@ export default function Stocks() {
           'totalDepositValue': 770.3,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 15.408,
-          'profitability': -15.88785046728971
+          'profitability': -15.88785046728971,
+          'profit': 100
         },
         {
           'id': '61cd55d9-16dc-436e-bb22-61e6a2174338',
@@ -191,7 +204,8 @@ export default function Stocks() {
           'totalDepositValue': 11255.699999999999,
           'totalWithdrawValue': 6673.23,
           'averageStockBuyPrice': 77.64302950990268,
-          'profitability': -20.224648122340326
+          'profitability': -20.224648122340326,
+          'profit': 100
         }
       ],
       'totalAmount': 27082.64,
@@ -211,7 +225,8 @@ export default function Stocks() {
           'totalDepositValue': 16260.59,
           'totalWithdrawValue': 2605.4700000000003,
           'averageStockBuyPrice': 8.175276002324228,
-          'profitability': 12.16746685240928
+          'profitability': 12.16746685240928,
+          'profit': 100
         },
         {
           'id': '44db9cad-5cec-402a-a867-7c59afdfa4fe',
@@ -224,7 +239,8 @@ export default function Stocks() {
           'totalDepositValue': 14323.3,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 8.09225988700565,
-          'profitability': 5.656517701926234
+          'profitability': 5.656517701926234,
+          'profit': 100
         },
         {
           'id': '4f3e6e41-d525-42f3-882a-2b94be8bb356',
@@ -237,7 +253,8 @@ export default function Stocks() {
           'totalDepositValue': 19357.909999999996,
           'totalWithdrawValue': 3995.94,
           'averageStockBuyPrice': 162.95101411290324,
-          'profitability': 3.251888867304187
+          'profitability': 3.251888867304187,
+          'profit': 100
         },
         {
           'id': '207e6a7b-aa94-4a4a-b0af-362cce99f041',
@@ -250,7 +267,8 @@ export default function Stocks() {
           'totalDepositValue': 11774.449999999999,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 9.771327800829877,
-          'profitability': 5.922144983417477
+          'profitability': 5.922144983417477,
+          'profit': 100
         },
         {
           'id': 'e3017b1f-5aaf-414d-8370-c4fc6ab9efa3',
@@ -263,7 +281,8 @@ export default function Stocks() {
           'totalDepositValue': 15175.380000000001,
           'totalWithdrawValue': 1002,
           'averageStockBuyPrice': 95.61824564122433,
-          'profitability': -15.915629427385369
+          'profitability': -15.915629427385369,
+          'profit': 100
         },
         {
           'id': '602a02c8-2056-4142-8e29-2fdeb0122f51',
@@ -276,7 +295,8 @@ export default function Stocks() {
           'totalDepositValue': 13459.300000000001,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 105.15078124999998,
-          'profitability': 11.154666290223126
+          'profitability': 11.154666290223126,
+          'profit': 100
         }
       ],
       'totalAmount': 85652.71,
@@ -296,7 +316,8 @@ export default function Stocks() {
           'totalDepositValue': 29052.370000000003,
           'totalWithdrawValue': 3695.2299999999996,
           'averageStockBuyPrice': 220.87903105590058,
-          'profitability': 32.515974287266225
+          'profitability': 32.515974287266225,
+          'profit': 100
         }
       ],
       'totalAmount': 33660.5,
@@ -316,7 +337,8 @@ export default function Stocks() {
           'totalDepositValue': 8526.08,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 10.448627450980393,
-          'profitability': 101.94039933943854
+          'profitability': 101.94039933943854,
+          'profit': 100
         }
       ],
       'totalAmount': 17217.600000000002,
@@ -336,7 +358,8 @@ export default function Stocks() {
           'totalDepositValue': 5007.379999999999,
           'totalWithdrawValue': 0,
           'averageStockBuyPrice': 10.261024590163933,
-          'profitability': 18.31177182478665
+          'profitability': 18.31177182478665,
+          'profit': 100
         }
       ],
       'totalAmount': 5924.320000000001,
