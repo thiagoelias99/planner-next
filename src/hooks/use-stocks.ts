@@ -2,18 +2,23 @@ import { useQuery } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import { UserStock } from '@/models/user-stock'
 import { useRouter } from 'next/navigation'
+import useToken from './use-token'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
-const testToken = process.env.NEXT_PUBLIC_TOKEN
+// const testToken = process.env.NEXT_PUBLIC_TOKEN
 
 const useStocks = () => {
   const router = useRouter()
+  const { token } = useToken()
 
   const getStocksFromUser = useQuery('stocksFromUser', async () => {
+    if (!token) {
+      return
+    }
     try {
       const { data: response } = await axios.get<UserStock>(`${apiUrl}/stocks`, {
         headers: {
-          Authorization: `Bearer ${testToken}`
+          Authorization: `Bearer ${token}`
         }
       })
 

@@ -12,7 +12,7 @@ import { ComboboxForm } from '@/components/ui/combobox-form'
 import brasilStates from '@/data/estados-brasil'
 import { PasswordInput } from '@/components/ui/password-input'
 import { useEffect } from 'react'
-import useBrazilState from '@/hooks/useCity.ts'
+import useBrazilState from '@/hooks/use-city'
 import { isBefore } from 'date-fns'
 import { useMutation } from 'react-query'
 import axios, { AxiosError } from 'axios'
@@ -29,117 +29,6 @@ export default function SignUpForm({ setShowSignUp }: SignUpFormProps) {
   //   label: state.nome,
   //   value: state.sigla,
   // })).sort((a, b) => a.label.localeCompare(b.label))
-
-  const statesOptions = [
-    {
-      'label': 'Acre',
-      'value': 'AC'
-    },
-    {
-      'label': 'Alagoas',
-      'value': 'AL'
-    },
-    {
-      'label': 'Amapá',
-      'value': 'AP'
-    },
-    {
-      'label': 'Amazonas',
-      'value': 'AM'
-    },
-    {
-      'label': 'Bahia',
-      'value': 'BA'
-    },
-    {
-      'label': 'Ceará',
-      'value': 'CE'
-    },
-    {
-      'label': 'Distrito Federal',
-      'value': 'DF'
-    },
-    {
-      'label': 'Espírito Santo',
-      'value': 'ES'
-    },
-    {
-      'label': 'Goiás',
-      'value': 'GO'
-    },
-    {
-      'label': 'Maranhão',
-      'value': 'MA'
-    },
-    {
-      'label': 'Mato Grosso',
-      'value': 'MT'
-    },
-    {
-      'label': 'Mato Grosso do Sul',
-      'value': 'MS'
-    },
-    {
-      'label': 'Minas Gerais',
-      'value': 'MG'
-    },
-    {
-      'label': 'Pará',
-      'value': 'PA'
-    },
-    {
-      'label': 'Paraíba',
-      'value': 'PB'
-    },
-    {
-      'label': 'Paraná',
-      'value': 'PR'
-    },
-    {
-      'label': 'Pernambuco',
-      'value': 'PE'
-    },
-    {
-      'label': 'Piauí',
-      'value': 'PI'
-    },
-    {
-      'label': 'Rio de Janeiro',
-      'value': 'RJ'
-    },
-    {
-      'label': 'Rio Grande do Norte',
-      'value': 'RN'
-    },
-    {
-      'label': 'Rio Grande do Sul',
-      'value': 'RS'
-    },
-    {
-      'label': 'Rondônia',
-      'value': 'RO'
-    },
-    {
-      'label': 'Roraima',
-      'value': 'RR'
-    },
-    {
-      'label': 'Santa Catarina',
-      'value': 'SC'
-    },
-    {
-      'label': 'São Paulo',
-      'value': 'SP'
-    },
-    {
-      'label': 'Sergipe',
-      'value': 'SE'
-    },
-    {
-      'label': 'Tocantins',
-      'value': 'TO'
-    }
-  ]
 
   const formSchema = z.object({
     email: z.string().email(),
