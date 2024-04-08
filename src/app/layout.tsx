@@ -5,6 +5,7 @@ import { Roboto } from 'next/font/google'
 import './globals.css'
 import { QueryClientProvider } from 'react-query'
 import { queryClient } from '@/services/webclient/queryClient'
+import { Toaster } from '@/components/ui/toaster'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -24,7 +25,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className='dark'>
       <QueryClientProvider client={queryClient}>
-        <body className={roboto.className}>{children}</body>
+        <body className={roboto.className}>
+          {children}
+          <Toaster />
+        </body>
       </QueryClientProvider>
     </html>
   )
