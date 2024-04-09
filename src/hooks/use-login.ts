@@ -61,7 +61,13 @@ const useLogin = () => {
     }
   }
 
-  return { login, isLoading }
+  const logout = () => {
+    localStorage.removeItem('token')
+    sessionStorage.removeItem('token')
+    setToken(null)
+  }
+
+  return { login, logout, isLoading }
 }
 
 export default useLogin

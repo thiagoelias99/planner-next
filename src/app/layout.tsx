@@ -24,14 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const headerHeight = '14'
-
   return (
     <html lang="pt-BR" className=''>
       <QueryClientProvider client={queryClient}>
         <body className={roboto.className}>
-          <TopBar height={headerHeight} />
-          <main className={`pt-${headerHeight}`}>
+          <TopBar />
+          <main className='pt-12'>
             {children}
           </main>
           <Toaster />
