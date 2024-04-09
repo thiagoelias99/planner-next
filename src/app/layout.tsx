@@ -6,6 +6,7 @@ import './globals.css'
 import { QueryClientProvider } from 'react-query'
 import { queryClient } from '@/services/webclient/queryClient'
 import { Toaster } from '@/components/ui/toaster'
+import TopBar from '@/components/topbar'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -22,11 +23,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const headerHeight = '14'
+
   return (
     <html lang="pt-BR" className=''>
       <QueryClientProvider client={queryClient}>
         <body className={roboto.className}>
-          {children}
+          <TopBar height={headerHeight} />
+          <main className={`pt-${headerHeight}`}>
+            {children}
+          </main>
           <Toaster />
         </body>
       </QueryClientProvider>
