@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-
+import Image from 'next/image'
 import { Menu } from 'lucide-react'
 
 import { Button } from '../ui/button'

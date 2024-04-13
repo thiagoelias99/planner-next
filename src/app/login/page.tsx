@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-// import logo from '../assets/logo.jpeg'
 import SignUpForm from './signup-form'
 import LoginForm from './login-form'
 import Image from 'next/image'
@@ -13,8 +12,6 @@ const LoginPage = () => {
   return (
     <main className='w-screen h-screen flex flex-col'>
       <div className={`relative w-full ${showSignUp ? 'h-[64px]' : 'h-[30%]'} bg-primary flex items-center justify-center`}>
-        {/* <img src={logo} alt="logo" className={showSignUp ? 'h-[100%]' : 'h-[80%]'} /> */}
-
         <div className={showSignUp ? 'h-[100%]' : 'h-[80%]'}>
           <Image
             src="/logo-1024.png"

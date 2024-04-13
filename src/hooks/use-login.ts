@@ -1,10 +1,9 @@
-const apiUrl = process.env.NEXT_PUBLIC_API_URL
+import { useState } from 'react'
 import axios, { AxiosError } from 'axios'
 import useToken from './use-token'
 import { toast } from './use-toast'
-import { useState } from 'react'
-import { set } from 'date-fns'
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 const useLogin = () => {
   const { setToken } = useToken()

@@ -17,10 +17,10 @@ export default function Stocks() {
   const { getStocksFromUser: { data } } = useStocks()
 
   useEffect(() => {
-    console.log('token', token)
     if (!token) {
       router.push('/login')
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
 

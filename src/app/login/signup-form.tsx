@@ -104,6 +104,7 @@ export default function SignUpForm({ setShowSignUp }: SignUpFormProps) {
 
   useEffect(() => {
     refetch()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.watch().state])
 
   useEffect(() => {
@@ -115,6 +116,7 @@ export default function SignUpForm({ setShowSignUp }: SignUpFormProps) {
         message: 'As senhas não coincidem',
       })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.watch().password, form.watch().confirmPassword])
 
   return (

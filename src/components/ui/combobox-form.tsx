@@ -35,12 +35,10 @@ import { useState } from 'react'
 import { ScrollArea } from './scroll-area'
 
 interface ComboboxFormProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fieldName: string,
   label: string
   placeholder?: string
   className?: ClassNameValue
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>
   options: { label: string, value: string }[]
   disabled?: boolean
