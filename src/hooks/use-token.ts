@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const useToken = () => {
-  const [token, setToken] = useState<string | null | undefined>(localStorage.getItem('token') || sessionStorage.getItem('token') || null)
+  const [token, setToken] = useState<string | null | undefined>(localStorage?.getItem('token') || sessionStorage?.getItem('token') || null)
 
   return { token, setToken }
 }
