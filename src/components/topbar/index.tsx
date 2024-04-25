@@ -49,6 +49,7 @@ const TopBar = () => {
                 onClick={() => setIsSheetOpen(false)}>
                 <LinkItem href='/' label='Home' />
                 <LinkItem href='/stocks' label='Stocks' />
+                <LinkItem href='/budgets' label='Orçamento' />
               </ul>
             </nav>
           </div>

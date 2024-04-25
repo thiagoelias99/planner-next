@@ -25,7 +25,7 @@ export default function RootLayout({
   const pathname = usePathname()
 
   return (
-    <html lang="pt-BR" className=''>
+    <html lang="pt-BR" className='dark'>
       <QueryClientProvider client={queryClient}>
         <body className={roboto.className}>
           {/* If current route is login, don't show the top bar */}
