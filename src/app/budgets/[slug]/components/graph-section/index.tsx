@@ -1,23 +1,23 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
+import { BudgetSummary } from '@/models/budget/budget-summary'
 import { UserStock } from '@/models/user-stock'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, ChartData } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 
 interface Props {
-  incomes: number,
-  expenses: number
+  summary: BudgetSummary
 }
 
-export const GraphSection = ({ incomes, expenses }: Props) => {
+export const GraphSection = ({ summary }: Props) => {
   ChartJS.register(ArcElement, Tooltip, Legend, Colors)
 
   const labels = ['Renda', 'Despesa']
 
   const values = [
-    incomes,
-    expenses
+    summary.actualIncomeValue,
+    summary.actualOutcomeValue
   ]
 
   const data = {
