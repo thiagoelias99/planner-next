@@ -1,4 +1,6 @@
 import React from 'react'
+import { GraphSection } from './components/graph-section'
+import SummarySection from './components/summary-section'
 
 interface Props {
   params: {
@@ -15,6 +17,12 @@ export default function MonthSummary({ params }: Props) {
   }
 
   return (
-    <div>{params.slug}</div>
+    <div>
+      <GraphSection
+        incomes={100}
+        expenses={100}
+      />
+      <SummarySection />
+    </div>
   )
 }
