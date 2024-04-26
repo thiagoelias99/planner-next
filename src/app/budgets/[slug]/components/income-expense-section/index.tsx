@@ -7,16 +7,17 @@ import { ClassNameValue } from 'tailwind-merge'
 interface Props {
   className?: ClassNameValue
   summary: BudgetSummary
+  checkBoxHandler: (parentId: string, id: string, checked: boolean) => void
 }
 
-export default function IncomeAndExpenseSection({ summary, className }: Props) {
+export default function IncomeAndExpenseSection({ summary, className, checkBoxHandler }: Props) {
   return (
     <section className={`px-4 ${className}`}>
       <div>
         <Header1>Rendas</Header1>
         <div className='mt-2 flex flex-col justify-start items-start gap-2'>
           {summary.incomes.map((item) => (
-            <BudgetItem key={item.id} data={item} />
+            <BudgetItem key={item.id} data={item} checkBoxHandler={checkBoxHandler} />
           ))}
         </div>
       </div>
@@ -24,7 +25,7 @@ export default function IncomeAndExpenseSection({ summary, className }: Props) {
         <Header1>Despesas</Header1>
         <div className='mt-2 flex flex-col justify-start items-start gap-2'>
           {summary.outcomes.map((item) => (
-            <BudgetItem key={item.id} data={item} />
+            <BudgetItem key={item.id} data={item} checkBoxHandler={checkBoxHandler} />
           ))}
         </div>
       </div>

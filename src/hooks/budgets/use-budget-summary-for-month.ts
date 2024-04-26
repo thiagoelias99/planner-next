@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useRouter } from 'next/navigation'
 import useToken from '../use-token'
 import axios, { AxiosError } from 'axios'
@@ -9,7 +9,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL
 const useBudgetSummaryFromMonth = (month: number, year: number) => {
   const { token } = useToken()
   const router = useRouter()
-  
+
   const getSummary = useQuery(['summary', year, month], async () => {
     if (!token) {
       return
@@ -49,7 +49,39 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
     }
   })
 
-  return { getSummary }
+  const checkItem = useMutation({
+    mutationFn: async ({ parentId, id, checked }: { parentId: string, id: string, checked: boolean }) => {
+      if (!token) {
+        return
+      }
+      try {
+        await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
+          checked
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        })
+
+        getSummary.refetch()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          switch (error.response?.status) {
+            case 401:
+              router.push('/login')
+              break
+            default:
+              break
+          }
+          return
+        }
+
+        throw error
+      }
+    }
+  })
+
+  return { getSummary, checkItem }
 }
 
 export default useBudgetSummaryFromMonth

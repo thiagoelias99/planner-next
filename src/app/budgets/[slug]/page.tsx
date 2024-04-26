@@ -22,7 +22,7 @@ export default function MonthSummary({ params }: Props) {
   const router = useRouter()
   const [year, month] = params.slug.split('-').map((value) => parseInt(value))
 
-  const { getSummary } = useBudgetSummaryFromMonth(month, year)
+  const { getSummary, checkItem } = useBudgetSummaryFromMonth(month, year)
 
   const summary = getSummary.data
 
@@ -36,13 +36,25 @@ export default function MonthSummary({ params }: Props) {
     alert('FAB clicked')
   }
 
+  function checkBoxHandler(parentId: string, id: string, checked: boolean) {
+    checkItem.mutate({
+      parentId,
+      id,
+      checked
+    })
+  }
+
   return (
     <div className='pb-4'>
       {summary && (
         <div>
           <GraphSection summary={summary} />
           <SummarySection summary={summary} />
-          <IncomeAndExpenseSection summary={summary} className={'mt-4'} />
+          <IncomeAndExpenseSection
+            className={'mt-4'}
+            summary={summary}
+            checkBoxHandler={checkBoxHandler}
+          />
           <FloatingActionButton onClick={handleFABClick} />
         </div>
       )}
