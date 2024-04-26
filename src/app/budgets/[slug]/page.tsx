@@ -3,14 +3,12 @@
 import useToken from '@/hooks/use-token'
 import { useRouter } from 'next/navigation'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { GraphSection } from './components/graph-section'
 import SummarySection from './components/summary-section'
-import { BudgetSummary } from '@/models/budget/budget-summary'
 import IncomeAndExpenseSection from './components/income-expense-section'
-import { BudgetPaymentMethodEnum } from '@/models/budget/budget-payment-method.enum'
-import { useBudgets } from '@/hooks/use-budgets'
 import FloatingActionButton from '@/components/ui/floating-action-button'
+import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
 
 interface Props {
   params: {
@@ -22,22 +20,17 @@ export default function MonthSummary({ params }: Props) {
   // Token is required to access this page
   const { token } = useToken()
   const router = useRouter()
-  const [summary, setSummary] = useState<BudgetSummary>()
+  const [year, month] = params.slug.split('-').map((value) => parseInt(value))
 
-  const { getSummaryFromYearAndMonth } = useBudgets()
+  const { getSummary } = useBudgetSummaryFromMonth(month, year)
+
+  const summary = getSummary.data
 
   useEffect(() => {
     if (!token) {
       router.push('/login')
     }
-    getSummaryFromYearAndMonth(year, month)
-      .then((response) => {
-        setSummary(response)
-      })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
-
-  const [year, month] = params.slug.split('-').map((value) => parseInt(value))
 
   function handleFABClick() {
     alert('FAB clicked')

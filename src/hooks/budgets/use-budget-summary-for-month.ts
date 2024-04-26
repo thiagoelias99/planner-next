@@ -1,18 +1,20 @@
+import { useQuery } from 'react-query'
 import { useRouter } from 'next/navigation'
+import useToken from '../use-token'
 import axios, { AxiosError } from 'axios'
-import useToken from './use-token'
 import { BudgetSummary } from '@/models/budget/budget-summary'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
-export const useBudgets = () => {
-  const router = useRouter()
+const useBudgetSummaryFromMonth = (month: number, year: number) => {
   const { token } = useToken()
-
-  const getSummaryFromYearAndMonth = async (year: number, month: number) => {
+  const router = useRouter()
+  
+  const getSummary = useQuery(['summary', year, month], async () => {
     if (!token) {
       return
     }
+
     try {
       const { data: response } = await axios.get<BudgetSummary>(`${apiUrl}/budgets/summary/${year}/${month}`, {
         headers: {
@@ -45,7 +47,9 @@ export const useBudgets = () => {
 
       throw error
     }
-  }
+  })
 
-  return { getSummaryFromYearAndMonth }
+  return { getSummary }
 }
+
+export default useBudgetSummaryFromMonth
