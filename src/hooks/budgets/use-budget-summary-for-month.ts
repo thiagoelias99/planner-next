@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import useToken from '../use-token'
 import axios, { AxiosError } from 'axios'
 import { BudgetSummary } from '@/models/budget/budget-summary'
+import { CreateBudgetDto } from './budget-create.dto'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -81,7 +82,24 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
     }
   })
 
-  return { getSummary, checkItem }
+  const createBudget = useMutation({
+    mutationFn: async (data: CreateBudgetDto) => {
+      if (!token) {
+        return
+      }
+      await axios.post(`${apiUrl}/budgets`, {
+        ...data
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+
+      await getSummary.refetch()
+    }
+  })
+
+  return { getSummary, checkItem, createBudget }
 }
 
 export default useBudgetSummaryFromMonth

@@ -1,6 +1,6 @@
 export enum BudgetPaymentMethodEnum {
-  CREDIT = 'CREDIT',
-  DEBIT = 'DEBIT',
-  PIX = 'PIX',
+  CREDIT = 'Crédito',
+  DEBIT = 'Debito',
+  PIX = 'Pix',
   TRANSFER = 'Transferência',
 }

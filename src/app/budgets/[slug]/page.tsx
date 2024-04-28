@@ -3,12 +3,13 @@
 import useToken from '@/hooks/use-token'
 import { useRouter } from 'next/navigation'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GraphSection } from './components/graph-section'
 import SummarySection from './components/summary-section'
 import IncomeAndExpenseSection from './components/income-expense-section'
 import FloatingActionButton from '@/components/ui/floating-action-button'
 import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
+import CreateBudgetDialog from './components/create-budget-dialog'
 
 interface Props {
   params: {
@@ -20,9 +21,10 @@ export default function MonthSummary({ params }: Props) {
   // Token is required to access this page
   const { token } = useToken()
   const router = useRouter()
+  const [openDialog, setOpenDialog] = useState(false)
   const [year, month] = params.slug.split('-').map((value) => parseInt(value))
 
-  const { getSummary, checkItem } = useBudgetSummaryFromMonth(month, year)
+  const { getSummary, checkItem, createBudget } = useBudgetSummaryFromMonth(month, year)
 
   const summary = getSummary.data
 
@@ -33,7 +35,7 @@ export default function MonthSummary({ params }: Props) {
   }, [token])
 
   function handleFABClick() {
-    alert('FAB clicked')
+    setOpenDialog(true)
   }
 
   function checkBoxHandler(parentId: string, id: string, checked: boolean) {
@@ -58,6 +60,12 @@ export default function MonthSummary({ params }: Props) {
           <FloatingActionButton onClick={handleFABClick} />
         </div>
       )}
+      <CreateBudgetDialog
+        open={openDialog}
+        onOpenChange={setOpenDialog}
+        createFunction={createBudget.mutate}
+        isSuccess={createBudget.isSuccess}
+      />
     </div>
   )
 }
