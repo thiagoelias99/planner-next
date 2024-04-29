@@ -60,6 +60,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
       form.reset()
       onOpenChange(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {

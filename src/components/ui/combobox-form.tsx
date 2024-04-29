@@ -57,6 +57,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
       console.log('aqui')
       form.setValue(fieldName, '')
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValue])
 
   function handleSelect(value: string) {

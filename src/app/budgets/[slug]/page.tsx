@@ -32,6 +32,7 @@ export default function MonthSummary({ params }: Props) {
     if (!token) {
       router.push('/login')
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
   function handleFABClick() {
