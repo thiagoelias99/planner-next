@@ -25,10 +25,10 @@ interface SignUpFormProps {
 }
 
 export default function SignUpForm({ setShowSignUp }: SignUpFormProps) {
-  // const statesOptions = brasilStates.map((state) => ({
-  //   label: state.nome,
-  //   value: state.sigla,
-  // })).sort((a, b) => a.label.localeCompare(b.label))
+  const statesOptions = brasilStates.map((state) => ({
+    label: state.nome,
+    value: state.sigla,
+  })).sort((a, b) => a.label.localeCompare(b.label))
 
   const formSchema = z.object({
     email: z.string().email(),
@@ -209,7 +209,7 @@ export default function SignUpForm({ setShowSignUp }: SignUpFormProps) {
               form={form}
               label='Estado'
               fieldName='state'
-              options={[]}
+              options={statesOptions}
             />
             <ComboboxForm
               form={form}

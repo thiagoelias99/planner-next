@@ -26,8 +26,8 @@ interface Props {
 }
 
 const formSchema = z.object({
-  value: z.string().refine((value) => parseFloat(value) > 0, {
-    message: 'O valor deve ser maior que 0',
+  value: z.string().refine((value) => parseFloat(value) >= 0, {
+    message: 'O valor deve ser positivo',
   }).transform((value) => parseFloat(value)),
   isIncome: z.boolean().optional().default(true),
   description: z.string().min(3).max(255),
