@@ -31,7 +31,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { ClassNameValue } from 'tailwind-merge'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ScrollArea } from './scroll-area'
 
 interface ComboboxFormProps {
@@ -42,13 +42,22 @@ interface ComboboxFormProps {
   form: UseFormReturn<any>
   options: { label: string, value: string }[]
   disabled?: boolean
+  defaultValue?: string
 }
 
-export function ComboboxForm({ label, fieldName, className, form, options, disabled }: ComboboxFormProps) {
+export function ComboboxForm({ label, fieldName, className, form, options, disabled, defaultValue }: ComboboxFormProps) {
   'use client'
   const [open, setOpen] = useState(false)
-  // const isDesktop = useMediaQuery("(min-width: 768px)")
+  // const isDesktop = useMediaQuery('(min-width: 768px)')
   const isDesktop = false
+
+  useEffect(() => {
+    console.log(defaultValue)
+    if (defaultValue !== undefined) {
+      console.log('aqui')
+      form.setValue(fieldName, '')
+    }
+  }, [defaultValue])
 
   function handleSelect(value: string) {
     form.setValue(fieldName, value)

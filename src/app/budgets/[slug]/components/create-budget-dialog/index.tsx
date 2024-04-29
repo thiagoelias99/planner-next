@@ -13,9 +13,10 @@ import { useForm } from 'react-hook-form'
 import IsIncomeSelect from './is-income-select'
 import { ComboboxForm } from '@/components/ui/combobox-form'
 import { CreateBudgetDto } from '@/hooks/budgets/budget-create.dto'
-import { Checkbox } from '@/components/ui/checkbox'
+import { useEffect, useState } from 'react'
 import { DateInput } from '@/components/ui/date-input'
-import { useEffect } from 'react'
+import { Checkbox } from '@/components/ui/checkbox'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Props {
   open: boolean
@@ -38,6 +39,8 @@ const formSchema = z.object({
 })
 
 export default function CreateBudgetDialog({ open, onOpenChange, createFunction, isSuccess }: Props) {
+  const [showMore, setShowMore] = useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,78 +79,123 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className='w-[90%] top-[10%] translate-y-0 sm:max-w-[425px] bg-card rounded-xl border-2'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="Descrição" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="value"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input type='number' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <IsIncomeSelect form={form} fieldName="isIncome" />
-            <ComboboxForm
-              form={form}
-              label='Pagamento'
-              fieldName='paymentMethod'
-              options={paymentOptions} />
-            <FormField
-              control={form.control}
-              name="consolidated"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="startDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data Inicial</FormLabel>
-                  <FormControl>
-                    <DateInput {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="endDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data Final</FormLabel>
-                  <FormControl>
-                    <DateInput {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="">
+            <ScrollArea className='w-full'>
+              <div className='w-full space-y-4 space-x-2 grid grid-cols-4'>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem
+                      className='col-span-4'
+                    >
+                      <FormControl>
+                        <Input placeholder="Descrição" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="value"
+                  render={({ field }) => (
+                    <FormItem className='col-span-2'>
+                      <FormControl>
+                        <div className='flex flex-row justify-start items-center gap-4'>
+                          <span className='font-semibold text-base'>R$</span>
+                          <Input type='number' {...field} className='text-center' />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <IsIncomeSelect className='pl-2 pr-2 col-span-2' form={form} fieldName="isIncome" />
+                <ComboboxForm
+                  form={form}
+                  label='Forma de Pagamento'
+                  fieldName='paymentMethod'
+                  options={paymentOptions}
+                  className='col-span-4'
+                // defaultValue={paymentOptions.find(option => option.label === BudgetPaymentMethodEnum.TRANSFER)?.value}
+                />
+                <span
+                  role='button'
+                  className='font-semibold text-sm col-span-4 text-end pointer'
+                  onClick={() => setShowMore(!showMore)}
+                >{showMore ? 'mostrar menos' : 'mostrar mais'}</span>
+                {showMore && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem className='col-span-2'>
+                          <FormLabel>Data Inicial</FormLabel>
+                          <FormControl>
+                            <DateInput {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="endDate"
+                      render={({ field }) => (
+                        <FormItem className='col-span-2'>
+                          <FormLabel>Data Final</FormLabel>
+                          <FormControl>
+                            <DateInput {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem className='col-span-3'>
+                          <FormControl>
+                            <div className='flex flex-row justify-start items-center gap-4'>
+                              <span className='text-base'>Dia do mês:</span>
+                              <Input type='number' {...field} className='text-center w-20' />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="consolidated"
+                      render={({ field }) => (
+                        <FormItem className='col-span-1'>
+                          <FormControl>
+                            <div className='w-full h-full flex flex-row justify-end items-center gap-2'>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                className='h-8 w-8'
+                              />
+                              <span>Ok</span>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                )}
+                <Button className='col-span-4' type="submit">Confirmar</Button>
+              </div>
+            </ScrollArea>
           </form>
         </Form>
       </DialogContent>
