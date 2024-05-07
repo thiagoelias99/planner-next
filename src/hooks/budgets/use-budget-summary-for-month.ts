@@ -4,6 +4,7 @@ import useToken from '../use-token'
 import axios, { AxiosError } from 'axios'
 import { BudgetSummary } from '@/models/budget/budget-summary'
 import { CreateBudgetDto } from './budget-create.dto'
+import { UpdateBudgetDto } from './update-budget.dto'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -99,7 +100,39 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
     }
   })
 
-  return { getSummary, checkItem, createBudget }
+  const updateBudget = useMutation({
+    mutationFn: async ({ parentId, id, ...rest }: UpdateBudgetDto) => {
+      if (!token) {
+        return
+      }
+      try {
+        await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
+          ...rest
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        })
+
+        getSummary.refetch()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          switch (error.response?.status) {
+            case 401:
+              router.push('/login')
+              break
+            default:
+              break
+          }
+          return
+        }
+
+        throw error
+      }
+    }
+  })
+
+  return { getSummary, checkItem, createBudget, updateBudget }
 }
 
 export default useBudgetSummaryFromMonth

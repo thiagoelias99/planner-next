@@ -9,9 +9,10 @@ import React from 'react'
 interface Props {
   data: BudgetSimplified
   checkBoxHandler: (parentId: string, id: string, checked: boolean) => void
+  onTouchHandler: (parentId: string ,id: string) => void
 }
 
-export default function BudgetItem({ data, checkBoxHandler }: Props) {
+export default function BudgetItem({ data, checkBoxHandler, onTouchHandler }: Props) {
   const day = new Date(data.date).getDate()
 
   const paymentOptions = Object.keys(BudgetPaymentMethodEnum).map((option, index) => {
@@ -30,7 +31,10 @@ export default function BudgetItem({ data, checkBoxHandler }: Props) {
           checkBoxHandler(data.parentId, data.id, checked as boolean)
         }}
       />
-      <div className='px-4 flex flex-1 flex-col justify-start items-start gap-1'>
+      <div
+        className='px-4 flex flex-1 flex-col justify-start items-start gap-1'
+        onClick={() => onTouchHandler(data.parentId, data.id)}
+      >
         <h2 className='font-semibold text-lg'>{data.description}</h2>
         <p className='font-medium text-sm'>{`Dia ${day} - ${paymentOptions.filter(option => option.value === data.paymentMethod)[0].label}`}</p>
       </div>

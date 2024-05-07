@@ -10,6 +10,8 @@ import IncomeAndExpenseSection from './components/income-expense-section'
 import FloatingActionButton from '@/components/ui/floating-action-button'
 import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
 import CreateBudgetDialog from './components/create-budget-dialog'
+import UpdateBudgetDialog from './components/update-budget-dialog'
+import { BudgetSimplified } from '@/models/budget/budget-simplified'
 
 interface Props {
   params: {
@@ -21,10 +23,12 @@ export default function MonthSummary({ params }: Props) {
   // Token is required to access this page
   const { token } = useToken()
   const router = useRouter()
-  const [openDialog, setOpenDialog] = useState(false)
+  const [openCreateDialog, setOpenCreateDialog] = useState(false)
+  const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
   const [year, month] = params.slug.split('-').map((value) => parseInt(value))
+  const [focusedItem, setFocusedItem] = useState<BudgetSimplified>()
 
-  const { getSummary, checkItem, createBudget } = useBudgetSummaryFromMonth(month, year)
+  const { getSummary, checkItem, createBudget, updateBudget } = useBudgetSummaryFromMonth(month, year)
 
   const summary = getSummary.data
 
@@ -36,7 +40,7 @@ export default function MonthSummary({ params }: Props) {
   }, [token])
 
   function handleFABClick() {
-    setOpenDialog(true)
+    setOpenCreateDialog(true)
   }
 
   function checkBoxHandler(parentId: string, id: string, checked: boolean) {
@@ -45,6 +49,15 @@ export default function MonthSummary({ params }: Props) {
       id,
       checked
     })
+  }
+
+  function onBudgetItemTouchHandler(parentId: string, id: string) {
+    const item = summary?.incomes.find((item) => item.id === id) || summary?.outcomes.find((item) => item.id === id)
+
+    if (item) {
+      setFocusedItem(item)
+      setOpenUpdateDialog(true)
+    }
   }
 
   return (
@@ -57,15 +70,23 @@ export default function MonthSummary({ params }: Props) {
             className={'mt-4'}
             summary={summary}
             checkBoxHandler={checkBoxHandler}
+            onItemTouchHandler={onBudgetItemTouchHandler}
           />
           <FloatingActionButton onClick={handleFABClick} />
         </div>
       )}
       <CreateBudgetDialog
-        open={openDialog}
-        onOpenChange={setOpenDialog}
+        open={openCreateDialog}
+        onOpenChange={setOpenCreateDialog}
         createFunction={createBudget.mutate}
         isSuccess={createBudget.isSuccess}
+      />
+      <UpdateBudgetDialog
+        open={openUpdateDialog}
+        onOpenChange={setOpenUpdateDialog}
+        budget={focusedItem}
+        updateFunction={updateBudget.mutate}
+        isSuccess={updateBudget.isSuccess}
       />
     </div>
   )
