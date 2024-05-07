@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
+import { formatCurrency } from '@/lib/format-currency'
 import { BudgetPaymentMethodEnum } from '@/models/budget/budget-payment-method.enum'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
 import React from 'react'
@@ -38,7 +39,7 @@ export default function BudgetItem({ data, checkBoxHandler, onTouchHandler }: Pr
         <h2 className='font-semibold text-lg'>{data.description}</h2>
         <p className='font-medium text-sm'>{`Dia ${day} - ${paymentOptions.filter(option => option.value === data.paymentMethod)[0].label}`}</p>
       </div>
-      <p className='font-bold text-xl'>{`R$ ${data.value}`}</p>
+      <p className='font-bold text-xl'>{formatCurrency(data.value)}</p>
     </Card>
   )
 }

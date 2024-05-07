@@ -1,4 +1,5 @@
 import { Card } from '@/components/ui/card'
+import { formatCurrency } from '@/lib/format-currency'
 import React from 'react'
 
 export interface StockGroupCardProps {
@@ -16,7 +17,7 @@ const StockGroupCard = ({ amount, label, percentage, count }: StockGroupCardProp
         <p className='text-sm'>{`${percentage.toFixed(0)}%`}</p>
       </div>
       <div className='w-full flex flex-1 flex-row justify-center items-center'>
-        <p className='text-xl font-bold'>{`R$ ${amount.toFixed(2)}`}</p>
+        <p className='text-xl font-bold'>{formatCurrency(amount)}</p>
       </div>
       <div className='w-full flex flex-row justify-end items-center'>
         <p className='text-sm'>{`${count} ativos`}</p>

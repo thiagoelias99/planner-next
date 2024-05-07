@@ -1,4 +1,5 @@
 import { Card } from '@/components/ui/card'
+import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
 import { Stock } from '@/models/user-stock'
 import { ClassNameValue } from 'tailwind-merge'
@@ -21,14 +22,14 @@ const StockCard = ({ classnames, stock }: StockCardProps) => {
         </div>
         <div>
           <p className='text-sm'>Lucro/Prejuizo</p>
-          <p className='text-sm font-semibold'>{`R$ ${stock.profit.toFixed(2)} | ${stock.profitability.toFixed(2)}%`}</p>
+          <p className='text-sm font-semibold'>{`${formatCurrency(stock.profit)} | ${stock.profitability.toFixed(0)}%`}</p>
         </div>
       </div>
       <div className='h-full flex flex-col justify-between items-end'>
-        <p className='text-xl font-semibold'>{`R$ ${(stock.stockQuantity * stock.price).toFixed(2)}`}</p>
-        <p className='text-base font-semibold'>{`R$ ${stock.price.toFixed(2)}`}</p>
+        <p className='text-xl font-semibold'>{formatCurrency(stock.stockQuantity * stock.price)}</p>
+        <p className='text-base font-semibold'>{formatCurrency(stock.price)}</p>
         <p className='text-xs'>qnt <span className='text-sm font-semibold'>{stock.stockQuantity}</span></p>
-        <p className='text-xs'>pm <span className='text-sm font-semibold'>{`R$ ${stock.averageStockBuyPrice.toFixed(2)}`}</span></p>
+        <p className='text-xs'>pm <span className='text-sm font-semibold'>{formatCurrency(stock.averageStockBuyPrice)}</span></p>
       </div>
     </Card>
   )
