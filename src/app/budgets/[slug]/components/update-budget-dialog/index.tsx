@@ -43,7 +43,6 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
   }, [budget])
 
   useEffect(() => {
-    console.log(isSuccess)
     if (isSuccess) {
       onOpenChange(false)
     }

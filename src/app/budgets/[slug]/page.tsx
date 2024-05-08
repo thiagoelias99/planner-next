@@ -12,6 +12,9 @@ import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-mo
 import CreateBudgetDialog from './components/create-budget-dialog'
 import UpdateBudgetDialog from './components/update-budget-dialog'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
+import { Plus } from 'lucide-react'
+import useTopBar from '@/hooks/use-top-bar'
+import { Button } from '@/components/ui/button'
 
 interface Props {
   params: {
@@ -29,6 +32,7 @@ export default function MonthSummary({ params }: Props) {
   const [focusedItem, setFocusedItem] = useState<BudgetSimplified>()
 
   const { getSummary, checkItem, createBudget, updateBudget } = useBudgetSummaryFromMonth(month, year)
+  const { setLinks } = useTopBar()
 
   const summary = getSummary.data
 
@@ -36,8 +40,22 @@ export default function MonthSummary({ params }: Props) {
     if (!token) {
       router.push('/login')
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
+
+  useEffect(() => {
+    setLinks([
+      {
+        Icon: Plus,
+        onClick: handleFABClick
+      },
+      {
+        Icon: Plus,
+        onClick: handleFABClick
+      }
+    ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function handleFABClick() {
     setOpenCreateDialog(true)
@@ -64,6 +82,9 @@ export default function MonthSummary({ params }: Props) {
     <div className='pb-4'>
       {summary && (
         <div>
+          <Button onClick={handleFABClick}>
+            <span>Adicionar</span>
+          </Button>
           <GraphSection summary={summary} />
           <SummarySection summary={summary} />
           <IncomeAndExpenseSection
@@ -72,7 +93,7 @@ export default function MonthSummary({ params }: Props) {
             checkBoxHandler={checkBoxHandler}
             onItemTouchHandler={onBudgetItemTouchHandler}
           />
-          <FloatingActionButton onClick={handleFABClick} />
+          {/* <FloatingActionButton onClick={handleFABClick} /> */}
         </div>
       )}
       <CreateBudgetDialog
