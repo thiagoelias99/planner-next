@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Menu } from 'lucide-react'
@@ -9,12 +9,10 @@ import { Button } from '../ui/button'
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTrigger } from '../ui/sheet'
 import LinkItem from './link-item'
 import useLogin from '@/hooks/use-login'
-import useTopBar, { ITopBarLink } from '@/hooks/use-top-bar'
 
 const TopBar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const { logout } = useLogin()
-  const { links } = useTopBar()
   const router = useRouter()
 
   function handleLogout() {
@@ -56,7 +54,6 @@ const TopBar = () => {
             </nav>
           </div>
           <SheetFooter>
-
             <p className='text-lg w-full cursor-pointer'
               onClick={handleLogout}
             >
@@ -69,18 +66,6 @@ const TopBar = () => {
           </SheetFooter>
         </SheetContent>
       </Sheet>
-      <div>
-        {links?.map((link, index) => (
-          <Button
-            key={index}
-            size='icon'
-            onClick={link.onClick}
-            variant='ghost'
-          >
-            <link.Icon />
-          </Button>
-        ))}
-      </div>
     </header>
   )
 }

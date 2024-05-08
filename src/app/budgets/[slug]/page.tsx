@@ -7,14 +7,13 @@ import React, { useEffect, useState } from 'react'
 import { GraphSection } from './components/graph-section'
 import SummarySection from './components/summary-section'
 import IncomeAndExpenseSection from './components/income-expense-section'
-import FloatingActionButton from '@/components/ui/floating-action-button'
 import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
 import CreateBudgetDialog from './components/create-budget-dialog'
 import UpdateBudgetDialog from './components/update-budget-dialog'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
-import { Plus } from 'lucide-react'
-import useTopBar from '@/hooks/use-top-bar'
 import { Button } from '@/components/ui/button'
+import ModuleBar, { ModuleLink } from '@/components/module-bar'
+import { PlusIcon } from 'lucide-react'
 
 interface Props {
   params: {
@@ -32,7 +31,6 @@ export default function MonthSummary({ params }: Props) {
   const [focusedItem, setFocusedItem] = useState<BudgetSimplified>()
 
   const { getSummary, checkItem, createBudget, updateBudget } = useBudgetSummaryFromMonth(month, year)
-  const { setLinks } = useTopBar()
 
   const summary = getSummary.data
 
@@ -42,20 +40,6 @@ export default function MonthSummary({ params }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
-
-  useEffect(() => {
-    setLinks([
-      {
-        Icon: Plus,
-        onClick: handleFABClick
-      },
-      {
-        Icon: Plus,
-        onClick: handleFABClick
-      }
-    ])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   function handleFABClick() {
     setOpenCreateDialog(true)
@@ -78,13 +62,22 @@ export default function MonthSummary({ params }: Props) {
     }
   }
 
+  const moduleBarLinks: ModuleLink[] = [
+    {
+      Icon: PlusIcon,
+      onClick: handleFABClick,
+      variant: 'default'
+    }
+  ]
+
   return (
     <div className='pb-4'>
       {summary && (
         <div>
-          <Button onClick={handleFABClick}>
-            <span>Adicionar</span>
-          </Button>
+          <ModuleBar
+            links={moduleBarLinks}
+            className='px-4 pt-4'
+          />
           <GraphSection summary={summary} />
           <SummarySection summary={summary} />
           <IncomeAndExpenseSection
@@ -93,7 +86,6 @@ export default function MonthSummary({ params }: Props) {
             checkBoxHandler={checkBoxHandler}
             onItemTouchHandler={onBudgetItemTouchHandler}
           />
-          {/* <FloatingActionButton onClick={handleFABClick} /> */}
         </div>
       )}
       <CreateBudgetDialog
