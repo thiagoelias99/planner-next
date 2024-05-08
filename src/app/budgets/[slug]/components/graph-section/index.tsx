@@ -2,8 +2,7 @@
 
 import { Card } from '@/components/ui/card'
 import { BudgetSummary } from '@/models/budget/budget-summary'
-import { UserStock } from '@/models/user-stock'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, ChartData } from 'chart.js'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 
 interface Props {
@@ -30,14 +29,16 @@ export const GraphSection = ({ summary }: Props) => {
   }
 
   return (
-    <Card className='m-4 h-[359px] border-2 flex items-center justify-center'>
-      <div>
+    <Card className='m-4 p-4 border-2 flex items-center justify-center'>
+      <div className='h-[180px]'>
         <Doughnut data={data}
           options={{
             plugins: {
               legend: {
                 display: false,
-                position: 'bottom',
+                position: 'right',
+                align: 'end',
+                fullSize: true,
                 labels: {
                   color: 'white',
                   font: {

@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function BudgetItem({ data, checkBoxHandler, onTouchHandler }: Props) {
-  const day = new Date(data.date).getDate()
+  const day = new Date(data.date).getUTCDate()
 
   const paymentOptions = Object.keys(BudgetPaymentMethodEnum).map((option, index) => {
     return {

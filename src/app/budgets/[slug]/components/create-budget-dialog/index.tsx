@@ -31,7 +31,7 @@ const formSchema = z.object({
   }).transform((value) => parseFloat(value)),
   isIncome: z.boolean().optional().default(true),
   description: z.string().min(3).max(255),
-  expectedDay: z.number().min(1).max(31).optional(),
+  // expectedDay: z.number().min(1).max(31).optional(),
   consolidated: z.boolean().optional(),
   startDate: z.string().transform((data) => new Date(data)).transform((data) => data.toISOString()).optional(),
   endDate: z.string().transform((data) => new Date(data)).transform((data) => data.toISOString()).optional(),
@@ -47,7 +47,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
       value: 0,
       isIncome: true,
       description: '',
-      expectedDay: 1,
+      // expectedDay: 1,
       consolidated: true,
       startDate: undefined,
       endDate: undefined,
@@ -60,7 +60,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
       form.reset()
       onOpenChange(false)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -80,13 +80,13 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='w-[90%] top-[10%] translate-y-0 sm:max-w-[425px] bg-card rounded-xl border-2'>
+      <DialogContent className='w-[90%] top-[10%] px-3 translate-y-0 sm:max-w-[425px] bg-card rounded-xl border-2'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="">
             <ScrollArea className='w-full'>
-              <div className='w-full space-y-4 space-x-2 grid grid-cols-4'>
+              <div className='w-full py-2 px-1 space-y-4 grid grid-cols-4'>
                 <FormField
                   control={form.control}
                   name="description"
@@ -122,7 +122,8 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                   label='Forma de Pagamento'
                   fieldName='paymentMethod'
                   options={paymentOptions}
-                  className='col-span-4'
+                  className='w-full col-span-4'
+                  inputTextAlight='center'
                 // defaultValue={paymentOptions.find(option => option.label === BudgetPaymentMethodEnum.TRANSFER)?.value}
                 />
                 <span
@@ -132,35 +133,37 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                 >{showMore ? 'mostrar menos' : 'mostrar mais'}</span>
                 {showMore && (
                   <>
-                    <FormField
+                    <div className='col-span-4 w-full flex flex-row justify-between items-center gap-4'>
+                      <FormField
+                        control={form.control}
+                        name="startDate"
+                        render={({ field }) => (
+                          <FormItem className='w-full'>
+                            <FormLabel>Data Inicial</FormLabel>
+                            <FormControl>
+                              <DateInput {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="endDate"
+                        render={({ field }) => (
+                          <FormItem className='w-full'>
+                            <FormLabel>Data Final</FormLabel>
+                            <FormControl className='mt-0'>
+                              <DateInput {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    {/* <FormField
                       control={form.control}
-                      name="startDate"
-                      render={({ field }) => (
-                        <FormItem className='col-span-2'>
-                          <FormLabel>Data Inicial</FormLabel>
-                          <FormControl>
-                            <DateInput {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="endDate"
-                      render={({ field }) => (
-                        <FormItem className='col-span-2'>
-                          <FormLabel>Data Final</FormLabel>
-                          <FormControl>
-                            <DateInput {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="startDate"
+                      name="expectedDay"
                       render={({ field }) => (
                         <FormItem className='col-span-3'>
                           <FormControl>
@@ -172,7 +175,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
+                    /> */}
                     <FormField
                       control={form.control}
                       name="consolidated"

@@ -36,6 +36,7 @@ import { ScrollArea } from './scroll-area'
 
 interface ComboboxFormProps {
   fieldName: string,
+  inputTextAlight?: 'left' | 'center' | 'right'
   label: string
   placeholder?: string
   className?: ClassNameValue
@@ -45,7 +46,7 @@ interface ComboboxFormProps {
   defaultValue?: string
 }
 
-export function ComboboxForm({ label, fieldName, className, form, options, disabled, defaultValue }: ComboboxFormProps) {
+export function ComboboxForm({ label, fieldName, className, form, options, disabled, defaultValue, inputTextAlight = 'left' }: ComboboxFormProps) {
   'use client'
   const [open, setOpen] = useState(false)
   // const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -138,7 +139,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
                       !field.value && 'text-muted-foreground'
                     )}
                   >
-                    <p className='flex-1 overflow-hidden text-left text-ellipsis'>
+                    <p className={`flex-1 overflow-hidden text-ellipsis text-${inputTextAlight}`}>
                       {field.value
                         ? options.find(
                           (option) => option.value === field.value

@@ -9,6 +9,7 @@ import { UpdateBudgetDto } from '@/hooks/budgets/update-budget.dto'
 import { z } from '@/lib/pt-zod'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Save } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -39,7 +40,7 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
         value: budget.value
       })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [budget])
 
   useEffect(() => {
@@ -62,24 +63,18 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
     }
   }
 
-
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className='w-[80%] rounded-md'
-      >
-        <Form {...form}
-        >
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
+      <DialogContent className='w-[80%] rounded-md'>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}
+            className='w-full flex flex-col justify-start items-start gap-4'
           >
-
             <FormField
               control={form.control}
               name="value"
               render={({ field }) => (
-                <FormItem className='col-span-2'>
+                <FormItem className='w-full'>
                   <FormControl>
                     <div className='flex flex-row justify-start items-center gap-4'>
                       <span className='font-semibold text-base'>R$</span>
@@ -90,8 +85,10 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
                 </FormItem>
               )}
             />
-
-            <Button className='col-span-4' type="submit">Confirmar</Button>
+            <Button className='w-full' type="submit">
+              <Save size={20}/>
+              <span className='ml-2'>Salvar</span>
+            </Button>
           </form>
         </Form>
       </DialogContent>

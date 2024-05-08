@@ -224,7 +224,7 @@ export default function SignUpForm({ setShowSignUp }: SignUpFormProps) {
               disabled={isLoading}
             >
               <Loader2Icon className={`w-6 h-6 animate-spin ${isLoading ? 'block' : 'hidden'}`} />
-              Entrar</Button>
+              Cadastrar</Button>
           </form>
         </Form>
       </CardContent>
