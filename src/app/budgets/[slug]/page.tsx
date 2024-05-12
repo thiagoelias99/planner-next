@@ -73,19 +73,25 @@ export default function MonthSummary({ params }: Props) {
   return (
     <div className='pb-4'>
       {summary && (
-        <div>
+        <div className='h-full'>
           <ModuleBar
             links={moduleBarLinks}
             className='px-4 pt-4'
           />
-          <GraphSection summary={summary} />
-          <SummarySection summary={summary} />
-          <IncomeAndExpenseSection
-            className={'mt-4'}
-            summary={summary}
-            checkBoxHandler={checkBoxHandler}
-            onItemTouchHandler={onBudgetItemTouchHandler}
-          />
+          <div className='w-full flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start'>
+            <div className='w-full sm:h-full flex flex-col sm:flex-col-reverse sm:justify-start'>
+              <GraphSection summary={summary} className='h-full flex-1' />
+              <SummarySection summary={summary} />
+            </div>
+            <div className='w-full sm:h-full flex flex-col sm:justify-start sm:items-start'>
+              <IncomeAndExpenseSection
+                className={'w-full mt-4 sm:mt-0'}
+                summary={summary}
+                checkBoxHandler={checkBoxHandler}
+                onItemTouchHandler={onBudgetItemTouchHandler}
+              />
+            </div>
+          </div>
         </div>
       )}
       <CreateBudgetDialog
