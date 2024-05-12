@@ -1,11 +1,14 @@
 import { UserStock } from '@/models/user-stock'
 import StockGroupCard, { StockGroupCardProps } from '../stock-group-card'
+import { ClassNameValue } from 'tailwind-merge'
+import { cn } from '@/lib/utils'
 
 interface Props {
   userStockData: UserStock
+  className?: ClassNameValue
 }
 
-const StockGroupsSection = ({ userStockData }: Props) => {
+const StockGroupsSection = ({ userStockData, className }: Props) => {
 
   const labels = ['Ações', 'FIIs', 'Internacionais', 'Criptomoedas', 'Ouro']
 
@@ -45,7 +48,7 @@ const StockGroupsSection = ({ userStockData }: Props) => {
   }
 
   return (
-    <section className='flex flex-row justify-start items-start flex-nowrap gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden px-4'>
+    <section className={cn('flex flex-row justify-start items-start flex-nowrap gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden px-4', className)}>
       <StockGroupCard {...stockData} />
       <StockGroupCard {...fiiData} />
       <StockGroupCard {...internationalData} />

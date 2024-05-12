@@ -20,18 +20,20 @@ export default function Stocks() {
     if (!token) {
       router.push('/login')
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
 
   return (
-    <main className='flex flex-col gap-4'>
+    <main className='flex flex-col'>
       {
         data && (
           <>
-            <GraphSection userStockData={data} />
-            <StockGroupsSection userStockData={data} />
-            <StocksSection userStockData={data} />
+            <div className='flex flex-col sm:flex-col-reverse sm:mt-4'>
+              <GraphSection userStockData={data} className='mt-4' />
+              <StockGroupsSection userStockData={data} className='mt-4 sm:mt-0 sm:self-center' />
+            </div>
+            <StocksSection userStockData={data} className='mt-4' />
           </>
         )
       }

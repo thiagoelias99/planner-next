@@ -9,11 +9,11 @@ import StockCard from '../stock-card'
 import { Stock, UserStock } from '@/models/user-stock'
 
 interface Props {
-  classnames?: ClassNameValue
+  className?: ClassNameValue
   userStockData: UserStock
 }
 
-const StocksSection = ({ classnames, userStockData }: Props) => {
+const StocksSection = ({ className: classnames, userStockData }: Props) => {
   const [filter, setFilter] = React.useState('all')
   const [stocks, setStocks] = React.useState<Stock[]>([])
 
@@ -54,7 +54,7 @@ const StocksSection = ({ classnames, userStockData }: Props) => {
           onValueChange={(value) => setFilter(value)}
         />
       </div>
-      <div className='w-full pt-2 pb-4 flex flex-col justify-start items-start gap-2'>
+      <div className='w-full pt-2 pb-4 flex flex-col justify-start items-start gap-2 sm:grid sm:grid-cols-4'>
         {stocks.map(stock => {
           return (
             <StockCard

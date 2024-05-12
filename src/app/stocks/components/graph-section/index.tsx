@@ -1,15 +1,18 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 import { UserStock } from '@/models/user-stock'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, ChartData } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
+import { ClassNameValue } from 'tailwind-merge'
 
 interface Props {
   userStockData: UserStock
+  className?: ClassNameValue
 }
 
-export const GraphSection = ({ userStockData }: Props) => {
+export const GraphSection = ({ userStockData, className }: Props) => {
   ChartJS.register(ArcElement, Tooltip, Legend, Colors)
 
   const labels = ['Ações', 'FIIs', 'Internacionais', 'Criptomoedas', 'Ouro']
@@ -32,7 +35,7 @@ export const GraphSection = ({ userStockData }: Props) => {
   }
 
   return (
-    <Card className='m-4 h-[359px] border-2 flex items-center justify-center'>
+    <Card className={cn('mx-4 h-[359px] border-2 flex items-center justify-center', className)}>
       <div>
         <Doughnut data={data}
           options={{
