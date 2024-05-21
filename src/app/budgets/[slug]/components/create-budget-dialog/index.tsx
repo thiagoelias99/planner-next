@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react'
 import { DateInput } from '@/components/ui/date-input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { BudgetClassEnum } from '@/models/budget/budget-class-enum'
 
 interface Props {
   open: boolean
@@ -29,7 +30,8 @@ const formSchema = z.object({
   value: z.string().refine((value) => parseFloat(value) >= 0, {
     message: 'O valor deve ser positivo',
   }).transform((value) => parseFloat(value)),
-  isIncome: z.boolean().optional().default(true),
+  // isIncome: z.boolean().optional().default(true),
+  budgetClass: z.string(),
   description: z.string().min(3).max(255),
   // expectedDay: z.number().min(1).max(31).optional(),
   consolidated: z.boolean().optional(),
@@ -45,7 +47,8 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
     resolver: zodResolver(formSchema),
     defaultValues: {
       value: 0,
-      isIncome: true,
+      // isIncome: true,
+      budgetClass: BudgetClassEnum.INCOME,
       description: '',
       // expectedDay: 1,
       consolidated: true,
@@ -65,7 +68,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      createFunction({ ...values, paymentMethod: values.paymentMethod as BudgetPaymentMethodEnum })
+      createFunction({ ...values, paymentMethod: values.paymentMethod as BudgetPaymentMethodEnum, budgetClass: values.budgetClass as BudgetClassEnum})
     } catch (error) {
       throw error
     }
@@ -116,7 +119,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                     </FormItem>
                   )}
                 />
-                <IsIncomeSelect className='pl-2 pr-2 col-span-2' form={form} fieldName="isIncome" />
+                <IsIncomeSelect className='pl-2 pr-2 col-span-2' form={form} fieldName="budgetClass" />
                 <ComboboxForm
                   form={form}
                   label='Forma de Pagamento'
