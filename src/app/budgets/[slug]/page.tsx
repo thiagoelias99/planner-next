@@ -13,7 +13,7 @@ import UpdateBudgetDialog from './components/update-budget-dialog'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
 import { Button } from '@/components/ui/button'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
-import { PlusIcon } from 'lucide-react'
+import { PlusIcon, PiggyBankIcon } from 'lucide-react'
 
 interface Props {
   params: {
@@ -67,6 +67,11 @@ export default function MonthSummary({ params }: Props) {
       Icon: PlusIcon,
       onClick: handleFABClick,
       variant: 'default'
+    },
+    {
+      Icon: PiggyBankIcon,
+      onClick: () => router.push(`${params.slug}/preview`),
+      variant: 'default'
     }
   ]
 
@@ -77,6 +82,7 @@ export default function MonthSummary({ params }: Props) {
           <ModuleBar
             links={moduleBarLinks}
             className='px-4 pt-4'
+            reverse
           />
           <div className='w-full flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start'>
             <div className='w-full sm:h-full flex flex-col sm:flex-col-reverse sm:justify-start'>

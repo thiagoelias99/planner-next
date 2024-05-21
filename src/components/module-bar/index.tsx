@@ -15,11 +15,12 @@ export interface ModuleLink {
 export interface Props {
   links: ModuleLink[]
   className?: ClassNameValue
+  reverse?: boolean
 }
 
-export default function ModuleBar({ className, links }: Props) {
+export default function ModuleBar({ className, links, reverse = false }: Props) {
   return (
-    <section className={(cn('flex flex-row justify-end items-center gap-4', className))}>
+    <section className={(cn(`flex ${reverse ? 'flex-row-reverse justify-start' : 'flex-row justify-end'} items-center gap-4`, className))}>
       {links.map((link, index) => (
         <Button
           key={index}
