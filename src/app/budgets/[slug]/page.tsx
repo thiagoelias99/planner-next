@@ -81,6 +81,7 @@ export default function MonthSummary({ params }: Props) {
         <div className='h-full'>
           <ModuleBar
             links={moduleBarLinks}
+            backFunction={() => router.push('/budgets')}
             className='px-4 pt-4'
             reverse
           />
