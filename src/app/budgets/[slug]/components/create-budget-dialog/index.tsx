@@ -22,6 +22,7 @@ interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   createFunction: (data: CreateBudgetDto) => void
+  isLoading: boolean
   isSuccess: boolean
 }
 
@@ -37,7 +38,7 @@ const formSchema = z.object({
   paymentMethod: z.string().optional().default(BudgetPaymentMethodEnum.TRANSFER),
 })
 
-export default function CreateBudgetDialog({ open, onOpenChange, createFunction, isSuccess }: Props) {
+export default function CreateBudgetDialog({ open, onOpenChange, createFunction, isSuccess, isLoading }: Props) {
   const [showMore, setShowMore] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -195,7 +196,11 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                     />
                   </>
                 )}
-                <Button className='col-span-4' type="submit">Confirmar</Button>
+                <Button
+                  className='col-span-4'
+                  type="submit"
+                  disabled={isLoading}
+                >Confirmar</Button>
               </div>
             </ScrollArea>
           </form>

@@ -13,6 +13,7 @@ import UpdateBudgetDialog from './components/update-budget-dialog'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
 import { PlusIcon, PiggyBankIcon } from 'lucide-react'
+import PageLoading from '@/components/page-loading'
 
 interface Props {
   params: {
@@ -82,6 +83,7 @@ export default function MonthSummary({ params }: Props) {
 
   return (
     <div className='pb-4'>
+      {getSummary.isLoading && <PageLoading />}
       {summary && (
         <div className='h-full max-w-[1539px] m-auto'>
           <ModuleBar
@@ -111,6 +113,7 @@ export default function MonthSummary({ params }: Props) {
         onOpenChange={setOpenCreateDialog}
         createFunction={createBudget.mutate}
         isSuccess={createBudget.isSuccess}
+        isLoading={createBudget.isLoading}
       />
       <UpdateBudgetDialog
         open={openUpdateDialog}

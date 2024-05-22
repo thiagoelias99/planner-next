@@ -49,7 +49,12 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
 
       throw error
     }
-  })
+  }, {
+    enabled: !!token,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: true
+  }
+  )
 
   const checkItem = useMutation({
     mutationFn: async ({ parentId, id, checked }: { parentId: string, id: string, checked: boolean }) => {
@@ -140,7 +145,7 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
       try {
         await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
           deleted: true
-        },{
+        }, {
           headers: {
             Authorization: `Bearer ${token}`
           },

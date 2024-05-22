@@ -26,9 +26,10 @@ interface Props {
   updateFunction: (data: UpdateBudgetDto) => void
   deleteFunction: (data: UpdateBudgetDto) => void
   isSuccess?: boolean
+  isLoading?: boolean
 }
 
-export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateFunction, isSuccess, deleteFunction }: Props) {
+export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateFunction, isSuccess, deleteFunction, isLoading }: Props) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
@@ -103,7 +104,11 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
                 </FormItem>
               )}
             />
-            <Button className='w-full' type="submit">
+            <Button
+              className='w-full'
+              type="submit"
+              disabled={isLoading}
+            >
               <Save size={20} />
               <span className='ml-2'>Salvar</span>
             </Button>
