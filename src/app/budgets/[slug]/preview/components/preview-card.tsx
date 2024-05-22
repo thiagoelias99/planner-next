@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card'
 import { Header1 } from '@/components/ui/typography'
 import { formatCurrency } from '@/lib/format-currency'
-import { DollarSignIcon, LucideIcon } from 'lucide-react'
+import { LucideIcon } from 'lucide-react'
 import React from 'react'
 
 interface PreviewCardProps {
