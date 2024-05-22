@@ -5,6 +5,7 @@ import BudgetItem from './budget-item'
 import { ClassNameValue } from 'tailwind-merge'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
 import { cn } from '@/lib/utils'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Props {
   className?: ClassNameValue
@@ -15,44 +16,46 @@ interface Props {
 
 export default function IncomeAndExpenseSection({ summary, className, checkBoxHandler, onItemTouchHandler }: Props) {
   return (
-    <section className={`px-4 ${className} grid gap-4 sm:grid-cols-2`}>
-      <Item
-        title='Rendas'
-        items={summary.incomes}
-        checkBoxHandler={checkBoxHandler}
-        onItemTouchHandler={onItemTouchHandler}
-      />
-      <Item
-        title='Despesas'
-        items={summary.outcomes}
-        checkBoxHandler={checkBoxHandler}
-        onItemTouchHandler={onItemTouchHandler}
-      />
-      <Item
-        title='Cartão de Crédito'
-        items={summary.creditCards}
-        checkBoxHandler={checkBoxHandler}
-        onItemTouchHandler={onItemTouchHandler}
-      />
-      <Item
-        title='Investimentos'
-        items={summary.investments}
-        checkBoxHandler={checkBoxHandler}
-        onItemTouchHandler={onItemTouchHandler}
-      />
-      <Item
-        title='Aposentadoria'
-        items={summary.pensions}
-        checkBoxHandler={checkBoxHandler}
-        onItemTouchHandler={onItemTouchHandler}
-      />
-      <Item
-        title='Cofre'
-        items={summary.cashBoxes}
-        checkBoxHandler={checkBoxHandler}
-        onItemTouchHandler={onItemTouchHandler}
-      />
-    </section>
+    <ScrollArea className='w-full sm:h-[75vh]'>
+      <section className={`px-4 ${className} grid gap-4 lg:grid-cols-2`}>
+        <Item
+          title='Rendas'
+          items={summary.incomes}
+          checkBoxHandler={checkBoxHandler}
+          onItemTouchHandler={onItemTouchHandler}
+        />
+        <Item
+          title='Despesas'
+          items={summary.outcomes}
+          checkBoxHandler={checkBoxHandler}
+          onItemTouchHandler={onItemTouchHandler}
+        />
+        <Item
+          title='Cartão de Crédito'
+          items={summary.creditCards}
+          checkBoxHandler={checkBoxHandler}
+          onItemTouchHandler={onItemTouchHandler}
+        />
+        <Item
+          title='Investimentos'
+          items={summary.investments}
+          checkBoxHandler={checkBoxHandler}
+          onItemTouchHandler={onItemTouchHandler}
+        />
+        <Item
+          title='Aposentadoria'
+          items={summary.pensions}
+          checkBoxHandler={checkBoxHandler}
+          onItemTouchHandler={onItemTouchHandler}
+        />
+        <Item
+          title='Cofre'
+          items={summary.cashBoxes}
+          checkBoxHandler={checkBoxHandler}
+          onItemTouchHandler={onItemTouchHandler}
+        />
+      </section>
+    </ScrollArea>
   )
 }
 

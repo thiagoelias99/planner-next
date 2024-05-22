@@ -57,8 +57,8 @@
     --accent: 162 23% 86%; /* #d2e3de */
     --accent-foreground: 0 0% 0%; /* #000000 */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%; /* #ef4444 */
+    --destructive-foreground: 210 40% 98%; /* #f8fafc */
 
     --border: 186 30% 41%; /* #488187 */
     --input: 162 23% 86%; /* #d2e3de */

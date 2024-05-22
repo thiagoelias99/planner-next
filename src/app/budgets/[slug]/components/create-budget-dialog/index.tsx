@@ -85,7 +85,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='w-[90%] top-[10%] px-3 translate-y-0 sm:max-w-[425px] bg-card rounded-xl border-2'>
+      <DialogContent className='w-[90%] top-[5%] px-3 translate-y-0 sm:max-w-[425px] bg-card rounded-xl border-2'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -93,6 +93,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
             <ScrollArea className='w-full'>
               <div className='w-full py-2 px-1 space-y-4 grid grid-cols-4'>
                 <ComboboxForm
+                  label='Tipo'
                   form={form}
                   fieldName='budgetClass'
                   options={budgetClassOptions}
@@ -106,8 +107,9 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                     <FormItem
                       className='col-span-4'
                     >
+                      <FormLabel>Descrição</FormLabel>
                       <FormControl>
-                        <Input placeholder="Descrição" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -118,6 +120,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                   name="value"
                   render={({ field }) => (
                     <FormItem className='col-span-2'>
+                      <FormLabel>Valor</FormLabel>
                       <FormControl>
                         <div className='flex flex-row justify-start items-center gap-4 mt-2'>
                           <span className='font-semibold text-base'>R$</span>
@@ -134,6 +137,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                   options={paymentOptions}
                   className='w-full col-span-2 pl-4'
                   inputTextAlight='center'
+                  label='Método de Pagamento'
                 />
                 <span
                   role='button'

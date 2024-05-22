@@ -39,13 +39,13 @@ export default function MonthPreview({ params }: Props) {
   ]
 
   return (
-    <div className=''>
+    <div className='max-w-[1539px] m-auto'>
       <ModuleBar
         links={moduleBarLinks}
         backFunction={() => router.push(`/budgets/${params.slug}`)}
         className='p-4'
       />
-      <div className='w-full max-w-[1024px] m-auto px-4 grid grid-flow-row sm:grid-cols-2 md:grid-cols-3 gap-4'>
+      <div className='w-full px-4 grid grid-flow-row sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
         <PreviewCard
           title='Renda'
           Icon={DollarSignIcon}

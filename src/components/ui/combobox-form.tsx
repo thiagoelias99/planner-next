@@ -72,7 +72,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
       name={fieldName}
       render={({ field }) => (
         <FormItem className={`w-full flex flex-col ${className}`}>
-          <FormLabel className={`${label ? 'mb-0.5' : 'hidden'}`}>{label}</FormLabel>
+          <FormLabel className={`${label ? 'mb-0.5 mt-2' : 'hidden'}`}>{label}</FormLabel>
           {/* {isDesktop && (
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild className='m-0'>
@@ -128,7 +128,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
           )} */}
           {!isDesktop && (
             <Drawer open={open} onOpenChange={setOpen}>
-              <DrawerTrigger asChild className='mt-0'>
+              <DrawerTrigger asChild className=''>
                 <FormControl className=''>
                   <Button
                     variant="outline"

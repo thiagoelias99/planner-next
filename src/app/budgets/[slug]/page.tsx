@@ -83,19 +83,19 @@ export default function MonthSummary({ params }: Props) {
   return (
     <div className='pb-4'>
       {summary && (
-        <div className='h-full'>
+        <div className='h-full max-w-[1539px] m-auto'>
           <ModuleBar
             links={moduleBarLinks}
             backFunction={() => router.push('/budgets')}
             className='px-4 pt-4'
             reverse
           />
-          <div className='w-full flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start'>
-            <div className='w-full sm:h-full flex flex-col sm:flex-col-reverse sm:justify-start'>
+          <div className='w-full flex flex-col pt-4 sm:flex-row justify-center items-center sm:justify-start sm:items-start'>
+            <div className='w-full sm:h-[75vh] flex flex-col sm:flex-col-reverse sm:justify-start'>
               <GraphSection summary={summary} className='h-full flex-1' />
               <SummarySection summary={summary} />
             </div>
-            <div className='w-full sm:h-full flex flex-col sm:justify-start sm:items-start'>
+            <div className='w-full sm:h-[75vh] sm:pb-4 flex flex-col sm:justify-start sm:items-start'>
               <IncomeAndExpenseSection
                 className={'w-full mt-4 sm:mt-0'}
                 summary={summary}
