@@ -11,7 +11,6 @@ import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-mo
 import CreateBudgetDialog from './components/create-budget-dialog'
 import UpdateBudgetDialog from './components/update-budget-dialog'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
-import { Button } from '@/components/ui/button'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
 import { PlusIcon, PiggyBankIcon } from 'lucide-react'
 
@@ -30,7 +29,7 @@ export default function MonthSummary({ params }: Props) {
   const [year, month] = params.slug.split('-').map((value) => parseInt(value))
   const [focusedItem, setFocusedItem] = useState<BudgetSimplified>()
 
-  const { getSummary, checkItem, createBudget, updateBudget } = useBudgetSummaryFromMonth(month, year)
+  const { getSummary, checkItem, createBudget, updateBudget, deleteBudget } = useBudgetSummaryFromMonth(month, year)
 
   const summary = getSummary.data
 
@@ -54,7 +53,13 @@ export default function MonthSummary({ params }: Props) {
   }
 
   function onBudgetItemTouchHandler(parentId: string, id: string) {
-    const item = summary?.incomes.find((item) => item.id === id) || summary?.outcomes.find((item) => item.id === id)
+    const item = 
+    summary?.incomes.find((item) => item.id === id) || 
+    summary?.outcomes.find((item) => item.id === id) ||
+    summary?.creditCards.find((item) => item.id === id) ||
+    summary?.pensions.find((item) => item.id === id) ||
+    summary?.investments.find((item) => item.id === id) ||
+    summary?.cashBoxes.find((item) => item.id === id)
 
     if (item) {
       setFocusedItem(item)
@@ -112,6 +117,7 @@ export default function MonthSummary({ params }: Props) {
         onOpenChange={setOpenUpdateDialog}
         budget={focusedItem}
         updateFunction={updateBudget.mutate}
+        deleteFunction={deleteBudget.mutate}
         isSuccess={updateBudget.isSuccess}
       />
     </div>

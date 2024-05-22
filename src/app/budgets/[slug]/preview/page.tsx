@@ -6,6 +6,7 @@ import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-mo
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
 import useToken from '@/hooks/use-token'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 interface Props {
   params: {
@@ -21,6 +22,13 @@ export default function MonthPreview({ params }: Props) {
   const router = useRouter()
 
   const summary = getSummary.data
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/login')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
 
   const moduleBarLinks: ModuleLink[] = [
     {

@@ -65,8 +65,10 @@ interface ItemProps {
 }
 
 function Item({ items, checkBoxHandler, onItemTouchHandler, className, title }: ItemProps) {
+  const nonDeletedItems = items.filter((item) => !item.deleted)
+
   return (
-    <div className={cn(`${items.length === 0 ? 'hidden' : ''}`, className)}>
+    <div className={cn(`${nonDeletedItems.length === 0 ? 'hidden' : ''}`, className)}>
       <Header1>{title}</Header1>
       <div className='mt-2 flex flex-col justify-start items-start gap-2'>
         {items.map((item) => (
