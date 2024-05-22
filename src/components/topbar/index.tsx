@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { Menu } from 'lucide-react'
+import { CheckIcon, Loader2Icon, Menu } from 'lucide-react'
 
 import { Button } from '../ui/button'
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTrigger } from '../ui/sheet'
@@ -12,6 +12,7 @@ import useLogin from '@/hooks/use-login'
 
 const TopBar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [isServerOnline, setIsServerOnline] = useState(false)
   const { logout } = useLogin()
   const router = useRouter()
 
@@ -20,6 +21,21 @@ const TopBar = () => {
     setIsSheetOpen(false)
     router.push('/login')
   }
+
+  const checkServer = async () => {
+    try {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL as string)
+      if (response.ok) {
+        setIsServerOnline(true)
+      }
+    } catch (error) {
+      setIsServerOnline(false)
+    }
+  }
+
+  useEffect(() => {
+    checkServer()
+  }, [])
 
   return (
     <header className='w-screen fixed h-12 px-4 bg-card flex flex-row justify-between items-center'>
@@ -66,6 +82,10 @@ const TopBar = () => {
           </SheetFooter>
         </SheetContent>
       </Sheet>
+      <div className='flex flex-row justify-end items-center gap-2'>
+        <span className='text-sm'>Servidor</span>
+        {isServerOnline ? <CheckIcon className='' /> : <Loader2Icon className='animate-spin' />}
+      </div>
     </header>
   )
 }
