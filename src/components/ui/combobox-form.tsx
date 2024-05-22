@@ -37,7 +37,7 @@ import { ScrollArea } from './scroll-area'
 interface ComboboxFormProps {
   fieldName: string,
   inputTextAlight?: 'left' | 'center' | 'right'
-  label: string
+  label?: string
   placeholder?: string
   className?: ClassNameValue
   form: UseFormReturn<any>
@@ -71,18 +71,18 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
       control={form.control}
       name={fieldName}
       render={({ field }) => (
-        <FormItem className={`w-full flex flex-col mt-2 ${className}`}>
-          <FormLabel className='mb-0.5'>{label}</FormLabel>
-          {isDesktop && (
+        <FormItem className={`w-full flex flex-col ${className}`}>
+          <FormLabel className={`${label ? 'mb-0.5' : 'hidden'}`}>{label}</FormLabel>
+          {/* {isDesktop && (
             <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <FormControl>
+              <PopoverTrigger asChild className='m-0'>
+                <FormControl className='m-0'>
                   <Button
                     variant="outline"
                     role="combobox"
                     disabled={disabled}
                     className={cn(
-                      'w-full justify-between text-foreground',
+                      'w-full m-0 justify-between text-foreground',
                       !field.value && 'text-muted-foreground'
                     )}
                   >
@@ -125,17 +125,17 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
                 </Command>
               </PopoverContent>
             </Popover>
-          )}
+          )} */}
           {!isDesktop && (
             <Drawer open={open} onOpenChange={setOpen}>
-              <DrawerTrigger asChild>
-                <FormControl>
+              <DrawerTrigger asChild className='mt-0'>
+                <FormControl className=''>
                   <Button
                     variant="outline"
                     role="combobox"
                     disabled={disabled}
                     className={cn(
-                      'w-full px-1.5 flex flex-row items-center justify-between',
+                      'w-full flex flex-row items-center justify-between',
                       !field.value && 'text-muted-foreground'
                     )}
                   >
@@ -163,6 +163,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
                           onSelect={() => {
                             handleSelect(option.value)
                           }}
+                          className='cursor-pointer'
                         >
                           <Check
                             className={cn(

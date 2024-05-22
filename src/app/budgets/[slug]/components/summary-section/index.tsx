@@ -13,7 +13,7 @@ export default function SummarySection({ summary }: Props) {
       <Header1>Sumário</Header1>
       <div className='w-full mt-2 grid grid-cols-3 gap-2'>
         <SummaryCard title='Renda' value={summary.actualIncomeValue} previewValue={summary.predictedIncomeValue} />
-        <SummaryCard title='Despesa' value={summary.actualOutcomeValue} previewValue={summary.predictedOutcomeValue} />
+        <SummaryCard title='Despesa' value={summary.actualOutcomeValue + summary.actualCreditValue} previewValue={summary.predictedOutcomeValue} />
         <SummaryCard title='Saldo' value={summary.actualBalance} previewValue={summary.predictedBalance} />
       </div>
     </section>

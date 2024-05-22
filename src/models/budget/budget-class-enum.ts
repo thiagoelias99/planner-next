@@ -1,8 +1,8 @@
 export enum BudgetClassEnum {
-  INCOME = 'income',
-  EXPENSE = 'expense',
-  CREDIT_CARD = 'creditCard',
-  PENSION = 'pension',
-  INVESTMENT = 'investment',
-  CASH_BOX = 'cashBox'
+  income = 'Renda',
+  expense = 'Despesa',
+  creditCard = 'Cartão de crédito',
+  pension = 'Aposentadoria',
+  investment = 'Investimento',
+  cashBox = 'Cofre',
 }

@@ -10,7 +10,6 @@ import { z } from '@/lib/pt-zod'
 import { BudgetPaymentMethodEnum } from '@/models/budget/budget-payment-method.enum'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import IsIncomeSelect from './is-income-select'
 import { ComboboxForm } from '@/components/ui/combobox-form'
 import { CreateBudgetDto } from '@/hooks/budgets/budget-create.dto'
 import { useEffect, useState } from 'react'
@@ -30,10 +29,8 @@ const formSchema = z.object({
   value: z.string().refine((value) => parseFloat(value) >= 0, {
     message: 'O valor deve ser positivo',
   }).transform((value) => parseFloat(value)),
-  // isIncome: z.boolean().optional().default(true),
   budgetClass: z.string(),
   description: z.string().min(3).max(255),
-  // expectedDay: z.number().min(1).max(31).optional(),
   consolidated: z.boolean().optional(),
   startDate: z.string().transform((data) => new Date(data)).transform((data) => data.toISOString()).optional(),
   endDate: z.string().transform((data) => new Date(data)).transform((data) => data.toISOString()).optional(),
@@ -47,10 +44,8 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
     resolver: zodResolver(formSchema),
     defaultValues: {
       value: 0,
-      // isIncome: true,
-      budgetClass: BudgetClassEnum.INCOME,
+      budgetClass: BudgetClassEnum.income,
       description: '',
-      // expectedDay: 1,
       consolidated: true,
       startDate: undefined,
       endDate: undefined,
@@ -68,7 +63,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      createFunction({ ...values, paymentMethod: values.paymentMethod as BudgetPaymentMethodEnum, budgetClass: values.budgetClass as BudgetClassEnum})
+      createFunction({ ...values, paymentMethod: values.paymentMethod as BudgetPaymentMethodEnum, budgetClass: values.budgetClass as BudgetClassEnum })
     } catch (error) {
       throw error
     }
@@ -81,6 +76,13 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
     }
   })
 
+  const budgetClassOptions = Object.keys(BudgetClassEnum).map((option, index) => {
+    return {
+      label: Object.values(BudgetClassEnum)[index],
+      value: Object.keys(BudgetClassEnum)[index]
+    }
+  })
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='w-[90%] top-[10%] px-3 translate-y-0 sm:max-w-[425px] bg-card rounded-xl border-2'>
@@ -90,6 +92,13 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
             className="">
             <ScrollArea className='w-full'>
               <div className='w-full py-2 px-1 space-y-4 grid grid-cols-4'>
+                <ComboboxForm
+                  form={form}
+                  fieldName='budgetClass'
+                  options={budgetClassOptions}
+                  className='w-full col-span-4'
+                  inputTextAlight='center'
+                />
                 <FormField
                   control={form.control}
                   name="description"
@@ -110,7 +119,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                   render={({ field }) => (
                     <FormItem className='col-span-2'>
                       <FormControl>
-                        <div className='flex flex-row justify-start items-center gap-4'>
+                        <div className='flex flex-row justify-start items-center gap-4 mt-2'>
                           <span className='font-semibold text-base'>R$</span>
                           <Input type='number' {...field} className='text-center' />
                         </div>
@@ -119,15 +128,12 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                     </FormItem>
                   )}
                 />
-                <IsIncomeSelect className='pl-2 pr-2 col-span-2' form={form} fieldName="budgetClass" />
                 <ComboboxForm
                   form={form}
-                  label='Forma de Pagamento'
                   fieldName='paymentMethod'
                   options={paymentOptions}
-                  className='w-full col-span-4'
+                  className='w-full col-span-2 pl-4'
                   inputTextAlight='center'
-                // defaultValue={paymentOptions.find(option => option.label === BudgetPaymentMethodEnum.TRANSFER)?.value}
                 />
                 <span
                   role='button'
@@ -164,21 +170,6 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                         )}
                       />
                     </div>
-                    {/* <FormField
-                      control={form.control}
-                      name="expectedDay"
-                      render={({ field }) => (
-                        <FormItem className='col-span-3'>
-                          <FormControl>
-                            <div className='flex flex-row justify-start items-center gap-4'>
-                              <span className='text-base'>Dia do mês:</span>
-                              <Input type='number' {...field} className='text-center w-20' />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    /> */}
                     <FormField
                       control={form.control}
                       name="consolidated"

@@ -12,7 +12,7 @@ interface PreviewCardProps {
 
 export default function PreviewCard({title, Icon, subTitles} : PreviewCardProps) {
   return (
-    <Card className='p-2 w-full'>
+    <Card className='p-2'>
       <div className='flex flex-row justify-between items-center'>
         <Header1>{title}</Header1>
         <Icon size={32} />

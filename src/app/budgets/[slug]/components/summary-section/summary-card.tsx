@@ -9,10 +9,10 @@ interface Props {
 
 export default function SummaryCard({ title, value, previewValue }: Props) {
   return (
-    <div className='px-2 flex flex-col justify-center items-center gap-1 border border-1 rounded'>
+    <div className='p-2 flex flex-col justify-center items-center gap-1 border border-1 rounded'>
       <h2 className='font-semibold text-lg'>{title}</h2>
       <p className='font-bold text-base'>{formatCurrency(value)}</p>
-      <p className='font-normal text-xs w-full text-right'>{formatCurrency(previewValue)}</p>
+      {/* <p className='font-normal text-xs w-full text-right'>{formatCurrency(previewValue)}</p> */}
     </div>
   )
 }
