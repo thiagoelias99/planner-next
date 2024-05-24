@@ -13,7 +13,7 @@ export interface ModuleLink {
 }
 
 export interface Props {
-  links: ModuleLink[]
+  links?: ModuleLink[]
   className?: ClassNameValue
   reverse?: boolean
   backFunction?: () => void
@@ -24,7 +24,7 @@ export default function ModuleBar({ className, links, reverse = false, backFunct
     <section className={(cn('flex flex-row justify-between items-center', className))}>
       <ArrowLeftIcon size={24} onClick={backFunction} className={`cursor-pointer ${backFunction ? '' : 'invisible'}`} />
       <div className={`flex ${reverse ? 'flex-row-reverse justify-start' : 'flex-row justify-end'} items-center gap-4`}>
-        {links.map((link, index) => (
+        {links?.map((link, index) => (
           <Button
             key={index}
             onClick={link.onClick}

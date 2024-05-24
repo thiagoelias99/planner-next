@@ -1,13 +1,13 @@
 'use client'
 
-import { Stock, StockType, UserStock } from '@/models/user-stock'
+
 import { GraphSection } from './components/graph-section'
 import StockGroupsSection from './components/stock-groups-section'
 import StocksSection from './components/stocks-section'
-import useStocks from '@/hooks/use-stocks'
 import { useEffect } from 'react'
 import useToken from '@/hooks/use-token'
 import { useRouter } from 'next/navigation'
+import useStocks from '@/hooks/assets/use-stocks'
 
 
 export default function Stocks() {

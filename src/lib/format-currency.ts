@@ -1,4 +1,4 @@
-export function formatCurrency(value: number) {
+export function formatCurrency(value: number = 0) {
   return `R$ ${Intl.NumberFormat('pt-BR', {
     currency: 'BRL',
     minimumFractionDigits: 2,

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import axios, { AxiosError } from 'axios'
 
 import { UserStock } from '@/models/user-stock'
-import useToken from './use-token'
+import useToken from '../use-token'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 const useStocks = () => {
