@@ -48,7 +48,7 @@ const StockGroupsSection = ({ userStockData, className }: Props) => {
   }
 
   return (
-    <section className={cn('flex flex-row justify-start items-start flex-nowrap gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden px-4', className)}>
+    <section className={cn('flex flex-row justify-start sm:justify-center items-start flex-nowrap sm:flex-wrap gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden px-4', className)}>
       <StockGroupCard {...stockData} />
       <StockGroupCard {...fiiData} />
       <StockGroupCard {...internationalData} />

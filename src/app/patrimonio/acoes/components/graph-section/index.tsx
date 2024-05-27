@@ -35,7 +35,7 @@ export const GraphSection = ({ userStockData, className }: Props) => {
   }
 
   return (
-    <Card className={cn('mx-4 h-[359px] border-2 flex items-center justify-center', className)}>
+    <Card className={cn('max-w-[1539px] mx-4 sm:mx-auto sm:w-full h-[359px] border-2 flex items-center justify-center', className)}>
       <div>
         <Doughnut data={data}
           options={{

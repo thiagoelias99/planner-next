@@ -43,7 +43,7 @@ const StocksSection = ({ className: classnames, userStockData }: Props) => {
 
   return (
     <section className={cn(
-      'px-4',
+      'px-4 w-full max-w-[1539px] m-auto',
       classnames
     )}>
       <div className='w-full flex justify-between items-center'>
@@ -54,7 +54,7 @@ const StocksSection = ({ className: classnames, userStockData }: Props) => {
           onValueChange={(value) => setFilter(value)}
         />
       </div>
-      <div className='w-full pt-2 pb-4 flex flex-col justify-start items-start gap-2 sm:grid sm:grid-cols-4'>
+      <div className='w-full pt-2 pb-4 grid gap-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4'>
         {stocks.map(stock => {
           return (
             <StockCard

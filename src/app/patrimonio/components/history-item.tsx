@@ -9,6 +9,9 @@ interface Props extends Partial<AssetHistoryItem> {
 }
 
 export default function HistoryItem({ title, difference, grossValue, percentage = 0 }: Props) {
+  const goodPerformance = percentage > 2
+  const badPerformance = percentage < 0
+
   return (
     <Card>
       <CardContent className='h-20 md:h-28 p-2 flex flex-row md:flex-col justify-between md:justify-start items-center md:items-start'>
@@ -17,8 +20,8 @@ export default function HistoryItem({ title, difference, grossValue, percentage 
           <p>{formatCurrency(grossValue)}</p>
         </div>
         <div className='w-full h-full flex-1 flex flex-col md:flex-row-reverse justify-between items-end'>
-          <p className='text-2xl font-bold'>{formatCurrency(difference)}</p>
-          <p className='text-xl font-semibold'>{formatPercentage(percentage / 100, { appendSignage: true })}</p>
+          <p className={`text-2xl font-bold ${goodPerformance ? 'text-success' : ''} ${badPerformance ? 'text-failure' : ''}`}>{formatCurrency(difference)}</p>
+          <p className={`text-xl font-semibold ${goodPerformance ? 'text-success' : ''} ${badPerformance ? 'text-failure' : ''}`}>{formatPercentage(percentage / 100, { appendSignage: true })}</p>
         </div>
       </CardContent>
     </Card>
