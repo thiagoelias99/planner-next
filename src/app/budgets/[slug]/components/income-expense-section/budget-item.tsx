@@ -24,16 +24,16 @@ export default function BudgetItem({ data, checkBoxHandler, onTouchHandler }: Pr
   })
 
   return (
-    <Card className={`w-full px-4 py-2 flex flex-row justify-between items-center gap-1 ${data.deleted ? 'hidden' : ''}`}>
+    <Card className={`w-full px-4 py-2 flex flex-row justify-between items-center gap-1 ${data.deleted ? 'bg-destructive' : ''}`}>
       <Checkbox
-        className='w-4 h-4'
+        className={`w-4 h-4 ${data.deleted ? 'hidden' : ''}`}
         checked={data.isChecked}
         onCheckedChange={(checked) => {
           checkBoxHandler(data.parentId, data.id, checked as boolean)
         }}
       />
       <div
-        className='cursor-pointer flex flex-row justify-between items-center gap-1 w-full'
+        className={`cursor-pointer flex flex-row justify-between items-center gap-1 w-full ${data.deleted ? 'opacity-50 line-through' : ''}`}
         onClick={() => onTouchHandler(data.parentId, data.id)}>
         <div
           className='px-4 flex flex-1 flex-col justify-start items-start gap-1'

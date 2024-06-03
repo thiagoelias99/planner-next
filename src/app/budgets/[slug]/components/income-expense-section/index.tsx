@@ -8,13 +8,14 @@ import { cn } from '@/lib/utils'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Props {
-  className?: ClassNameValue
   summary: BudgetSummary
   checkBoxHandler: (parentId: string, id: string, checked: boolean) => void
   onItemTouchHandler: (parentId: string, id: string) => void
+  className?: ClassNameValue
+  showDeleted: boolean
 }
 
-export default function IncomeAndExpenseSection({ summary, className, checkBoxHandler, onItemTouchHandler }: Props) {
+export default function IncomeAndExpenseSection({ summary, className, checkBoxHandler, onItemTouchHandler, showDeleted }: Props) {
   return (
     <ScrollArea className='w-full sm:h-[75vh]'>
       <section className={`px-4 ${className} grid gap-4 lg:grid-cols-2`}>
@@ -23,36 +24,42 @@ export default function IncomeAndExpenseSection({ summary, className, checkBoxHa
           items={summary.incomes}
           checkBoxHandler={checkBoxHandler}
           onItemTouchHandler={onItemTouchHandler}
+          showDeleted={showDeleted}
         />
         <Item
           title='Despesas'
           items={summary.outcomes}
           checkBoxHandler={checkBoxHandler}
           onItemTouchHandler={onItemTouchHandler}
+          showDeleted={showDeleted}
         />
         <Item
           title='Cartão de Crédito'
           items={summary.creditCards}
           checkBoxHandler={checkBoxHandler}
           onItemTouchHandler={onItemTouchHandler}
+          showDeleted={showDeleted}
         />
         <Item
           title='Investimentos'
           items={summary.investments}
           checkBoxHandler={checkBoxHandler}
           onItemTouchHandler={onItemTouchHandler}
+          showDeleted={showDeleted}
         />
         <Item
           title='Aposentadoria'
           items={summary.pensions}
           checkBoxHandler={checkBoxHandler}
           onItemTouchHandler={onItemTouchHandler}
+          showDeleted={showDeleted}
         />
         <Item
           title='Cofre'
           items={summary.cashBoxes}
           checkBoxHandler={checkBoxHandler}
           onItemTouchHandler={onItemTouchHandler}
+          showDeleted={showDeleted}
         />
       </section>
     </ScrollArea>
@@ -60,21 +67,21 @@ export default function IncomeAndExpenseSection({ summary, className, checkBoxHa
 }
 
 interface ItemProps {
-  className?: ClassNameValue
   title: string
   items: BudgetSimplified[]
   checkBoxHandler: (parentId: string, id: string, checked: boolean) => void
   onItemTouchHandler: (parentId: string, id: string) => void
+  showDeleted: boolean
+  className?: ClassNameValue
 }
 
-function Item({ items, checkBoxHandler, onItemTouchHandler, className, title }: ItemProps) {
-  const nonDeletedItems = items.filter((item) => !item.deleted)
-
+function Item({ items, checkBoxHandler, onItemTouchHandler, className, title, showDeleted }: ItemProps) {
+  const itemsToShow = showDeleted ? items : items.filter((item) => !item.deleted)
   return (
-    <div className={cn(`${nonDeletedItems.length === 0 ? 'hidden' : ''}`, className)}>
+    <div className={cn(`${itemsToShow.length === 0 ? 'hidden' : ''}`, className)}>
       <Header1>{title}</Header1>
       <div className='mt-2 flex flex-col justify-start items-start gap-2'>
-        {items.map((item) => (
+        {itemsToShow.map((item) => (
           <BudgetItem
             key={item.id}
             data={item}

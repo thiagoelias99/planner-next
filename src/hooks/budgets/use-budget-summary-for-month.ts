@@ -169,7 +169,39 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
     }
   })
 
-  return { getSummary, checkItem, createBudget, updateBudget, deleteBudget }
+  const restoreBudget = useMutation({
+    mutationFn: async ({ parentId, id }: { parentId: string, id: string }) => {
+      if (!token) {
+        return
+      }
+      try {
+        await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
+          deleted: false
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        })
+
+        getSummary.refetch()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          switch (error.response?.status) {
+            case 401:
+              router.push('/login')
+              break
+            default:
+              break
+          }
+          return
+        }
+
+        throw error
+      }
+    }
+  })
+
+  return { getSummary, checkItem, createBudget, updateBudget, deleteBudget, restoreBudget }
 }
 
 export default useBudgetSummaryFromMonth

@@ -9,7 +9,7 @@ import { UpdateBudgetDto } from '@/hooks/budgets/update-budget.dto'
 import { z } from '@/lib/pt-zod'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Save, Trash2Icon } from 'lucide-react'
+import { RecycleIcon, Save, Trash2Icon } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -25,11 +25,12 @@ interface Props {
   budget?: BudgetSimplified
   updateFunction: (data: UpdateBudgetDto) => void
   deleteFunction: (data: UpdateBudgetDto) => void
+  restoreFunction: (data: UpdateBudgetDto) => void
   isSuccess?: boolean
   isLoading?: boolean
 }
 
-export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateFunction, isSuccess, deleteFunction, isLoading }: Props) {
+export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateFunction, isSuccess, deleteFunction, restoreFunction, isLoading }: Props) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
@@ -74,17 +75,38 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
     }
   }
 
+  function onRestore() {
+    if (budget) {
+      restoreFunction({
+        ...budget
+      })
+      onOpenChange(false)
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='w-[80%] rounded-md flex flex-col'>
-        <Button
-          size='icon'
-          variant='destructive'
-          className='self-end'
-          onClick={onDelete}
-        >
-          <Trash2Icon />
-        </Button>
+        {!budget?.deleted && (
+          <Button
+            size='icon'
+            variant='destructive'
+            className='self-end'
+            onClick={onDelete}
+          >
+            <Trash2Icon />
+          </Button>
+        )}
+        {budget?.deleted && (
+          <Button
+            size='icon'
+            variant='default'
+            className='self-end'
+            onClick={onRestore}
+          >
+            <RecycleIcon />
+          </Button>
+        )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}
             className='w-full flex flex-col justify-start items-start gap-4'

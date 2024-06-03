@@ -12,7 +12,7 @@ import CreateBudgetDialog from './components/create-budget-dialog'
 import UpdateBudgetDialog from './components/update-budget-dialog'
 import { BudgetSimplified } from '@/models/budget/budget-simplified'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
-import { PlusIcon, PiggyBankIcon } from 'lucide-react'
+import { PlusIcon, PiggyBankIcon, ViewIcon } from 'lucide-react'
 import PageLoading from '@/components/page-loading'
 
 interface Props {
@@ -27,10 +27,11 @@ export default function MonthSummary({ params }: Props) {
   const router = useRouter()
   const [openCreateDialog, setOpenCreateDialog] = useState(false)
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
+  const [showDeleted, setShowDeleted] = useState(false)
   const [year, month] = params.slug.split('-').map((value) => parseInt(value))
   const [focusedItem, setFocusedItem] = useState<BudgetSimplified>()
 
-  const { getSummary, checkItem, createBudget, updateBudget, deleteBudget } = useBudgetSummaryFromMonth(month, year)
+  const { getSummary, checkItem, createBudget, updateBudget, deleteBudget, restoreBudget } = useBudgetSummaryFromMonth(month, year)
 
   const summary = getSummary.data
 
@@ -54,13 +55,13 @@ export default function MonthSummary({ params }: Props) {
   }
 
   function onBudgetItemTouchHandler(parentId: string, id: string) {
-    const item = 
-    summary?.incomes.find((item) => item.id === id) || 
-    summary?.outcomes.find((item) => item.id === id) ||
-    summary?.creditCards.find((item) => item.id === id) ||
-    summary?.pensions.find((item) => item.id === id) ||
-    summary?.investments.find((item) => item.id === id) ||
-    summary?.cashBoxes.find((item) => item.id === id)
+    const item =
+      summary?.incomes.find((item) => item.id === id) ||
+      summary?.outcomes.find((item) => item.id === id) ||
+      summary?.creditCards.find((item) => item.id === id) ||
+      summary?.pensions.find((item) => item.id === id) ||
+      summary?.investments.find((item) => item.id === id) ||
+      summary?.cashBoxes.find((item) => item.id === id)
 
     if (item) {
       setFocusedItem(item)
@@ -78,6 +79,11 @@ export default function MonthSummary({ params }: Props) {
       Icon: PiggyBankIcon,
       onClick: () => router.push(`${params.slug}/preview`),
       variant: 'default'
+    },
+    {
+      Icon: ViewIcon,
+      onClick: () => setShowDeleted(curr => !curr),
+      variant: showDeleted ? 'default' : 'secondary'
     }
   ]
 
@@ -99,6 +105,7 @@ export default function MonthSummary({ params }: Props) {
             </div>
             <div className='w-full sm:h-[75vh] sm:pb-4 flex flex-col sm:justify-start sm:items-start'>
               <IncomeAndExpenseSection
+                showDeleted={showDeleted}
                 className={'w-full mt-4 sm:mt-0'}
                 summary={summary}
                 checkBoxHandler={checkBoxHandler}
@@ -121,6 +128,7 @@ export default function MonthSummary({ params }: Props) {
         budget={focusedItem}
         updateFunction={updateBudget.mutate}
         deleteFunction={deleteBudget.mutate}
+        restoreFunction={restoreBudget.mutate}
         isSuccess={updateBudget.isSuccess}
       />
     </div>
