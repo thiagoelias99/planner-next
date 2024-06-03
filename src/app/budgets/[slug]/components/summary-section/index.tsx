@@ -11,9 +11,11 @@ export default function SummarySection({ summary }: Props) {
   return (
     <section className='px-4'>
       <Header1>Sumário</Header1>
-      <div className='w-full mt-2 grid grid-cols-3 gap-2'>
+      <div className='w-full mt-2 flex flex-row flex-wrap justify-center items-center gap-2'>
         <SummaryCard title='Renda' value={summary.actualIncomeValue} previewValue={summary.predictedIncomeValue} />
-        <SummaryCard title='Despesa' value={summary.actualOutcomeValue + summary.actualCreditValue} previewValue={summary.predictedOutcomeValue} />
+        <SummaryCard title='Despesa' value={summary.actualOutcomeValue + summary.actualCreditValue + summary.actualCashBoxValue} previewValue={summary.predictedOutcomeValue} />
+        <SummaryCard title='Investimentos' value={summary.actualInvestmentsValue} previewValue={summary.predictedInvestmentsValue} />
+        <SummaryCard title='Previdência' value={summary.actualPensionValue} previewValue={summary.predictedPensionValue} />
         <SummaryCard title='Saldo' value={summary.actualBalance} previewValue={summary.predictedBalance} />
       </div>
     </section>

@@ -13,14 +13,16 @@ interface Props {
   graphHeight?: number
 }
 
-export const GraphSection = ({ summary , className, graphHeight = 180}: Props) => {
+export const GraphSection = ({ summary, className, graphHeight = 180 }: Props) => {
   ChartJS.register(ArcElement, Tooltip, Legend, Colors)
 
-  const labels = ['Renda', 'Despesa']
+  const labels = ['Renda', 'Despesa', 'Investimento', 'Previdência']
 
   const values = [
     summary.actualIncomeValue,
-    summary.actualOutcomeValue
+    summary.actualOutcomeValue + summary.actualCreditValue + summary.actualCashBoxValue,
+    summary.actualInvestmentsValue,
+    summary.actualPensionValue
   ]
 
   const data = {
