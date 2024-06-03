@@ -24,7 +24,7 @@ export default function BudgetItem({ data, checkBoxHandler, onTouchHandler }: Pr
   })
 
   return (
-    <Card className={`w-full px-4 py-2 flex flex-row justify-between items-center gap-1 ${data.deleted ? 'bg-destructive' : ''}`}>
+    <Card className={`w-full px-4 py-2 flex flex-row justify-between items-center gap-1 ${data.deleted ? 'bg-destructive' : ''} hover:bg-primary hover:text-primary-foreground`}>
       <Checkbox
         className={`w-4 h-4 ${data.deleted ? 'hidden' : ''}`}
         checked={data.isChecked}
