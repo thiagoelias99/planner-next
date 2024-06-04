@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import useToDos from '@/hooks/todos/use-todo'
+import { useToast } from '@/components/ui/use-toast'
 import { z } from '@/lib/pt-zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -14,8 +15,8 @@ interface CreateTodoDialogProps {
 }
 
 const formSchema = z.object({
-  description: z.string().min(3).max(255),
   title: z.string().min(3).max(30),
+  description: z.string().min(3).max(255),
 })
 
 export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialogProps) {
@@ -28,11 +29,13 @@ export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialo
   })
 
   const { createTodo } = useToDos()
+  const { toast } = useToast()
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await createTodo.mutateAsync({ date: new Date(), ...values })
       form.reset()
+      toast({ description: 'To-Do criado com sucesso', variant: 'default', duration: 1500 })
       onOpenChange(false)
     } catch (error) {
       throw error

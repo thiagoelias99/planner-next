@@ -6,9 +6,10 @@ import { Roboto } from 'next/font/google'
 import './globals.css'
 import { QueryClientProvider } from 'react-query'
 import { queryClient } from '@/services/webclient/queryClient'
-import { Toaster } from '@/components/ui/toaster'
+
 import TopBar from '@/components/topbar'
 import { useEffect } from 'react'
+import { Toaster } from '@/components/ui/toaster'
 
 const roboto = Roboto({
   subsets: ['latin'],
