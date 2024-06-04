@@ -58,10 +58,30 @@ const useToDos = () => {
     }
   })
 
+  const deleteTodo = useMutation({
+    mutationFn: async (id: string) => {
+      if (!token) {
+        return
+      }
+
+      await axios.delete(`${apiUrl}/todos`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        data: {
+          id
+        }
+      })
+
+      getToDos.refetch()
+    }
+  })
+
   return {
     getToDos,
     updateTodo,
-    createTodo
+    createTodo,
+    deleteTodo
   }
 }
 
