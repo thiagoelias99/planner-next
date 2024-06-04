@@ -64,6 +64,7 @@ const TopBar = () => {
               <ul className='flex flex-col gap-4 px-4'
                 onClick={() => setIsSheetOpen(false)}>
                 <LinkItem href='/' label='Home' />
+                <LinkItem href='/todo' label='To-Dos' />
                 <LinkItem href='/patrimonio' label='Patrimônio' />
                 <LinkItem href='/patrimonio/acoes' label='Ações' />
                 <LinkItem href='/budgets' label='Orçamento' />
