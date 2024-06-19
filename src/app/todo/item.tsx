@@ -9,7 +9,7 @@ interface TodoItemProps extends ToDoItem {
 
 }
 
-export default function TodoItem({ id, title, description, completed }: TodoItemProps) {
+export default function TodoItem({ id, title, description, completed, date }: TodoItemProps) {
   const { updateTodo } = useToDos()
 
   function toggle() {
@@ -33,6 +33,7 @@ export default function TodoItem({ id, title, description, completed }: TodoItem
         {/* <div className='w-full flex flex-1 flex-col justify-start items-start gap-1'> */}
         <h3 className='text-lg font-bold'>{title}</h3>
         <p className='w-full text-sm line-clamp-2'>{description}</p>
+        <p>{new Date(date).toLocaleDateString()}</p>
         {/* </div> */}
       </NextLink>
     </Card>

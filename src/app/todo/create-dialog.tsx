@@ -7,7 +7,9 @@ import { useToast } from '@/components/ui/use-toast'
 import { z } from '@/lib/pt-zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { date } from 'zod'
+import { DateInput } from '@/components/ui/date-input'
+import { isAfter, add } from 'date-fns'
+import { useEffect } from 'react'
 
 interface CreateTodoDialogProps {
   open: boolean
@@ -15,16 +17,20 @@ interface CreateTodoDialogProps {
 }
 
 const formSchema = z.object({
-  title: z.string().min(3).max(30),
-  description: z.string().min(3).max(255),
+  title: z.string().min(1).max(50),
+  description: z.string().min(3).max(255).optional(),
+  date: z.string().transform((value) => new Date(value)).refine((value) => {
+    return value instanceof Date && isAfter(add(value, { days: 1 }), new Date())
+  }, 'Data não deve ser anterior a data atual').transform((value) => value.toISOString()),
 })
 
 export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialogProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: '',
       title: '',
+      description: undefined,
+      date: new Date().toISOString(),
     },
   })
 
@@ -33,7 +39,7 @@ export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialo
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createTodo.mutateAsync({ date: new Date(), ...values })
+      await createTodo.mutateAsync({ ...values, date: new Date(values.date) })
       form.reset()
       toast({ description: 'To-Do criado com sucesso', variant: 'default', duration: 1500 })
       onOpenChange(false)
@@ -71,6 +77,19 @@ export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialo
                   <FormLabel>Descrição</FormLabel>
                   <FormControl>
                     <Input type='text' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className='col-span-2'>
+                  <FormLabel>Data</FormLabel>
+                  <FormControl>
+                    <DateInput {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

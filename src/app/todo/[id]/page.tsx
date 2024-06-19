@@ -41,6 +41,7 @@ export default function TodoDetails({ params }: TodoDetailsProps) {
       />
       <Header1>{todo?.title}</Header1>
       <p className=''>{todo?.description}</p>
+      <p className=''>{new Date(todo?.date || new Date()).toLocaleDateString()}</p>
     </div>
   )
 }

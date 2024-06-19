@@ -15,6 +15,6 @@ export interface ToDoItem {
 
 export interface CreateTodoDto {
   title: string;
-  description: string;
+  description?: string;
   date: Date;
 }
