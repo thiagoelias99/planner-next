@@ -32,12 +32,11 @@ export default function TodoPage() {
       <div className='w-full mt-2 flex flex-col justify-start items-start gap-4'>
         <ToDoSection
           title='Hoje'
-          data={getToDos.data?.items.filter(todo => (!todo.completed && isPast(todo.date) || (todo.completed && isToday(addHours(todo.date, 12))))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)}
+          data={getToDos.data?.items.filter(todo => (!todo.completed && isPast(todo.date) || (todo.completed && isToday(addHours(todo.date, (new Date().getTimezoneOffset())/60))))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)}
         />
         <ToDoSection
           title='Amanhã'
-          data={getToDos.data?.items.filter(todo => !todo.completed && isTomorrow(addHours(todo.date, 12))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)} />
-        {/* <ExpandSection className='mt-2' label='em breve' /> */}
+          data={getToDos.data?.items.filter(todo => !todo.completed && isTomorrow(addHours(todo.date, 12)) && !isToday(addHours(todo.date, (new Date().getTimezoneOffset())/60))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)} />
         <ToDoSection
           title='Em breve'
           data={getToDos.data?.items.filter(todo => !todo.completed && isAfter(todo.date, addDays(new Date(), 1))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)} />

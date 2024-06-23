@@ -32,8 +32,8 @@ export default function TodoItem({ id, title, completed, date }: TodoItemProps) 
         onCheckedChange={toggle}
       />
       <NextLink href={`/todo/${id}`} className='w-full flex flex-1 flex-row justify-between items-center'>
-        <h3 className='text-base'>{title} {isToday(addHours(date, 12)) ? 'T' : 'F'}</h3>
-        <CircleAlert className={isToday(addHours(date, 12)) || isFuture(date) ? 'hidden' : ''} />
+        <h3 className='text-base'>{title}</h3>
+        <CircleAlert className={isToday(addHours(date, (new Date().getTimezoneOffset())/60)) || isFuture(date) ? 'hidden' : ''} />
       </NextLink>
     </Card>
   )
