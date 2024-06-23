@@ -1,7 +1,6 @@
 'use client'
 
 import useToDos from '@/hooks/todos/use-todo'
-import { Header1 } from '@/components/ui/typography'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
 import { PlusIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -9,7 +8,7 @@ import ToDoSection from './todos-section'
 import ExpandSection from '@/components/ui/expand-section'
 import CreateTodoDialog from './create-dialog'
 import { useState } from 'react'
-import { isBefore, isFuture, isPast, isSameDay, isToday } from 'date-fns'
+import { addDays, addHours, isAfter, isBefore, isPast, isToday, isTomorrow } from 'date-fns'
 
 export default function TodoPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false)
@@ -30,12 +29,20 @@ export default function TodoPage() {
         links={moduleBarLinks}
         backFunction={() => router.push('/')}
       />
-      <Header1>{`Hoje / Atrasados (${getToDos.data?.count})`}</Header1>
-      <ToDoSection data={getToDos.data?.items.filter(todo => (!todo.completed && isPast(todo.date) || (todo.completed && isToday(todo.date))))} />
-      <Header1 classnames='mt-4'>{`Em breve (${getToDos.data?.count})`}</Header1>
-      <ToDoSection data={getToDos.data?.items.filter(todo => !todo.completed && isFuture(todo.date))}/>
-      <ExpandSection className='mt-2' label='concluídos' />
-      {/* <ToDoSection data={getToDos.data?.items.filter(todo => todo.completed )}/> */}
+      <div className='w-full mt-2 flex flex-col justify-start items-start gap-4'>
+        <ToDoSection
+          title='Hoje'
+          data={getToDos.data?.items.filter(todo => (!todo.completed && isPast(todo.date) || (todo.completed && isToday(addHours(todo.date, 12))))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)}
+        />
+        <ToDoSection
+          title='Amanhã'
+          data={getToDos.data?.items.filter(todo => !todo.completed && isTomorrow(addHours(todo.date, 12))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)} />
+        {/* <ExpandSection className='mt-2' label='em breve' /> */}
+        <ToDoSection
+          title='Em breve'
+          data={getToDos.data?.items.filter(todo => !todo.completed && isAfter(todo.date, addDays(new Date(), 1))).sort((a, b) => isBefore(a.date, b.date) ? -1 : 1)} />
+        <ExpandSection className='mt-2' label='concluídos' />
+      </div>
       <CreateTodoDialog open={openCreateDialog} onOpenChange={setOpenCreateDialog} />
     </div>
   )

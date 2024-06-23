@@ -13,7 +13,7 @@ interface ExpandSectionProps {
 export default function ExpandSection({ label, className, onClick }: ExpandSectionProps) {
   return (
     <div className={cn('w-full flex flex-row justify-end items-center gap-2', className)}>
-      <p className='text-sm'>concluídos</p>
+      <p className='text-sm'>{label}</p>
       <Button
         size='icon'
         variant='ghost'

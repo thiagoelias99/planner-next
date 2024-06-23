@@ -9,7 +9,7 @@ interface Props {
 const Header1 = ({ classnames, children }: Props) => {
   return (
     <h1 className={cn(
-      'text-xl font-bold',
+      'text-lg font-bold',
       classnames
     )}>{children}</h1>
   )
