@@ -4,15 +4,15 @@ import { Card } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import useToDos from '@/hooks/todos/use-todo'
 import { ToDoItem } from '@/models/todos/todo'
-import { CircleAlert } from 'lucide-react'
-import { addHours, isFuture, isToday } from 'date-fns'
+import { Button } from '@/components/ui/button'
+import { Trash2Icon } from 'lucide-react'
 
 interface TodoItemProps extends ToDoItem {
 
 }
 
 export default function TodoItem({ id, title, completed, date }: TodoItemProps) {
-  const { updateTodo } = useToDos()
+  const { updateTodo, deleteTodo } = useToDos()
 
   function toggle() {
     console.log('toggle')
@@ -32,9 +32,16 @@ export default function TodoItem({ id, title, completed, date }: TodoItemProps) 
         onCheckedChange={toggle}
       />
       <NextLink href={`/todo/${id}`} className='w-full flex flex-1 flex-row justify-between items-center'>
-        <h3 className='text-base'>{title}</h3>
-        <CircleAlert className={isToday(addHours(date, (new Date().getTimezoneOffset())/60)) || isFuture(date) ? 'hidden' : ''} />
+        <h3 className={`text-base ${completed ? 'line-through' : ''}`}>{title}</h3>
       </NextLink>
+      <Button
+        className={`w-7 h-7 ${completed ? '' : 'hidden'}`}
+        variant='destructive'
+        size='icon'
+        onClick={() => deleteTodo.mutate(id)}
+      >
+        <Trash2Icon size={14} />
+      </Button>
     </Card>
   )
 }
