@@ -10,49 +10,90 @@ import { useForm } from 'react-hook-form'
 import { DateInput } from '@/components/ui/date-input'
 import { isAfter, add } from 'date-fns'
 import { Textarea } from '@/components/ui/text-area'
+import { ToDoItem } from '@/models/todos/todo'
+import { useEffect } from 'react'
+import { Trash2Icon } from 'lucide-react'
 
 interface CreateTodoDialogProps {
   open: boolean
+  selectedTodo: ToDoItem | undefined
   onOpenChange: (open: boolean) => void
 }
 
 const formSchema = z.object({
   title: z.string().min(1).max(30),
-  description: z.string().min(3).max(255).optional(),
+  description: z.string().max(255).optional(),
   date: z.string().transform((value) => new Date(value)).refine((value) => {
     return value instanceof Date && isAfter(add(value, { days: 1 }), new Date())
   }, 'Data não deve ser anterior a data atual').transform((value) => value.toISOString()),
 })
 
-export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialogProps) {
+export default function EditTodoDialog({ open, selectedTodo, onOpenChange }: CreateTodoDialogProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: undefined,
       description: undefined,
-      date: undefined,
+      date: new Date().toISOString().substring(0, 10),
     },
   })
 
-  const { createTodo } = useToDos()
+  const { createTodo, updateTodo, deleteTodo } = useToDos()
   const { toast } = useToast()
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      await createTodo.mutateAsync({ ...values, date: new Date(values.date) })
+  useEffect(() => {
+    if (selectedTodo) {
+      form.setValue('title', selectedTodo.title)
+      form.setValue('description', selectedTodo.description)
+      form.setValue('date', new Date(selectedTodo.date).toISOString().substring(0, 10))
+    } else {
       form.reset()
-      toast({ description: 'To-Do criado com sucesso', variant: 'default', duration: 1500 })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTodo])
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!selectedTodo) {
+      try {
+        await createTodo.mutateAsync({ ...values, date: new Date(values.date) })
+        form.reset()
+        toast({ description: 'To-Do criado com sucesso', variant: 'default', duration: 1000 })
+        onOpenChange(false)
+      } catch (error) {
+        throw error
+      }
+    } else {
+      try {
+        await updateTodo.mutateAsync({ ...values, id: selectedTodo.id, date: new Date(values.date) })
+        form.reset()
+        toast({ description: 'To-Do atualizado com sucesso', variant: 'default', duration: 1000 })
+        onOpenChange(false)
+      } catch (error) {
+        throw error
+      }
+    }
+  }
+
+  function handleDelete() {
+    if (selectedTodo) {
+      deleteTodo.mutate(selectedTodo.id)
       onOpenChange(false)
-    } catch (error) {
-      throw error
+      toast({ description: 'To-Do excluido com sucesso', variant: 'destructive', duration: 1000 })
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='w-[390px] border-none p-4'>
-        <DialogHeader>
-          <DialogTitle>Criar novo To-Do</DialogTitle>
+        <DialogHeader className='flex flex-row justify-between items-center'>
+          <h1 className='text-base font-bold text-start w-full'>{selectedTodo ? 'Editar To-Do' : 'Criar novo To-Do'}</h1>
+          <Button
+            size='icon'
+            variant='destructive'
+            onClick={handleDelete}
+            className={selectedTodo ? '' : 'hidden'}>
+            <Trash2Icon />
+          </Button>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-2'>
@@ -95,7 +136,7 @@ export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialo
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full'>Criar</Button>
+            <Button type='submit' className='w-full'>{selectedTodo ? 'Salvar' : 'Criar'}</Button>
           </form>
         </Form>
       </DialogContent>

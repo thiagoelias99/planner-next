@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Trash2Icon } from 'lucide-react'
 
 interface TodoItemProps extends ToDoItem {
-
+  handleEdit: (todo: ToDoItem) => void
 }
 
-export default function TodoItem({ id, title, completed, date }: TodoItemProps) {
+export default function TodoItem({ id, title, completed, date, handleEdit, ...rest }: TodoItemProps) {
   const { updateTodo, deleteTodo } = useToDos()
 
   function toggle() {
@@ -31,9 +31,13 @@ export default function TodoItem({ id, title, completed, date }: TodoItemProps) 
         checked={completed}
         onCheckedChange={toggle}
       />
-      <NextLink href={`/todo/${id}`} className='w-full flex flex-1 flex-row justify-between items-center'>
+      <div
+        role='button'
+        onClick={() => handleEdit({ id, title, completed, date, ...rest })}
+        className='w-full flex flex-1 flex-row justify-between items-center'
+      >
         <h3 className={`text-base ${completed ? 'line-through' : ''}`}>{title}</h3>
-      </NextLink>
+      </div>
       <Button
         className={`w-7 h-7 ${completed ? '' : 'hidden'}`}
         variant='destructive'
