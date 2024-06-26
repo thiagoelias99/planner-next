@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { DateInput } from '@/components/ui/date-input'
 import { isAfter, add } from 'date-fns'
-import { useEffect } from 'react'
+import { Textarea } from '@/components/ui/text-area'
 
 interface CreateTodoDialogProps {
   open: boolean
@@ -17,7 +17,7 @@ interface CreateTodoDialogProps {
 }
 
 const formSchema = z.object({
-  title: z.string().min(1).max(50),
+  title: z.string().min(1).max(30),
   description: z.string().min(3).max(255).optional(),
   date: z.string().transform((value) => new Date(value)).refine((value) => {
     return value instanceof Date && isAfter(add(value, { days: 1 }), new Date())
@@ -28,9 +28,9 @@ export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialo
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
+      title: undefined,
       description: undefined,
-      date: new Date().toISOString(),
+      date: undefined,
     },
   })
 
@@ -50,31 +50,18 @@ export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className='w-[390px] border-none p-4'>
         <DialogHeader>
           <DialogTitle>Criar novo To-Do</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-2'>
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem className=''>
                   <FormLabel>Título</FormLabel>
-                  <FormControl>
-                    <Input type='text' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem className=''>
-                  <FormLabel>Descrição</FormLabel>
                   <FormControl>
                     <Input type='text' {...field} />
                   </FormControl>
@@ -95,7 +82,20 @@ export default function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialo
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full mt-4'>Criar</Button>
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem className=''>
+                  <FormLabel>Descrição</FormLabel>
+                  <FormControl>
+                    <Textarea className='min-h-[160px]' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit' className='w-full'>Criar</Button>
           </form>
         </Form>
       </DialogContent>
