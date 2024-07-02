@@ -10,7 +10,7 @@ import IncomeAndExpenseSection from './components/income-expense-section'
 import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
 import CreateBudgetDialog from './components/create-budget-dialog'
 import UpdateBudgetDialog from './components/update-budget-dialog'
-import { BudgetSimplified } from '@/models/budget/budget-simplified'
+import { Budget } from '@/models/budget/budget'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
 import { PlusIcon, PiggyBankIcon, ViewIcon } from 'lucide-react'
 import PageLoading from '@/components/page-loading'
@@ -29,7 +29,7 @@ export default function MonthSummary({ params }: Props) {
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
   const [showDeleted, setShowDeleted] = useState(false)
   const [year, month] = params.slug.split('-').map((value) => parseInt(value))
-  const [focusedItem, setFocusedItem] = useState<BudgetSimplified>()
+  const [focusedItem, setFocusedItem] = useState<Budget>()
 
   const { getSummary, checkItem, createBudget, updateBudget, deleteBudget, restoreBudget } = useBudgetSummaryFromMonth(month, year)
 
@@ -56,12 +56,12 @@ export default function MonthSummary({ params }: Props) {
 
   function onBudgetItemTouchHandler(parentId: string, id: string) {
     const item =
-      summary?.incomes.find((item) => item.id === id) ||
-      summary?.outcomes.find((item) => item.id === id) ||
-      summary?.creditCards.find((item) => item.id === id) ||
-      summary?.pensions.find((item) => item.id === id) ||
-      summary?.investments.find((item) => item.id === id) ||
-      summary?.cashBoxes.find((item) => item.id === id)
+      summary?.incomes.find((item) => item.transactions[0].id === id) ||
+      summary?.outcomes.find((item) => item.transactions[0].id === id) ||
+      summary?.creditCards.find((item) => item.transactions[0].id === id) ||
+      summary?.pensions.find((item) => item.transactions[0].id === id) ||
+      summary?.investments.find((item) => item.transactions[0].id === id) ||
+      summary?.cashBoxes.find((item) => item.transactions[0].id === id)
 
     if (item) {
       setFocusedItem(item)
@@ -89,7 +89,7 @@ export default function MonthSummary({ params }: Props) {
 
   return (
     <div className='pb-4'>
-      {getSummary.isLoading && <PageLoading />}
+      {/* {getSummary.isLoading && <PageLoading />} */}
       {summary && (
         <div className='h-full max-w-[1539px] m-auto'>
           <ModuleBar

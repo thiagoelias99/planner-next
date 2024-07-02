@@ -7,16 +7,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 
 import { z } from '@/lib/pt-zod'
-import { BudgetPaymentMethodEnum } from '@/models/budget/budget-payment-method.enum'
+import { BudgetPaymentMethod } from '@/models/budget/budget-payment-method.enum'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { ComboboxForm } from '@/components/ui/combobox-form'
 import { CreateBudgetDto } from '@/hooks/budgets/budget-create.dto'
 import { useEffect, useState } from 'react'
 import { DateInput } from '@/components/ui/date-input'
-import { Checkbox } from '@/components/ui/checkbox'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { BudgetClassEnum } from '@/models/budget/budget-class-enum'
+import { BudgetClass } from '@/models/budget/budget-class.enum'
 
 interface Props {
   open: boolean
@@ -27,15 +26,14 @@ interface Props {
 }
 
 const formSchema = z.object({
-  value: z.string().refine((value) => parseFloat(value) >= 0, {
+  currentValue: z.string().refine((value) => parseFloat(value) >= 0, {
     message: 'O valor deve ser positivo',
   }).transform((value) => parseFloat(value)),
   budgetClass: z.string(),
   description: z.string().min(3).max(255),
-  consolidated: z.boolean().optional(),
   startDate: z.string().transform((data) => new Date(data)).transform((data) => data.toISOString()).optional(),
   endDate: z.string().transform((data) => new Date(data)).transform((data) => data.toISOString()).optional(),
-  paymentMethod: z.string().optional().default(BudgetPaymentMethodEnum.TRANSFER),
+  paymentMethod: z.string().optional().default(BudgetPaymentMethod.TRANSFER),
 })
 
 export default function CreateBudgetDialog({ open, onOpenChange, createFunction, isSuccess, isLoading }: Props) {
@@ -44,13 +42,12 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      value: 0,
-      budgetClass: BudgetClassEnum.income,
+      currentValue: 0,
+      budgetClass: BudgetClass.INCOME,
       description: '',
-      consolidated: true,
       startDate: undefined,
       endDate: undefined,
-      paymentMethod: BudgetPaymentMethodEnum.TRANSFER,
+      paymentMethod: BudgetPaymentMethod.TRANSFER,
     },
   })
 
@@ -64,23 +61,23 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      createFunction({ ...values, paymentMethod: values.paymentMethod as BudgetPaymentMethodEnum, budgetClass: values.budgetClass as BudgetClassEnum })
+      createFunction({ ...values, paymentMethod: values.paymentMethod as BudgetPaymentMethod, budgetClass: values.budgetClass as BudgetClass })
     } catch (error) {
       throw error
     }
   }
 
-  const paymentOptions = Object.keys(BudgetPaymentMethodEnum).map((option, index) => {
+  const paymentOptions = Object.keys(BudgetPaymentMethod).map((option, index) => {
     return {
-      label: Object.values(BudgetPaymentMethodEnum)[index],
-      value: Object.keys(BudgetPaymentMethodEnum)[index]
+      label: Object.values(BudgetPaymentMethod)[index],
+      value: Object.keys(BudgetPaymentMethod)[index]
     }
   })
 
-  const budgetClassOptions = Object.keys(BudgetClassEnum).map((option, index) => {
+  const budgetClassOptions = Object.keys(BudgetClass).map((option, index) => {
     return {
-      label: Object.values(BudgetClassEnum)[index],
-      value: Object.keys(BudgetClassEnum)[index]
+      label: Object.values(BudgetClass)[index],
+      value: Object.keys(BudgetClass)[index]
     }
   })
 
@@ -118,7 +115,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                 />
                 <FormField
                   control={form.control}
-                  name="value"
+                  name="currentValue"
                   render={({ field }) => (
                     <FormItem className='col-span-2'>
                       <FormLabel>Valor</FormLabel>
@@ -175,25 +172,6 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                         )}
                       />
                     </div>
-                    <FormField
-                      control={form.control}
-                      name="consolidated"
-                      render={({ field }) => (
-                        <FormItem className='col-span-1'>
-                          <FormControl>
-                            <div className='w-full h-full flex flex-row justify-end items-center gap-2'>
-                              <Checkbox
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                                className='h-8 w-8'
-                              />
-                              <span>Ok</span>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </>
                 )}
                 <Button

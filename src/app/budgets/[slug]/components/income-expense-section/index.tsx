@@ -3,7 +3,7 @@ import { BudgetSummary } from '@/models/budget/budget-summary'
 import React from 'react'
 import BudgetItem from './budget-item'
 import { ClassNameValue } from 'tailwind-merge'
-import { BudgetSimplified } from '@/models/budget/budget-simplified'
+import { Budget } from '@/models/budget/budget'
 import { cn } from '@/lib/utils'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
@@ -68,7 +68,7 @@ export default function IncomeAndExpenseSection({ summary, className, checkBoxHa
 
 interface ItemProps {
   title: string
-  items: BudgetSimplified[]
+  items: Budget[]
   checkBoxHandler: (parentId: string, id: string, checked: boolean) => void
   onItemTouchHandler: (parentId: string, id: string) => void
   showDeleted: boolean
@@ -76,7 +76,7 @@ interface ItemProps {
 }
 
 function Item({ items, checkBoxHandler, onItemTouchHandler, className, title, showDeleted }: ItemProps) {
-  const itemsToShow = showDeleted ? items : items.filter((item) => !item.deleted)
+  const itemsToShow = showDeleted ? items : items.filter((item) => !item.transactions[0].deleted)
   return (
     <div className={cn(`${itemsToShow.length === 0 ? 'hidden' : ''}`, className)}>
       <Header1>{title}</Header1>

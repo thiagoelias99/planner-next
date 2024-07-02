@@ -5,9 +5,9 @@ import {
 } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { UpdateBudgetDto } from '@/hooks/budgets/update-budget.dto'
+import { UpdateTransactionDto } from '@/hooks/budgets/update-transaction.dto'
 import { z } from '@/lib/pt-zod'
-import { BudgetSimplified } from '@/models/budget/budget-simplified'
+import { Budget } from '@/models/budget/budget'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RecycleIcon, Save, Trash2Icon } from 'lucide-react'
 import { useEffect } from 'react'
@@ -22,10 +22,10 @@ const formSchema = z.object({
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  budget?: BudgetSimplified
-  updateFunction: (data: UpdateBudgetDto) => void
-  deleteFunction: (data: UpdateBudgetDto) => void
-  restoreFunction: (data: UpdateBudgetDto) => void
+  budget?: Budget
+  updateFunction: (data: UpdateTransactionDto) => void
+  deleteFunction: (data: UpdateTransactionDto) => void
+  restoreFunction: (data: UpdateTransactionDto) => void
   isSuccess?: boolean
   isLoading?: boolean
 }
@@ -40,7 +40,7 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
     if (budget) {
       form.reset({
         ...budget,
-        value: budget.value
+        value: budget.transactions[0].value
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,8 +56,8 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
     try {
       if (budget) {
         updateFunction({
-          id: budget.id,
-          parentId: budget.parentId,
+          id: budget.transactions[0].id,
+          parentId: budget.id,
           ...values
         })
       }
@@ -68,9 +68,13 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
 
   function onDelete() {
     if (budget) {
-      deleteFunction({
-        ...budget
-      })
+      deleteFunction(
+        {
+          id: budget.transactions[0].id,
+          parentId: budget.id,
+          value: budget.transactions[0].value
+        }
+      )
       onOpenChange(false)
     }
   }
@@ -78,7 +82,9 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
   function onRestore() {
     if (budget) {
       restoreFunction({
-        ...budget
+        id: budget.transactions[0].id,
+        parentId: budget.id,
+        value: budget.transactions[0].value
       })
       onOpenChange(false)
     }
@@ -87,7 +93,7 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='w-[80%] rounded-md flex flex-col'>
-        {!budget?.deleted && (
+        {!budget?.transactions[0].deleted && (
           <Button
             size='icon'
             variant='destructive'
@@ -97,7 +103,7 @@ export default function UpdateBudgetDialog({ open, onOpenChange, budget, updateF
             <Trash2Icon />
           </Button>
         )}
-        {budget?.deleted && (
+        {budget?.transactions[0].deleted && (
           <Button
             size='icon'
             variant='default'

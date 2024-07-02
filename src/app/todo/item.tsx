@@ -15,7 +15,6 @@ export default function TodoItem({ id, title, completed, date, handleEdit, ...re
   const { updateTodo, deleteTodo } = useToDos()
 
   function toggle() {
-    console.log('toggle')
     updateTodo.mutate(
       {
         id,

@@ -1,14 +1,13 @@
-import { BudgetClassEnum } from '@/models/budget/budget-class-enum'
-import { BudgetPaymentMethodEnum } from '@/models/budget/budget-payment-method.enum'
+import { BudgetClass } from '@/models/budget/budget-class.enum'
+import { BudgetPaymentMethod } from '@/models/budget/budget-payment-method.enum'
 
 export interface CreateBudgetDto {
-  value: number
-  // isIncome?: boolean
-  budgetClass: BudgetClassEnum
+  currentValue: number
+  budgetClass: BudgetClass
   description?: string
-  expectedDay?: number
+  expectedMonthDay?: number
   consolidated?: boolean
   startDate?: string
   endDate?: string
-  paymentMethod?: BudgetPaymentMethodEnum
+  paymentMethod?: BudgetPaymentMethod
 }

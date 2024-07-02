@@ -19,6 +19,8 @@ import axios, { AxiosError } from 'axios'
 
 import { Loader2Icon } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
+import { UserPreferenceLanguage } from '@/models/users/users-preference-language.enum'
+import { UserPreferenceTheme } from '@/models/users/users-preference-theme.enum'
 
 interface SignUpFormProps {
   setShowSignUp: (showSignUp: boolean) => void
@@ -42,8 +44,8 @@ export default function SignUpForm({ setShowSignUp }: SignUpFormProps) {
     country: z.string().min(2).max(50).default('Brasil'),
     state: z.string().min(2).max(50),
     city: z.string().min(2).max(50),
-    language: z.string().min(2).max(50).default('pt-br'),
-    theme: z.string().min(2).max(50).default('default')
+    language: z.string().min(2).max(50).default(UserPreferenceLanguage.PT_BR),
+    theme: z.string().min(2).max(50).default(UserPreferenceTheme.DEFAULT)
   })
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL

@@ -4,7 +4,8 @@ import useToken from '../use-token'
 import axios, { AxiosError } from 'axios'
 import { BudgetSummary } from '@/models/budget/budget-summary'
 import { CreateBudgetDto } from './budget-create.dto'
-import { UpdateBudgetDto } from './update-budget.dto'
+import { UpdateTransactionDto } from './update-transaction.dto'
+import { addHours } from 'date-fns'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -26,14 +27,14 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
 
       return {
         ...response,
-        incomes: response.incomes.map((item) => ({
-          ...item,
-          date: new Date(item.date)
-        })),
-        expenses: response.outcomes.map((item) => ({
-          ...item,
-          date: new Date(item.date)
-        }))
+        // incomes: response.incomes.map((item) => ({
+        //   ...item,
+        //   date: new Date(item.date)
+        // })),
+        // expenses: response.outcomes.map((item) => ({
+        //   ...item,
+        //   date: new Date(item.date)
+        // }))
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -62,7 +63,7 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         return
       }
       try {
-        await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
+        await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
           checked
         }, {
           headers: {
@@ -93,8 +94,12 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
       if (!token) {
         return
       }
+      const timezoneOffset = new Date().getTimezoneOffset() / 60
+
       await axios.post(`${apiUrl}/budgets`, {
-        ...data
+        ...data,
+        startDate: data.startDate ? addHours(data.startDate, timezoneOffset) : undefined,
+        endDate: data.endDate ? addHours(data.endDate, timezoneOffset) : undefined
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -106,12 +111,12 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
   })
 
   const updateBudget = useMutation({
-    mutationFn: async ({ parentId, id, ...rest }: UpdateBudgetDto) => {
+    mutationFn: async ({ parentId, id, ...rest }: UpdateTransactionDto) => {
       if (!token) {
         return
       }
       try {
-        await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
+        await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
           ...rest
         }, {
           headers: {
@@ -143,7 +148,7 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         return
       }
       try {
-        await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
+        await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
           deleted: true
         }, {
           headers: {
@@ -175,7 +180,7 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         return
       }
       try {
-        await axios.patch(`${apiUrl}/budgets/${parentId}/register/${id}`, {
+        await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
           deleted: false
         }, {
           headers: {

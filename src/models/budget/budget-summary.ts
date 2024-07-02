@@ -1,30 +1,30 @@
-import { BudgetSimplified } from './budget-simplified'
+import { Budget } from './budget'
 
 export interface BudgetSummary {
-  incomes: BudgetSimplified[]
+  incomes: Budget[]
   predictedIncomeValue: number
   actualIncomeValue: number
   
-  outcomes: BudgetSimplified[]
+  outcomes: Budget[]
   predictedOutcomeValue: number
   actualOutcomeValue: number
   
   predictedBalance: number
   actualBalance: number
   
-  creditCards: BudgetSimplified[]
+  creditCards: Budget[]
   actualCreditValue: number
   creditLimitValue: number
   
-  pensions: BudgetSimplified[]
+  pensions: Budget[]
   predictedPensionValue: number
   actualPensionValue: number
   
-  investments: BudgetSimplified[]
+  investments: Budget[]
   predictedInvestmentsValue: number
   actualInvestmentsValue: number
 
-  cashBoxes: BudgetSimplified[]
+  cashBoxes: Budget[]
   predictedCashBoxValue: number
   actualCashBoxValue: number
 }
