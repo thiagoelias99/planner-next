@@ -10,6 +10,7 @@ import EditTodoDialog from './edit-dialog'
 import { useState } from 'react'
 import { addDays, addHours, isAfter, isBefore, isPast, isToday, isTomorrow } from 'date-fns'
 import { ToDoItem } from '@/models/todos/todo'
+import { Button } from '@/components/ui/button'
 
 export default function TodoPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false)
@@ -17,17 +18,6 @@ export default function TodoPage() {
   const [selectedToDo, setSelectedToDo] = useState<ToDoItem | undefined>(undefined)
   const { getToDos } = useToDos()
   const router = useRouter()
-
-  const moduleBarLinks: ModuleLink[] = [
-    {
-      Icon: PlusIcon,
-      variant: 'default',
-      onClick: () => {
-        setSelectedToDo(undefined)
-        setOpenCreateDialog(true)
-      }
-    }
-  ]
 
   function handleEdit(todo: ToDoItem) {
     setSelectedToDo(todo)
@@ -37,9 +27,18 @@ export default function TodoPage() {
   return (
     <div className='p-4 max-w-[720px] m-auto'>
       <ModuleBar
-        links={moduleBarLinks}
         backFunction={() => router.push('/')}
-      />
+      >
+        <Button
+          size='icon'
+          onClick={() => {
+            setSelectedToDo(undefined)
+            setOpenCreateDialog(true)
+          }}
+        >
+          <PlusIcon />
+        </Button>
+      </ModuleBar>
       <div className='w-full mt-2 flex flex-col justify-start items-start gap-4'>
         <ToDoSection
           title='Hoje'

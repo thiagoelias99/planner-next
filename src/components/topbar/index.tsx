@@ -48,7 +48,7 @@ const TopBar = () => {
             <Menu />
           </Button>
         </SheetTrigger>
-        <SheetContent side='left' className='h-full flex flex-col'>
+        <SheetContent side='left' className='h-full flex flex-col px-4 mx-0'>
           <SheetHeader className='w-full flex justify-center items-center'>
             <div className='relative w-20 h-20 '>
               <Image
@@ -61,25 +61,23 @@ const TopBar = () => {
           </SheetHeader>
           <div className='flex-1'>
             <nav>
-              <ul className='flex flex-col gap-4 px-4'
+              <ul className='flex flex-col gap-4'
                 onClick={() => setIsSheetOpen(false)}>
                 <LinkItem href='/' label='Home' />
                 <LinkItem href='/todo' label='To-Dos' />
-                <LinkItem href='/patrimonio' label='Patrimônio' />
-                <LinkItem href='/patrimonio/acoes' label='Ações' />
+                {/* <LinkItem href='/patrimonio' label='Patrimônio' /> */}
+                {/* <LinkItem href='/patrimonio/acoes' label='Ações' /> */}
                 <LinkItem href='/budgets' label='Orçamento' />
               </ul>
             </nav>
           </div>
-          <SheetFooter>
-            <p className='text-lg w-full cursor-pointer'
+          <SheetFooter className='w-full px-2 flex flex-col justify-start items-start'>
+            <p className='text-lg hover:bg-primary px-2 py-2 rounded hover:text-primary-foreground cursor-pointer'
               onClick={handleLogout}
-            >
-              Logout
-            </p>
+            >Logout</p>
 
-            <p className='mt-4 text-center text-sm text-gray-500'>
-              Thiago Elias © 2024 All rights reserved
+            <p className='mt-4 w-full text-center text-sm text-gray-500'>
+              Thiago Elias © 2024 Todos os direitos reservados
             </p>
           </SheetFooter>
         </SheetContent>

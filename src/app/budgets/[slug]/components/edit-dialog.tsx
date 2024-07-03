@@ -75,13 +75,6 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, selectedBudget])
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     onOpenChange(false)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isSuccess])
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (selectedBudget) {
       try {

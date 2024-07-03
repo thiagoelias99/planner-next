@@ -49,7 +49,7 @@ export default function EditTodoDialog({ open, selectedTodo, onOpenChange }: Cre
     } else {
       form.reset()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTodo])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -84,7 +84,7 @@ export default function EditTodoDialog({ open, selectedTodo, onOpenChange }: Cre
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='w-[390px] border-none p-4 rounded-lg'>
+      <DialogContent className='w-[390px] top-[5%] translate-y-0 border-none p-4 rounded-lg bg-card2 text-card2-foreground'>
         <DialogHeader className='flex flex-row justify-between items-center'>
           <h1 className='text-base font-bold text-start w-full'>{selectedTodo ? 'Editar To-Do' : 'Criar novo To-Do'}</h1>
           <Button
