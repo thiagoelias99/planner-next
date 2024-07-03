@@ -42,15 +42,14 @@
     --background: 214 10% 13%; /* #1e2125 */
     --foreground: 216 17% 77%; /* #bac2ce */
 
-    /* --card: 69 57% 5%; /* #101205 */
-    --card: 337 57% 5%; /* #12050A */
+    --card: 672 56% 2%; /* #060702 */
     --card-foreground: 216 17% 77%; /* #bac2ce */
 
     --card2: 214 9% 15%; /* #24272B */
     --card2-foreground: 216 17% 77%; /* #bac2ce */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 672 56% 2%; /* #060702 */
+    --popover-foreground: 216 17% 77%; /* #bac2ce */
 
     --primary: 271 71% 42%; /* #6F1FB8 */
     --primary-foreground: 180 100% 100%; /* #FDFFFF */

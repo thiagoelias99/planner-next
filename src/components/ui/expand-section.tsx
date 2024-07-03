@@ -18,6 +18,7 @@ export default function ExpandSection({ label, className, onClick }: ExpandSecti
         size='icon'
         variant='ghost'
         onClick={onClick}
+        type='button'
       >
         <ChevronDownIcon />
       </Button>

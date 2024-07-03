@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 import { DateInput } from '@/components/ui/date-input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { BudgetClass } from '@/models/budget/budget-class.enum'
+import ExpandSection from '@/components/ui/expand-section'
 
 interface Props {
   open: boolean
@@ -83,19 +84,19 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='w-[90%] top-[5%] px-3 translate-y-0 sm:max-w-[425px] bg-card rounded-xl border-2'>
+      <DialogContent className='w-[90%] top-[5%] px-3 translate-y-0 sm:max-w-[390px] bg-card2 text-card2-foreground rounded-xl border-none'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="">
             <ScrollArea className='w-full'>
-              <div className='w-full py-2 px-1 space-y-4 grid grid-cols-4'>
+              <div className='w-full flex flex-col justify-start items-start gap-4'>
                 <ComboboxForm
                   label='Tipo'
                   form={form}
                   fieldName='budgetClass'
                   options={budgetClassOptions}
-                  className='w-full col-span-4'
+                  className='w-full'
                   inputTextAlight='center'
                 />
                 <FormField
@@ -103,7 +104,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                   name="description"
                   render={({ field }) => (
                     <FormItem
-                      className='col-span-4'
+                      className='w-full flex flex-col justify-start items-start gap-2'
                     >
                       <FormLabel>Descrição</FormLabel>
                       <FormControl>
@@ -113,72 +114,68 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="currentValue"
-                  render={({ field }) => (
-                    <FormItem className='col-span-2'>
-                      <FormLabel>Valor</FormLabel>
-                      <FormControl>
-                        <div className='flex flex-row justify-start items-center gap-4 mt-2'>
-                          <span className='font-semibold text-base'>R$</span>
-                          <Input type='number' {...field} className='text-center' />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <ComboboxForm
-                  form={form}
-                  fieldName='paymentMethod'
-                  options={paymentOptions}
-                  className='w-full col-span-2 pl-4'
-                  inputTextAlight='center'
-                  label='Método de Pagamento'
-                />
-                <span
-                  role='button'
-                  className='font-semibold text-sm col-span-4 text-end pointer'
-                  onClick={() => setShowMore(!showMore)}
-                >{showMore ? 'mostrar menos' : 'mostrar mais'}</span>
+                <div className='w-full flex justify-between items-center'>
+                  <FormField
+                    control={form.control}
+                    name="currentValue"
+                    render={({ field }) => (
+                      <FormItem className='flex flex-col justify-start items-start gap-2'>
+                        <FormLabel>Valor</FormLabel>
+                        <FormControl>
+                          <div className='flex flex-row justify-start items-center gap-4'>
+                            <span className='font-semibold text-base'>R$</span>
+                            <Input type='number' {...field} className='text-center' />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <ComboboxForm
+                    form={form}
+                    fieldName='paymentMethod'
+                    options={paymentOptions}
+                    className='w-full pl-4'
+                    inputTextAlight='center'
+                    label='Método de Pagamento'
+                  />
+                </div>
+                <ExpandSection label='mostrar mais' onClick={() => setShowMore(!showMore)} />
                 {showMore && (
-                  <>
-                    <div className='col-span-4 w-full flex flex-row justify-between items-center gap-4'>
-                      <FormField
-                        control={form.control}
-                        name="startDate"
-                        render={({ field }) => (
-                          <FormItem className='w-full'>
-                            <FormLabel>Data Inicial</FormLabel>
-                            <FormControl>
-                              <DateInput {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="endDate"
-                        render={({ field }) => (
-                          <FormItem className='w-full'>
-                            <FormLabel>Data Final</FormLabel>
-                            <FormControl className='mt-0'>
-                              <DateInput {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </>
+                  <div className='w-full flex flex-row justify-between items-center gap-4'>
+                    <FormField
+                      control={form.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem className='w-full'>
+                          <FormLabel>Data Inicial</FormLabel>
+                          <FormControl>
+                            <DateInput {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="endDate"
+                      render={({ field }) => (
+                        <FormItem className='w-full'>
+                          <FormLabel>Data Final</FormLabel>
+                          <FormControl className='mt-0'>
+                            <DateInput {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 )}
                 <Button
-                  className='col-span-4'
+                  className='w-full'
                   type="submit"
                   disabled={isLoading}
-                >Confirmar</Button>
+                >Salvar</Button>
               </div>
             </ScrollArea>
           </form>
