@@ -143,7 +143,10 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                     label='Método de Pagamento'
                   />
                 </div>
-                <ExpandSection label='mostrar mais' onClick={() => setShowMore(!showMore)} />
+                <ExpandSection
+                  label='mostrar mais'
+                  labelWhenOpen='mostrar menos'
+                  onClick={() => setShowMore(!showMore)} />
                 {showMore && (
                   <div className='w-full flex flex-row justify-between items-start gap-4'>
                     <FormField
