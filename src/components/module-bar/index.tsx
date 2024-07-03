@@ -17,12 +17,16 @@ export interface Props {
   className?: ClassNameValue
   reverse?: boolean
   backFunction?: () => void
+  title?: string
 }
 
-export default function ModuleBar({ className, links, reverse = false, backFunction }: Props) {
+export default function ModuleBar({ className, links, reverse = false, backFunction, title }: Props) {
   return (
     <section className={(cn('flex flex-row justify-between items-center', className))}>
-      <ArrowLeftIcon size={24} onClick={backFunction} className={`cursor-pointer ${backFunction ? '' : 'invisible'}`} />
+      <div className='flex justify-start items-start gap-4'>
+        <ArrowLeftIcon size={24} onClick={backFunction} className={`cursor-pointer ${backFunction ? '' : 'invisible'}`} />
+        <h1 className='text-lg font-bold'>{title}</h1>
+      </div>
       <div className={`flex ${reverse ? 'flex-row-reverse justify-start' : 'flex-row justify-end'} items-center gap-4`}>
         {links?.map((link, index) => (
           <Button

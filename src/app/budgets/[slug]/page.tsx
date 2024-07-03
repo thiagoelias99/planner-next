@@ -12,8 +12,7 @@ import CreateBudgetDialog from './components/create-budget-dialog'
 import UpdateBudgetDialog from './components/update-budget-dialog'
 import { Budget } from '@/models/budget/budget'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
-import { PlusIcon, PiggyBankIcon, ViewIcon } from 'lucide-react'
-import PageLoading from '@/components/page-loading'
+import { PlusIcon } from 'lucide-react'
 
 interface Props {
   params: {
@@ -74,25 +73,15 @@ export default function MonthSummary({ params }: Props) {
       Icon: PlusIcon,
       onClick: handleFABClick,
       variant: 'default'
-    },
-    {
-      Icon: PiggyBankIcon,
-      onClick: () => router.push(`${params.slug}/preview`),
-      variant: 'default'
-    },
-    {
-      Icon: ViewIcon,
-      onClick: () => setShowDeleted(curr => !curr),
-      variant: showDeleted ? 'default' : 'secondary'
     }
   ]
 
   return (
     <div className='pb-4'>
-      {/* {getSummary.isLoading && <PageLoading />} */}
       {summary && (
         <div className='h-full max-w-[1539px] m-auto'>
           <ModuleBar
+            title={new Date(year, month, 10).toLocaleString('default', { month: 'long', year: 'numeric' })}
             links={moduleBarLinks}
             backFunction={() => router.push('/budgets')}
             className='px-4 pt-4'
@@ -100,8 +89,8 @@ export default function MonthSummary({ params }: Props) {
           />
           <div className='w-full flex flex-col pt-4 sm:flex-row justify-center items-center sm:justify-start sm:items-start'>
             <div className='w-full sm:h-[75vh] flex flex-col sm:flex-col-reverse sm:justify-start'>
-              <GraphSection summary={summary} className='h-full flex-1' />
-              <SummarySection summary={summary} />
+              <GraphSection summary={summary} className='h-full flex-1 mx-4' />
+              <SummarySection actualBalance={summary.actualBalance} className='mx-4 mt-4' />
             </div>
             <div className='w-full sm:h-[75vh] sm:pb-4 flex flex-col sm:justify-start sm:items-start'>
               <IncomeAndExpenseSection

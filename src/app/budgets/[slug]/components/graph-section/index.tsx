@@ -35,7 +35,7 @@ export const GraphSection = ({ summary, className, graphHeight = 180 }: Props) =
   }
 
   return (
-    <Card className={cn('m-4 p-4 border-2 flex items-center justify-center', className)}>
+    <Card className={cn('p-8 border-none flex items-center justify-center', className)}>
       <div className={`h-[${graphHeight}px]`}>
         <Doughnut data={data}
           options={{
