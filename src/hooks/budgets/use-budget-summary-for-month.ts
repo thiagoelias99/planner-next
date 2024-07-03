@@ -95,7 +95,7 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
       }
 
       await axios.post(`${apiUrl}/budgets`, {
-        normalizedData
+        ...normalizedData
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -112,8 +112,17 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         return
       }
       try {
+        const timezoneOffset = new Date().getTimezoneOffset() / 60
+
+        const normalizedData = {
+          ...rest,
+          startDate: rest.startDate ? addHours(rest.startDate, timezoneOffset) : undefined,
+          endDate: rest.endDate ? addHours(rest.endDate, timezoneOffset) : undefined
+        }
+
+        console.log(normalizedData)
         await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
-          ...rest
+          ...normalizedData
         }, {
           headers: {
             Authorization: `Bearer ${token}`

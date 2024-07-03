@@ -72,16 +72,20 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
         form.setValue('endDate', endDate)
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, selectedBudget])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (selectedBudget) {
       try {
         updateFunction({
+          ...values,
           id: selectedBudget.transactions[0].id,
           parentId: selectedBudget.id,
           value: parseFloat(values.currentValue),
+          currentValue: parseFloat(values.currentValue),
+          budgetClass: values.budgetClass as BudgetClass,
+          paymentMethod: values.paymentMethod as BudgetPaymentMethod,
         })
         onOpenChange(false)
       } catch (error) {
