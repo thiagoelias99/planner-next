@@ -45,9 +45,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    console.log(defaultValue)
     if (defaultValue !== undefined) {
-      console.log('aqui')
       form.setValue(fieldName, '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

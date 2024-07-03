@@ -26,15 +26,7 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
       })
 
       return {
-        ...response,
-        // incomes: response.incomes.map((item) => ({
-        //   ...item,
-        //   date: new Date(item.date)
-        // })),
-        // expenses: response.outcomes.map((item) => ({
-        //   ...item,
-        //   date: new Date(item.date)
-        // }))
+        ...response
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -96,10 +88,14 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
       }
       const timezoneOffset = new Date().getTimezoneOffset() / 60
 
-      await axios.post(`${apiUrl}/budgets`, {
+      const normalizedData = {
         ...data,
         startDate: data.startDate ? addHours(data.startDate, timezoneOffset) : undefined,
         endDate: data.endDate ? addHours(data.endDate, timezoneOffset) : undefined
+      }
+
+      await axios.post(`${apiUrl}/budgets`, {
+        normalizedData
       }, {
         headers: {
           Authorization: `Bearer ${token}`

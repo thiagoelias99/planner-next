@@ -63,7 +63,7 @@
     --accent: 271 71% 42%; /* #6F1FB8 */
     --accent-foreground: 180 100% 100%; /* #FDFFFF */
 
-    --destructive: 0 79% 45%; /* #CD1818 */
+    --destructive: 6 38% 46%; /* #a25249 */
     --destructive-foreground: 180 100% 100%; /* #FDFFFF */
 
     --border: 216 17% 77%; /* #bac2ce */
@@ -73,7 +73,7 @@
     --success: 126 93% 30%; /* #059212 */
     --success-foreground: 180 100% 100%; /* #FDFFFF */
 
-    --failure: 0 79% 45%; /* #CD1818 */
+    --failure: 6 38% 46%; /* #a25249 */
 
     --radius: 0.5rem;
   }

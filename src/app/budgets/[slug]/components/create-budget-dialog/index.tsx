@@ -43,19 +43,22 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      currentValue: 0,
-      budgetClass: BudgetClass.INCOME,
-      description: '',
+      currentValue: undefined,
+      budgetClass: undefined,
+      description: undefined,
       startDate: undefined,
       endDate: undefined,
-      paymentMethod: BudgetPaymentMethod.TRANSFER,
+      paymentMethod: undefined,
     },
   })
 
   useEffect(() => {
+    form.reset()
+  }, [open])
+
+  useEffect(() => {
     if (isSuccess) {
-      form.reset()
-      onOpenChange(false)
+      // onOpenChange(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess])
@@ -84,13 +87,13 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='w-[90%] top-[5%] px-3 translate-y-0 sm:max-w-[390px] bg-card2 text-card2-foreground rounded-xl border-none'>
+      <DialogContent className='w-[90%] top-[5%] px-0 translate-y-0 sm:max-w-[390px] bg-card2 text-card2-foreground rounded-xl border-none'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="">
             <ScrollArea className='w-full'>
-              <div className='w-full flex flex-col justify-start items-start gap-4'>
+              <div className='w-full px-4 flex flex-col justify-start items-start gap-4'>
                 <ComboboxForm
                   label='Tipo'
                   form={form}
@@ -114,7 +117,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                     </FormItem>
                   )}
                 />
-                <div className='w-full flex justify-between items-center'>
+                <div className='w-full flex justify-between items-start'>
                   <FormField
                     control={form.control}
                     name="currentValue"
@@ -142,7 +145,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
                 </div>
                 <ExpandSection label='mostrar mais' onClick={() => setShowMore(!showMore)} />
                 {showMore && (
-                  <div className='w-full flex flex-row justify-between items-center gap-4'>
+                  <div className='w-full flex flex-row justify-between items-start gap-4'>
                     <FormField
                       control={form.control}
                       name="startDate"
