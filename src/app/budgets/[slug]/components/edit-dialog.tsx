@@ -30,7 +30,6 @@ interface Props {
   restoreFunction: (data: UpdateTransactionDto) => void
   selectedBudget: Budget | undefined
   isLoading: boolean
-  isSuccess: boolean
 }
 
 const formSchema = z.object({
@@ -44,7 +43,7 @@ const formSchema = z.object({
   paymentMethod: z.string().optional().default(BudgetPaymentMethod.TRANSFER),
 })
 
-export default function CreateBudgetDialog({ open, onOpenChange, createFunction, updateFunction, deleteFunction, restoreFunction, isSuccess, isLoading, selectedBudget }: Props) {
+export default function CreateBudgetDialog({ open, onOpenChange, createFunction, updateFunction, deleteFunction, restoreFunction, isLoading, selectedBudget }: Props) {
   const [showMore, setShowMore] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -76,12 +75,12 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, selectedBudget])
 
-  useEffect(() => {
-    if (isSuccess) {
-      onOpenChange(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess])
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     onOpenChange(false)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isSuccess])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (selectedBudget) {
@@ -91,6 +90,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
           parentId: selectedBudget.id,
           value: parseFloat(values.currentValue),
         })
+        onOpenChange(false)
       } catch (error) {
         throw error
       }
@@ -103,6 +103,7 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
           budgetClass: values.budgetClass as BudgetClass,
           currentValue: parseFloat(values.currentValue)
         })
+        onOpenChange(false)
       } catch (error) {
         throw error
       }

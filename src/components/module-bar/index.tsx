@@ -18,9 +18,10 @@ export interface Props {
   reverse?: boolean
   backFunction?: () => void
   title?: string
+  children?: React.ReactNode
 }
 
-export default function ModuleBar({ className, links, reverse = false, backFunction, title }: Props) {
+export default function ModuleBar({ className, links, reverse = false, backFunction, title, children }: Props) {
   return (
     <section className={(cn('flex flex-row justify-between items-center', className))}>
       <div className='flex justify-start items-start gap-4'>
@@ -28,7 +29,8 @@ export default function ModuleBar({ className, links, reverse = false, backFunct
         <h1 className='text-lg font-bold'>{title}</h1>
       </div>
       <div className={`flex ${reverse ? 'flex-row-reverse justify-start' : 'flex-row justify-end'} items-center gap-4`}>
-        {links?.map((link, index) => (
+        {children}
+        {/* {links?.map((link, index) => (
           <Button
             key={index}
             onClick={link.onClick}
@@ -38,7 +40,7 @@ export default function ModuleBar({ className, links, reverse = false, backFunct
           >
             <link.Icon size={24} />
           </Button>
-        ))}
+        ))} */}
       </div>
     </section>
   )

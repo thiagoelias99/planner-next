@@ -12,6 +12,8 @@ import CreateBudgetDialog from './components/edit-dialog'
 import { Budget } from '@/models/budget/budget'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
 import { PlusIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { SettingPopover } from './components/settings-popover'
 
 interface Props {
   params: {
@@ -67,25 +69,29 @@ export default function MonthSummary({ params }: Props) {
     }
   }
 
-  const moduleBarLinks: ModuleLink[] = [
-    {
-      Icon: PlusIcon,
-      onClick: handleFABClick,
-      variant: 'default'
-    }
-  ]
-
   return (
     <div className='pb-4'>
       {summary && (
         <div className='h-full max-w-[1539px] m-auto'>
           <ModuleBar
             title={new Date(year, month, 10).toLocaleString('default', { month: 'long', year: 'numeric' })}
-            links={moduleBarLinks}
             backFunction={() => router.push('/budgets')}
             className='px-4 pt-4'
-            reverse
-          />
+          >
+            <div className='flex justify-end items-start gap-2'>
+              <Button
+                onClick={handleFABClick}
+                variant='default'
+                size='icon'
+              >
+                <PlusIcon />
+              </Button>
+              <SettingPopover
+                showDeleted={showDeleted}
+                setShowDeleted={setShowDeleted}
+              />
+            </div>
+          </ModuleBar>
           <div className='w-full flex flex-col pt-4 sm:flex-row justify-center items-center sm:justify-start sm:items-start'>
             <div className='w-full sm:h-[75vh] flex flex-col sm:flex-col-reverse sm:justify-start'>
               <GraphSection summary={summary} className='h-full flex-1 mx-4' />
@@ -111,7 +117,6 @@ export default function MonthSummary({ params }: Props) {
         updateFunction={updateBudget.mutate}
         deleteFunction={deleteBudget.mutate}
         restoreFunction={restoreBudget.mutate}
-        isSuccess={createBudget.isSuccess}
         isLoading={createBudget.isLoading}
       />
     </div>
