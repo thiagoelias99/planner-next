@@ -17,11 +17,18 @@ import { DateInput } from '@/components/ui/date-input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { BudgetClass } from '@/models/budget/budget-class.enum'
 import ExpandSection from '@/components/ui/expand-section'
+import { Budget } from '@/models/budget/budget'
+import { UpdateTransactionDto } from '@/hooks/budgets/update-transaction.dto'
+import { RecycleIcon, Trash2Icon } from 'lucide-react'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   createFunction: (data: CreateBudgetDto) => void
+  updateFunction: (data: UpdateTransactionDto) => void
+  deleteFunction: (data: UpdateTransactionDto) => void
+  restoreFunction: (data: UpdateTransactionDto) => void
+  selectedBudget: Budget | undefined
   isLoading: boolean
   isSuccess: boolean
 }
@@ -29,7 +36,7 @@ interface Props {
 const formSchema = z.object({
   currentValue: z.string().refine((value) => parseFloat(value) >= 0, {
     message: 'O valor deve ser positivo',
-  }).transform((value) => parseFloat(value)),
+  }),
   budgetClass: z.string(),
   description: z.string().min(3).max(255),
   startDate: z.string().transform((data) => new Date(data)).transform((data) => data.toISOString()).optional(),
@@ -37,7 +44,7 @@ const formSchema = z.object({
   paymentMethod: z.string().optional().default(BudgetPaymentMethod.TRANSFER),
 })
 
-export default function CreateBudgetDialog({ open, onOpenChange, createFunction, isSuccess, isLoading }: Props) {
+export default function CreateBudgetDialog({ open, onOpenChange, createFunction, updateFunction, deleteFunction, restoreFunction, isSuccess, isLoading, selectedBudget }: Props) {
   const [showMore, setShowMore] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,20 +61,75 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
 
   useEffect(() => {
     form.reset()
-  }, [open])
+    if (selectedBudget) {
+      form.setValue('currentValue', selectedBudget.currentValue.toString())
+      form.setValue('budgetClass', selectedBudget.budgetClass)
+      form.setValue('description', selectedBudget.description)
+      form.setValue('startDate', new Date(selectedBudget.startDate).toISOString().substring(0, 10))
+      form.setValue('paymentMethod', selectedBudget.paymentMethod)
+
+      let endDate = new Date(selectedBudget.endDate).toISOString().substring(0, 10)
+      if (endDate !== '3000-06-05') {
+        form.setValue('endDate', endDate)
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, selectedBudget])
 
   useEffect(() => {
     if (isSuccess) {
-      // onOpenChange(false)
+      onOpenChange(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      createFunction({ ...values, paymentMethod: values.paymentMethod as BudgetPaymentMethod, budgetClass: values.budgetClass as BudgetClass })
-    } catch (error) {
-      throw error
+    if (selectedBudget) {
+      try {
+        updateFunction({
+          id: selectedBudget.transactions[0].id,
+          parentId: selectedBudget.id,
+          value: parseFloat(values.currentValue),
+        })
+      } catch (error) {
+        throw error
+      }
+      return
+    } else {
+      try {
+        createFunction({
+          ...values,
+          paymentMethod: values.paymentMethod as BudgetPaymentMethod,
+          budgetClass: values.budgetClass as BudgetClass,
+          currentValue: parseFloat(values.currentValue)
+        })
+      } catch (error) {
+        throw error
+      }
+    }
+  }
+
+  function onDelete() {
+    if (selectedBudget) {
+      deleteFunction(
+        {
+          id: selectedBudget.transactions[0].id,
+          parentId: selectedBudget.id,
+          value: selectedBudget.transactions[0].value
+        }
+      )
+      onOpenChange(false)
+    }
+  }
+
+  function onRestore() {
+    if (selectedBudget) {
+      restoreFunction({
+        id: selectedBudget.transactions[0].id,
+        parentId: selectedBudget.id,
+        value: selectedBudget.transactions[0].value
+      })
+      onOpenChange(false)
     }
   }
 
@@ -88,6 +150,29 @@ export default function CreateBudgetDialog({ open, onOpenChange, createFunction,
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='w-[90%] top-[5%] px-0 translate-y-0 sm:max-w-[390px] bg-card2 text-card2-foreground rounded-xl border-none'>
+        <div className='w-full px-4 flex justify-between items-start'>
+          <h1 className='text-lg font-bold'>{selectedBudget ? 'Atualizar item' : 'Novo item'}</h1>
+          {selectedBudget && !selectedBudget.transactions[0].deleted && (
+            <Button
+              size='icon'
+              variant='destructive'
+              className='self-end'
+              onClick={onDelete}
+            >
+              <Trash2Icon />
+            </Button>
+          )}
+          {selectedBudget && selectedBudget.transactions[0].deleted && (
+            <Button
+              size='icon'
+              variant='default'
+              className='self-end'
+              onClick={onRestore}
+            >
+              <RecycleIcon />
+            </Button>
+          )}
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

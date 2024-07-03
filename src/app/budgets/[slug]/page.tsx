@@ -8,8 +8,7 @@ import { GraphSection } from './components/graph-section'
 import SummarySection from './components/summary-section'
 import IncomeAndExpenseSection from './components/income-expense-section'
 import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
-import CreateBudgetDialog from './components/create-budget-dialog'
-import UpdateBudgetDialog from './components/update-budget-dialog'
+import CreateBudgetDialog from './components/edit-dialog'
 import { Budget } from '@/models/budget/budget'
 import ModuleBar, { ModuleLink } from '@/components/module-bar'
 import { PlusIcon } from 'lucide-react'
@@ -25,10 +24,9 @@ export default function MonthSummary({ params }: Props) {
   const { token } = useToken()
   const router = useRouter()
   const [openCreateDialog, setOpenCreateDialog] = useState(false)
-  const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
   const [showDeleted, setShowDeleted] = useState(false)
   const [year, month] = params.slug.split('-').map((value) => parseInt(value))
-  const [focusedItem, setFocusedItem] = useState<Budget>()
+  const [focusedItem, setFocusedItem] = useState<Budget | undefined>(undefined)
 
   const { getSummary, checkItem, createBudget, updateBudget, deleteBudget, restoreBudget } = useBudgetSummaryFromMonth(month, year)
 
@@ -42,6 +40,7 @@ export default function MonthSummary({ params }: Props) {
   }, [token])
 
   function handleFABClick() {
+    setFocusedItem(undefined)
     setOpenCreateDialog(true)
   }
 
@@ -64,7 +63,7 @@ export default function MonthSummary({ params }: Props) {
 
     if (item) {
       setFocusedItem(item)
-      setOpenUpdateDialog(true)
+      setOpenCreateDialog(true)
     }
   }
 
@@ -107,18 +106,13 @@ export default function MonthSummary({ params }: Props) {
       <CreateBudgetDialog
         open={openCreateDialog}
         onOpenChange={setOpenCreateDialog}
+        selectedBudget={focusedItem}
         createFunction={createBudget.mutate}
-        isSuccess={createBudget.isSuccess}
-        isLoading={createBudget.isLoading}
-      />
-      <UpdateBudgetDialog
-        open={openUpdateDialog}
-        onOpenChange={setOpenUpdateDialog}
-        budget={focusedItem}
         updateFunction={updateBudget.mutate}
         deleteFunction={deleteBudget.mutate}
         restoreFunction={restoreBudget.mutate}
-        isSuccess={updateBudget.isSuccess}
+        isSuccess={createBudget.isSuccess}
+        isLoading={createBudget.isLoading}
       />
     </div>
   )

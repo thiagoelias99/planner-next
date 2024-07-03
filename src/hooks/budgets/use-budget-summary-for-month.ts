@@ -94,13 +94,15 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         endDate: data.endDate ? addHours(data.endDate, timezoneOffset) : undefined
       }
 
-      await axios.post(`${apiUrl}/budgets`, {
-        normalizedData
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-      })
+      console.log(normalizedData)
+
+      // await axios.post(`${apiUrl}/budgets`, {
+      //   normalizedData
+      // }, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`
+      //   },
+      // })
 
       await getSummary.refetch()
     }
@@ -112,13 +114,15 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         return
       }
       try {
-        await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
-          ...rest
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        })
+        console.log(rest)
+
+        // await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
+        //   ...rest
+        // }, {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`
+        //   },
+        // })
 
         getSummary.refetch()
       } catch (error) {
@@ -144,13 +148,14 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         return
       }
       try {
-        await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
-          deleted: true
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        })
+        console.log('deleted', parentId, id)
+        // await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
+        //   deleted: true
+        // }, {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`
+        //   },
+        // })
 
         getSummary.refetch()
       } catch (error) {
@@ -176,13 +181,14 @@ const useBudgetSummaryFromMonth = (month: number, year: number) => {
         return
       }
       try {
-        await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
-          deleted: false
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        })
+        console.log('restored', parentId, id)
+        // await axios.patch(`${apiUrl}/budgets/${parentId}/transactions/${id}`, {
+        //   deleted: false
+        // }, {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`
+        //   },
+        // })
 
         getSummary.refetch()
       } catch (error) {
