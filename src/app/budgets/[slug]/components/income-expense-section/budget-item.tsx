@@ -37,10 +37,10 @@ export default function BudgetItem({ data, checkBoxHandler, onTouchHandler }: Pr
         <div
           className='px-4 flex flex-1 flex-col justify-start items-start gap-1'
         >
-          <h2 className='font-semibold text-lg sm:text-base truncate'>{data.description}</h2>
+          <h2 className='font-semibold text-base sm:text-lg line-clamp-1'>{data.description}</h2>
           <p className='font-medium text-sm'>{`Dia ${day} - ${paymentOptions.filter(option => option.value === data.paymentMethod)[0].label}`}</p>
         </div>
-        <p className='font-bold text-xl sm:text-base'>{formatCurrency(data.transactions[0].value)}</p>
+        <p className='font-bold text-lg sm:text-xl'>{formatCurrency(data.transactions[0].value)}</p>
       </div>
     </div>
   )

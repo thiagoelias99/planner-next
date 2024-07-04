@@ -19,7 +19,7 @@ interface Props {
 export default function IncomeAndExpenseSection({ summary, className, checkBoxHandler, onItemTouchHandler, showDeleted }: Props) {
   return (
     <ScrollArea className='w-full sm:h-[75vh]'>
-      <section className={`px-4 ${className} grid gap-4 lg:grid-cols-2`}>
+      <section className={`w-full px-4 flex flex-col justify-start items-start gap-4 ${className}`}>
         <Item
           title='Rendas'
           actualBalance={summary.actualIncomeValue}
@@ -93,7 +93,7 @@ interface ItemProps {
 function Item({ items, checkBoxHandler, onItemTouchHandler, className, title, showDeleted, actualBalance, predictedBalance }: ItemProps) {
   const itemsToShow = showDeleted ? items : items.filter((item) => !item.transactions[0].deleted)
   return (
-    <div className={cn('bg-card text-card-foreground px-2 pt-4 pb-2 rounded-lg', className)}>
+    <div className={cn('w-full bg-card text-card-foreground px-2 pt-4 pb-2 rounded-lg', className)}>
       <div className='flex justify-between items-center'>
         <Header1>{title}</Header1>
         <div className='flex justify-end items-end gap-2'>
