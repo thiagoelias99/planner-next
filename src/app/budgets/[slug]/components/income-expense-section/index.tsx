@@ -18,7 +18,7 @@ interface Props {
 
 export default function IncomeAndExpenseSection({ summary, className, checkBoxHandler, onItemTouchHandler, showDeleted }: Props) {
   return (
-    <section className={`w-full px-4 flex flex-col justify-start items-start gap-4 ${className}`}>
+    <section className={`w-full lg:w-2/3 px-4 flex flex-col lg:flex-row lg:flex-wrap justify-start items-start gap-4 ${className}`}>
       <Item
         title='Rendas'
         actualBalance={summary.actualIncomeValue}
@@ -92,7 +92,7 @@ function Item({ items, checkBoxHandler, onItemTouchHandler, className, title, sh
   const itemsToShow = showDeleted ? items : items.filter((item) => !item.transactions[0].deleted).sort((a, b) => b.transactions[0].value - a.transactions[0].value)
 
   return (
-    <div className={cn('w-full bg-card text-card-foreground px-2 pt-4 pb-2 rounded-lg', className)}>
+    <div className={cn('w-full lg:w-[49%] bg-card text-card-foreground px-2 pt-4 pb-2 rounded-lg', className)}>
       <div className='flex justify-between items-center'>
         <Header1>{title}</Header1>
         <div className='flex justify-end items-end gap-2'>

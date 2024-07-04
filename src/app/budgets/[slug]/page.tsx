@@ -94,7 +94,7 @@ export default function MonthSummary({ params }: Props) {
           </ModuleBar>
           <div className='w-full flex flex-col pt-4 justify-center items-center'>
             <div className='w-full flex flex-col sm:flex-row'>
-              <div className='w-full max-h-[80svh] flex flex-col px-4 sm:pr-0 sm:flex-col-reverse gap-4'>
+              <div className='w-full max-h-[80svh] lg:w-1/3 flex flex-col px-4 gap-4 sm:pr-0 sm:flex-col-reverse'>
                 <GraphSection
                   summary={summary}
                   className='h-full flex-1'
@@ -109,7 +109,7 @@ export default function MonthSummary({ params }: Props) {
                 summary={summary}
                 checkBoxHandler={checkBoxHandler}
                 onItemTouchHandler={onBudgetItemTouchHandler}
-                className={'mt-4 sm:mt-0 sm:max-h-[80svh] overflow-y-scroll'}
+                className={'mt-4 sm:mt-0 sm:max-h-[80svh] lg:flex-1 overflow-y-scroll [&::-webkit-scrollbar]:hidden'}
               />
             </div>
           </div>
