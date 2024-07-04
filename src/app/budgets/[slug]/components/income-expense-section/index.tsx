@@ -89,7 +89,8 @@ interface ItemProps {
 }
 
 function Item({ items, checkBoxHandler, onItemTouchHandler, className, title, showDeleted, actualBalance, predictedBalance }: ItemProps) {
-  const itemsToShow = showDeleted ? items : items.filter((item) => !item.transactions[0].deleted)
+  const itemsToShow = showDeleted ? items : items.filter((item) => !item.transactions[0].deleted).sort((a, b) => b.transactions[0].value - a.transactions[0].value)
+
   return (
     <div className={cn('w-full bg-card text-card-foreground px-2 pt-4 pb-2 rounded-lg', className)}>
       <div className='flex justify-between items-center'>

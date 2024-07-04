@@ -10,10 +10,9 @@ import { ClassNameValue } from 'tailwind-merge'
 interface Props {
   summary: BudgetSummary
   className?: ClassNameValue
-  graphHeight?: number
 }
 
-export const GraphSection = ({ summary, className, graphHeight = 180 }: Props) => {
+export const GraphSection = ({ summary, className }: Props) => {
   ChartJS.register(ArcElement, Tooltip, Legend, Colors)
 
   const labels = ['Renda', 'Despesa', 'Investimento', 'Previdência']
@@ -36,7 +35,7 @@ export const GraphSection = ({ summary, className, graphHeight = 180 }: Props) =
 
   return (
     <Card className={cn('p-8 border-none flex items-center justify-center', className)}>
-      <div className={`h-[${graphHeight}px]`}>
+      <div className={'h-40'}>
         <Doughnut data={data}
           options={{
             plugins: {
