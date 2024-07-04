@@ -92,16 +92,24 @@ export default function MonthSummary({ params }: Props) {
               />
             </div>
           </ModuleBar>
-          <div className='w-full flex flex-col pt-4 sm:flex-row justify-center items-center sm:justify-start sm:items-start'>
-            <div className='w-full sm:h-[75vh] flex flex-col sm:flex-col-reverse sm:justify-start'>
-              <GraphSection summary={summary} className='h-full flex-1 mx-4' />
-              <SummarySection actualBalance={summary.actualBalance} className='mx-4 mt-4' />
+          <div className='w-full flex flex-col pt-4 justify-center items-center'>
+            <div className='w-full flex flex-col sm:flex-row'>
+              <div className='w-full max-h-[80svh] flex flex-col px-4 sm:pr-0 sm:flex-col-reverse gap-4'>
+                <GraphSection
+                  summary={summary}
+                  className='h-full flex-1'
+                />
+                <SummarySection
+                  actualBalance={summary.actualBalance}
+                  className=''
+                />
+              </div>
               <IncomeAndExpenseSection
                 showDeleted={showDeleted}
-                className={'mt-4'}
                 summary={summary}
                 checkBoxHandler={checkBoxHandler}
                 onItemTouchHandler={onBudgetItemTouchHandler}
+                className={'mt-4 sm:mt-0 sm:max-h-[80svh] overflow-y-scroll'}
               />
             </div>
           </div>
