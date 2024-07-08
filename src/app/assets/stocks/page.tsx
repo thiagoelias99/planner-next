@@ -1,10 +1,16 @@
+'use client'
+
 import ModuleBar from '@/components/module-bar'
 import { Button } from '@/components/ui/button'
 import { Header2, Header3 } from '@/components/ui/typography'
+import useStocks from '@/hooks/assets/use-stocks'
 import { formatCurrency } from '@/lib/format-currency'
+import { Stock } from '@/models/assets/stock'
 import { PlusIcon } from 'lucide-react'
 
 export default function Stocks() {
+  const { getStocks } = useStocks()
+
   return (
     <div className='py-4'>
       <ModuleBar
@@ -17,37 +23,36 @@ export default function Stocks() {
         </Button>
       </ModuleBar>
       <div className='w-full mt-4 px-4 pb-4 flex flex-col justify-start items-start gap-2'>
-        <StocksSection />
-        <StocksSection />
-        <StocksSection />
+        <StocksSection title='Stocks' stocks={getStocks.data} />
       </div>
     </div>
   )
 }
 
-function StocksSection() {
+function StocksSection({stocks, title}: {stocks?: Stock[], title: string}) {
   return (
     <section className='w-full bg-card px-2 pt-4 pb-4 flex flex-col gap-2 rounded-lg'>
-      <Header2>Stocks</Header2>
+      <Header2>{title}</Header2>
       <ul className='contents'>
-        <StockItem />
-        <StockItem />
-        <StockItem />
+        {stocks?.map(stock => (
+          <StockItem key={stock.ticker} {...stock} />
+        ))}
       </ul>
     </section>
   )
 }
 
-function StockItem() {
+
+function StockItem(stock: Stock) {
   return (
     <li className='w-full bg-card2 text-card2-foreground rounded-lg px-2 pt-3 pb-2 flex flex-col gap-3'>
       <div className='w-full inline-flex justify-between items-start'>
-        <Header3>PETR4 - Petrobras S/A</Header3>
-        <p className='text-xs'>07/07/2024</p>
+        <Header3>{`${stock.ticker.toUpperCase()} - ${stock.name}`}</Header3>
+        <p className='text-xs'>{new Date(stock.updatedAt).toLocaleDateString()}</p>
       </div>
       <div className='w-full inline-flex justify-between items-end'>
-        <p className='text-sm'>Stock</p>
-        <p className='text-lg font-bold'>{formatCurrency(1000000)}</p>
+        <p className='text-sm'>{stock.stockType}</p>
+        <p className='text-lg font-bold'>{formatCurrency(stock.price)}</p>
       </div>
     </li>
   )

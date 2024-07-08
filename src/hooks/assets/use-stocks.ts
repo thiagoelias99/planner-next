@@ -4,11 +4,37 @@ import axios, { AxiosError } from 'axios'
 
 import { UserStock } from '@/models/user-stock'
 import useToken from '../use-token'
+import { Stock } from '@/models/assets/stock'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 const useStocks = () => {
   const router = useRouter()
   const { token } = useToken()
+
+  const getStocks = useQuery('stocks', async () => {
+    try {
+      const { data: response } = await axios.get<Stock[]>(`${apiUrl}/stocks`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      return response
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        switch (error.response?.status) {
+          case 401:
+            router.push('/login')
+            break
+          default:
+            break
+        }
+        return
+      }
+
+      throw error
+    }
+  })
 
   const getStocksFromUser = useQuery('stocksFromUser', async () => {
     if (!token) {
@@ -38,7 +64,7 @@ const useStocks = () => {
     }
   })
 
-  return { getStocksFromUser }
+  return { getStocksFromUser, getStocks }
 }
 
 export default useStocks
