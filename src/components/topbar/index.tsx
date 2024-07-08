@@ -65,9 +65,8 @@ const TopBar = () => {
                 onClick={() => setIsSheetOpen(false)}>
                 <LinkItem href='/' label='Home' />
                 <LinkItem href='/todo' label='To-Dos' />
-                {/* <LinkItem href='/patrimonio' label='Patrimônio' /> */}
-                {/* <LinkItem href='/patrimonio/acoes' label='Ações' /> */}
-                <LinkItem href='/budgets' label='Orçamento' />
+                <LinkItem href='/assets' label='Assets' />
+                <LinkItem href='/budgets' label='Budgets' />
               </ul>
             </nav>
           </div>
@@ -77,13 +76,13 @@ const TopBar = () => {
             >Logout</p>
 
             <p className='mt-4 w-full text-center text-sm text-gray-500'>
-              Thiago Elias © 2024 Todos os direitos reservados
+              Thiago Elias © 2024 All rights reserved
             </p>
           </SheetFooter>
         </SheetContent>
       </Sheet>
       <div className='flex flex-row justify-end items-center gap-2'>
-        <span className='text-sm'>Servidor</span>
+        <span className='text-sm'>Server</span>
         {isServerOnline ? <CheckIcon className='' /> : <Loader2Icon className='animate-spin' />}
       </div>
     </header>
