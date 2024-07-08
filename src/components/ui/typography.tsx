@@ -15,4 +15,31 @@ const Header1 = ({ classnames, children }: Props) => {
   )
 }
 
-export { Header1 }
+const Header2 = ({ classnames, children }: Props) => {
+  return (
+    <h2 className={cn(
+      'text-base font-semibold',
+      classnames
+    )}>{children}</h2>
+  )
+}
+
+const Header3 = ({ classnames, children }: Props) => {
+  return (
+    <h3 className={cn(
+      'text-base font-semibold',
+      classnames
+    )}>{children}</h3>
+  )
+}
+
+const Header4 = ({ classnames, children }: Props) => {
+  return (
+    <h4 className={cn(
+      'text-base',
+      classnames
+    )}>{children}</h4>
+  )
+}
+
+export { Header1, Header2, Header3, Header4 }

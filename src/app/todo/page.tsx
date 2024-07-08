@@ -1,7 +1,7 @@
 'use client'
 
 import useToDos from '@/hooks/todos/use-todo'
-import ModuleBar, { ModuleLink } from '@/components/module-bar'
+import ModuleBar from '@/components/module-bar'
 import { PlusIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import ToDoSection from './todos-section'
@@ -17,7 +17,6 @@ export default function TodoPage() {
   const [expandCompleted, setExpandCompleted] = useState(false)
   const [selectedToDo, setSelectedToDo] = useState<ToDoItem | undefined>(undefined)
   const { getToDos } = useToDos()
-  const router = useRouter()
 
   function handleEdit(todo: ToDoItem) {
     setSelectedToDo(todo)
@@ -27,7 +26,7 @@ export default function TodoPage() {
   return (
     <div className='p-4 max-w-[720px] m-auto'>
       <ModuleBar
-        backFunction={() => router.push('/')}
+        title='To-Dos'
       >
         <Button
           size='icon'

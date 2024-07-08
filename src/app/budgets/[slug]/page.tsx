@@ -10,7 +10,7 @@ import IncomeAndExpenseSection from './components/income-expense-section'
 import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
 import CreateBudgetDialog from './components/edit-dialog'
 import { Budget } from '@/models/budget/budget'
-import ModuleBar, { ModuleLink } from '@/components/module-bar'
+import ModuleBar from '@/components/module-bar'
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SettingPopover } from './components/settings-popover'
@@ -75,7 +75,7 @@ export default function MonthSummary({ params }: Props) {
         <div className='h-full max-w-[1539px] m-auto'>
           <ModuleBar
             title={new Date(year, month, 10).toLocaleString('default', { month: 'long', year: 'numeric' })}
-            backFunction={() => router.push('/budgets')}
+            backHref='/budgets'
             className='px-4 pt-4'
           >
             <div className='flex justify-end items-start gap-2'>

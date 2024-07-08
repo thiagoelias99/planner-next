@@ -9,7 +9,7 @@ import { ClassNameValue } from 'tailwind-merge'
 export default function Assets() {
   return (
     <div className='py-4'>
-      <ModuleBar title='Assets' />
+      <ModuleBar title='Assets' className='px-4' />
       <section className='w-full p-4 flex flex-col gap-4'>
         <ul className='contents'>
           <AssetItem title='Stocks' value={10000000} href='assets/stocks'/>
