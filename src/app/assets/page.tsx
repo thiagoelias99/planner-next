@@ -10,6 +10,11 @@ export default function Assets() {
   return (
     <div className='py-4'>
       <ModuleBar title='Assets' className='px-4' />
+      <section>
+        <NextLink href='/assets/orders'>
+          <h1>Orders</h1>
+        </NextLink>
+      </section>
       <section className='w-full p-4 flex flex-col gap-4'>
         <ul className='contents'>
           <AssetItem title='Stocks' value={10000000} href='assets/stocks'/>

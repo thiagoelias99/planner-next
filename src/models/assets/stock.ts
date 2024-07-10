@@ -15,6 +15,19 @@ export interface StockCreateDto {
   stockType: StockType
 }
 
+export interface StockOrder {
+  id: string
+  ticker: string
+  companyName: string
+  orderType: string
+  quantity: number
+  individualPrice: number
+  total: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+
 export enum StockType {
   STOCK = 'Stock',
   ETF = 'ETF',
