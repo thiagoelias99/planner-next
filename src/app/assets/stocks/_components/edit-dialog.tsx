@@ -21,10 +21,9 @@ const formSchema = z.object({
   price: z.string().refine((value) => parseFloat(value) >= 0, {
     message: 'Price must be a positive number',
   }).transform((value) => parseFloat(value)),
-  // stockType: z.string().min(1).max(255)
-  stockType: z.string().min(1).max(255).refine((value) => Object.keys(StockType).includes(value), {
+  stockType: z.string().refine((value) => Object.keys(StockType).includes(value), {
     message: 'Invalid stock type'
-  }).transform((value) => StockType[value as keyof typeof StockType].toUpperCase() as StockType)
+  }).transform((value) => value as StockType)
 })
 
 interface EditStockDialogProps {
@@ -33,7 +32,7 @@ interface EditStockDialogProps {
 }
 
 export default function EditStockDialog({ open, onOpenChange }: EditStockDialogProps) {
-  const {createStock} = useStocks()
+  const { createStock } = useStocks()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
