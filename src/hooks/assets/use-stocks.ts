@@ -1,10 +1,10 @@
 import { useRouter } from 'next/navigation'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import axios, { AxiosError } from 'axios'
 
 import { UserStock } from '@/models/user-stock'
 import useToken from '../use-token'
-import { Stock } from '@/models/assets/stock'
+import { Stock, StockCreateDto } from '@/models/assets/stock'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 const useStocks = () => {
@@ -36,6 +36,19 @@ const useStocks = () => {
     }
   })
 
+  const createStock = useMutation({
+    mutationFn: async (stock: StockCreateDto) => {
+      await axios.post(`${apiUrl}/stocks`, stock, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      getStocks.refetch()
+    }
+  })
+
+
   const getStocksFromUser = useQuery('stocksFromUser', async () => {
     if (!token) {
       return
@@ -64,7 +77,7 @@ const useStocks = () => {
     }
   })
 
-  return { getStocksFromUser, getStocks }
+  return { getStocksFromUser, getStocks, createStock }
 }
 
 export default useStocks

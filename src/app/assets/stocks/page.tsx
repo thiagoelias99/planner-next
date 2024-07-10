@@ -7,8 +7,11 @@ import useStocks from '@/hooks/assets/use-stocks'
 import { formatCurrency } from '@/lib/format-currency'
 import { Stock } from '@/models/assets/stock'
 import { PlusIcon } from 'lucide-react'
+import EditStockDialog from './_components/edit-dialog'
+import { useState } from 'react'
 
 export default function Stocks() {
+  const [openEditDialog, setOpenEditDialog] = useState(false)
   const { getStocks } = useStocks()
 
   return (
@@ -18,18 +21,19 @@ export default function Stocks() {
         backHref='/assets'
         className='px-4'
       >
-        <Button size='icon'>
+        <Button size='icon' onClick={_ => setOpenEditDialog(true)}>
           <PlusIcon />
         </Button>
       </ModuleBar>
       <div className='w-full mt-4 px-4 pb-4 flex flex-col justify-start items-start gap-2'>
         <StocksSection title='Stocks' stocks={getStocks.data} />
       </div>
+      <EditStockDialog open={openEditDialog} onOpenChange={setOpenEditDialog} />
     </div>
   )
 }
 
-function StocksSection({stocks, title}: {stocks?: Stock[], title: string}) {
+function StocksSection({ stocks, title }: { stocks?: Stock[], title: string }) {
   return (
     <section className='w-full bg-card px-2 pt-4 pb-4 flex flex-col gap-2 rounded-lg'>
       <Header2>{title}</Header2>

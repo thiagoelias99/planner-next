@@ -80,7 +80,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
                       ? options.find(
                         (option) => option.value === field.value
                       )?.label
-                      : 'Selecione'}
+                      : 'Select an option'}
                   </p>
                   <ChevronsUpDown className="ml-0.5 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -89,7 +89,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
             <DrawerContent className='h-[560px]'>
               <Command>
                 <CommandInput placeholder="Buscar..." />
-                <CommandEmpty>Não encontrado</CommandEmpty>
+                <CommandEmpty>Not found</CommandEmpty>
                 <CommandGroup>
                   <ScrollArea className="h-[560px] w-full pb-4">
                     {options.map((option) => (
