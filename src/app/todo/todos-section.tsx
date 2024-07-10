@@ -15,7 +15,7 @@ interface ToDoSectionProps {
 
 export default function ToDoSection({ title, data = [], expanded = true, handleEdit, className }: ToDoSectionProps) {
   return (
-    <section className={cn(`w-full px-2 pt-4 pb-2 bg-card rounded-md ${expanded ? '' : 'hidden'}`, className)}>
+    <section className={cn(`w-full min-w-[360px] max-w-[400px] px-2 pt-4 pb-2 bg-card rounded-md ${expanded ? '' : 'hidden'}`, className)}>
       <Header1>{title}</Header1>
       <div className='mt-2 flex flex-col justify-start items-start gap-2'>
         {data.map((todo) => (

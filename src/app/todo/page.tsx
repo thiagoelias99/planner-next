@@ -24,7 +24,7 @@ export default function TodoPage() {
   }
 
   return (
-    <div className='p-4 max-w-[720px] m-auto'>
+    <div className='p-4 max-w-[720px] sm:max-w-[1280px] mx-auto'>
       <ModuleBar
         title='To-Dos'
       >
@@ -38,7 +38,7 @@ export default function TodoPage() {
           <PlusIcon />
         </Button>
       </ModuleBar>
-      <div className='w-full mt-2 flex flex-col justify-start items-start gap-4'>
+      <div className='w-full mt-2 flex flex-col sm:flex-row justify-start sm:justify-start sm:flex-wrap items-start gap-4'>
         <ToDoSection
           title='Hoje'
           handleEdit={handleEdit}
