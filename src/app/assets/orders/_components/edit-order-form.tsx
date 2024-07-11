@@ -10,48 +10,61 @@ import useOrders from '@/hooks/assets/use-orders'
 import { ComboboxForm } from '@/components/ui/combobox-form'
 import useStocks from '@/hooks/assets/use-stocks'
 import { useEffect, useState } from 'react'
+import { StockOrder, StockOrderType } from '@/models/assets/stock'
 
 interface Props {
   closeDialog: () => void
+  selectedOrder: StockOrder | undefined
 }
 
 const formSchema = z.object({
   ticker: z.string().min(2).max(6),
-  individualPrice: z.string().refine((value) => parseFloat(value) >= 0, {
-    message: 'Price must be a positive number',
-  }).transform((value) => parseFloat(value)),
-  quantity: z.string()
-    .refine((value) => Number(value) >= 0, {
-      message: 'Quantity must be a positive number',
-    })
-    .refine((value) => Number.isSafeInteger(Number(value)), {
-      message: 'Quantity must be an integer',
-    })
-    .transform((value) => Number(value)),
-  orderType: z.string().refine((value) => ['BUY', 'SELL'].includes(value), {
-    message: 'Invalid order type'
-  }).transform((value) => value as 'BUY' | 'SELL')
+  individualPrice: z.union([
+    z.string().refine((value) => parseFloat(value) >= 0, {
+      message: 'Price must be a positive number',
+    }).transform((value) => parseFloat(value))
+    , z.number().int().positive()
+  ]),
+  quantity: z.union([
+    z.string()
+      .refine((value) => Number(value) >= 0, {
+        message: 'Quantity must be a positive number',
+      })
+      .refine((value) => Number.isSafeInteger(Number(value)), {
+        message: 'Quantity must be an integer',
+      })
+      .transform((value) => Number(value)),
+    z.number().int().positive()
+  ]),
+  orderType: z.string().refine((value) => Object.keys(StockOrderType).includes(value), {
+    message: 'Invalid stock order type'
+  }).transform((value) => value as StockOrderType)
 })
 
-export default function CreateOrderForm({ closeDialog }: Props) {
+export default function EditOrderForm({ closeDialog, selectedOrder }: Props) {
   const [options, setOptions] = useState<{
     label: string
     value: string
   }[]>([])
 
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ticker: undefined,
-      individualPrice: undefined,
-      quantity: undefined,
-      orderType: undefined,
+      ticker: selectedOrder?.ticker || undefined,
+      individualPrice: selectedOrder?.individualPrice || undefined,
+      quantity: selectedOrder?.quantity || undefined,
+      orderType: selectedOrder?.orderType || undefined,
     },
   })
 
-  const { createStockOrder } = useOrders()
+  const { createStockOrder, updateStockOrder } = useOrders()
   const { getStocks } = useStocks()
+  const orderTypeValues = Object.keys(StockOrderType).map((option, index) => {
+    return {
+      label: Object.values(StockOrderType)[index],
+      value: Object.keys(StockOrderType)[index]
+    }
+  })
 
   useEffect(() => {
     setOptions(getStocks.data?.map((stock) => ({
@@ -62,7 +75,12 @@ export default function CreateOrderForm({ closeDialog }: Props) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createStockOrder.mutate(values)
+      if (selectedOrder) {
+        await updateStockOrder.mutate({ ...values, id: selectedOrder.id })
+      } else {
+        await createStockOrder.mutate(values)
+      }
+
       form.reset()
       closeDialog()
     } catch (error) {
@@ -83,6 +101,7 @@ export default function CreateOrderForm({ closeDialog }: Props) {
           options={options}
           className='w-full'
           inputTextAlight='center'
+          disabled={!!selectedOrder}
         />
         <div className='w-full flex justify-between items-start gap-6'>
           <FormField
@@ -115,21 +134,36 @@ export default function CreateOrderForm({ closeDialog }: Props) {
             )}
           />
         </div>
+        {selectedOrder && (
+          <ComboboxForm
+            label='Ticker'
+            form={form}
+            fieldName='orderType'
+            options={orderTypeValues}
+            className='w-full'
+            inputTextAlight='center'
+          />
+        )}
         <div className='w-full flex justify-between items-end gap-8 pt-4'>
-          <Button type='button' className='w-full' variant='success'
-            onClick={() => {
-              form.setValue('orderType', 'BUY')
-              form.handleSubmit(onSubmit)()
-            }
-            }
-          >Buy</Button>
-          <Button type='button' className='w-full' variant='destructive'
-            onClick={() => {
-              form.setValue('orderType', 'SELL')
-              form.handleSubmit(onSubmit)()
-            }
-            }
-          >Sell</Button>
+          {!selectedOrder && (
+            <>
+              <Button type='button' className='w-full' variant='success'
+                onClick={() => {
+                  form.setValue('orderType', 'BUY' as StockOrderType)
+                  form.handleSubmit(onSubmit)()
+                }
+                }
+              >Buy</Button>
+              <Button type='button' className='w-full' variant='destructive'
+                onClick={() => {
+                  form.setValue('orderType', StockOrderType.SELL)
+                  form.handleSubmit(onSubmit)()
+                }
+                }
+              >Sell</Button>
+            </>
+          )}
+          {selectedOrder && (<Button className='w-full'>Save</Button>)}
         </div>
       </form>
     </Form>

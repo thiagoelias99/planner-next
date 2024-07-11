@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from 'react-query'
 import useToken from '../use-token'
 import { api } from '@/services/api/api'
-import { StockOrder, StockOrderCreateDto } from '@/models/assets/stock'
+import { StockOrder, StockOrderCreateDto, StockOrderUpdateDto } from '@/models/assets/stock'
 
 const useOrders = () => {
   const { token } = useToken()
@@ -32,7 +32,27 @@ const useOrders = () => {
     }
   })
 
-  return { getStockOrders, createStockOrder }
+  const updateStockOrder = useMutation({
+    mutationFn: async (order: StockOrderUpdateDto) => {
+      const { id, individualPrice, orderType, quantity } = order
+
+      const { data } = await api.patch<StockOrder>(`/stocks/orders/${id}`, {
+        orderType,
+        quantity,
+        individualPrice
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      getStockOrders.refetch()
+
+      return data
+    }
+  })
+
+  return { getStockOrders, createStockOrder, updateStockOrder }
 }
 
 export default useOrders

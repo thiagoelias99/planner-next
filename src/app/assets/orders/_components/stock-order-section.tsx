@@ -6,17 +6,30 @@ import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { ClassNameValue } from 'tailwind-merge'
+import CreateOrderDialog from './edit-order-dialog'
+import { StockOrder } from '@/models/assets/stock'
+import { useState } from 'react'
 
 interface StockOrdersSectionProps {
   className?: ClassNameValue
 }
 export default function StockOrdersSection({ className }: StockOrdersSectionProps) {
   const { getStockOrders } = useOrders()
+  const [selectedOrder, setSelectedOrder] = useState<StockOrder | undefined>(undefined)
+  const [openDialog, setOpenDialog] = useState(false)
 
   return (
     <section className={cn('', className)}>
       <TableFrame>
-        <span className='text-lg font-bold text-card-foreground'>Stocks</span>
+        <div className='w-full flex justify-between items-baseline'>
+          <span className='text-lg font-bold text-card-foreground'>Stocks</span>
+          <CreateOrderDialog
+            openDialog={openDialog}
+            setOpenDialog={setOpenDialog}
+            selectedOrder={selectedOrder}
+            setSelectedOrder={setSelectedOrder}
+          />
+        </div>
         <TableWrapper className='max-h-[480px]'>
           <Table className='relative'>
             <TableHeader className=''>
@@ -32,7 +45,13 @@ export default function StockOrdersSection({ className }: StockOrdersSectionProp
             </TableHeader>
             <TableBody>
               {getStockOrders.data?.map(order => (
-                <TableRow key={order.id}>
+                <TableRow
+                  key={order.id}
+                  onClick={() => {
+                    setSelectedOrder(order)
+                    setOpenDialog(true)
+                  }}
+                >
                   <TableCell>{order.orderType}</TableCell>
                   <TableCell>{order.ticker}</TableCell>
                   <TableCell className='text-start'>{order.companyName}</TableCell>
@@ -46,7 +65,6 @@ export default function StockOrdersSection({ className }: StockOrdersSectionProp
           </Table>
         </TableWrapper>
       </TableFrame>
-      {/* </TableWrapper> */}
     </section>
   )
 }

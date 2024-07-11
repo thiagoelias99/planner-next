@@ -19,7 +19,7 @@ export interface StockOrder {
   id: string
   ticker: string
   companyName: string
-  orderType: string
+  orderType: StockOrderType
   quantity: number
   individualPrice: number
   total: number
@@ -29,9 +29,13 @@ export interface StockOrder {
 
 export interface StockOrderCreateDto {
   ticker: string
-  orderType: 'BUY' | 'SELL'
+  orderType: StockOrderType
   quantity: number
   individualPrice: number
+}
+
+export interface StockOrderUpdateDto extends StockOrderCreateDto {
+  id: string
 }
 
 
@@ -42,4 +46,9 @@ export enum StockType {
   REIT = 'Reit',
   GOLD = 'Gold',
   INTERNATIONAL = 'International'
+}
+
+export enum StockOrderType {
+  BUY = 'Buy',
+  SELL = 'Sell'
 }

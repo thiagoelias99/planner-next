@@ -64,7 +64,7 @@ export function ComboboxForm({ label, fieldName, className, form, options, disab
         <FormItem className={`w-full flex flex-col gap-2 ${className}`}>
           <FormLabel className={`${label ? '' : 'hidden'}`}>{label}</FormLabel>
           <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild className=''>
+            <DrawerTrigger asChild className='' disabled={disabled}>
               <FormControl className='bg-transparent'>
                 <Button
                   variant="outline"
