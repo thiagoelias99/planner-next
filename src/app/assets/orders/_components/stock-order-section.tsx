@@ -39,7 +39,7 @@ export default function StockOrdersSection({ className }: StockOrdersSectionProp
                   <TableCell>{order.quantity}</TableCell>
                   <TableCell>{formatCurrency(order.individualPrice)}</TableCell>
                   <TableCell>{format(new Date(order.createdAt), 'yyyy/MM/d')}</TableCell>
-                  <TableCell>{order.total}</TableCell>
+                  <TableCell>{formatCurrency(order.total)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

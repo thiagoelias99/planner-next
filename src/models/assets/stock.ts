@@ -27,6 +27,13 @@ export interface StockOrder {
   updatedAt: Date
 }
 
+export interface StockOrderCreateDto {
+  ticker: string
+  orderType: 'BUY' | 'SELL'
+  quantity: number
+  individualPrice: number
+}
+
 
 export enum StockType {
   STOCK = 'Stock',

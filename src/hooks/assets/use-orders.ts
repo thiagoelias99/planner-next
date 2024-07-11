@@ -1,7 +1,7 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import useToken from '../use-token'
 import { api } from '@/services/api/api'
-import { StockOrder } from '@/models/assets/stock'
+import { StockOrder, StockOrderCreateDto } from '@/models/assets/stock'
 
 const useOrders = () => {
   const { token } = useToken()
@@ -18,7 +18,21 @@ const useOrders = () => {
     }
   })
 
-  return { getStockOrders }
+  const createStockOrder = useMutation({
+    mutationFn: async (order: StockOrderCreateDto) => {
+      const { data } = await api.post<StockOrder>('/stocks/orders', order, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      getStockOrders.refetch()
+
+      return data
+    }
+  })
+
+  return { getStockOrders, createStockOrder }
 }
 
 export default useOrders
