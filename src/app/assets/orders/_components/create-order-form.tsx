@@ -7,6 +7,9 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import useOrders from '@/hooks/assets/use-orders'
+import { ComboboxForm } from '@/components/ui/combobox-form'
+import useStocks from '@/hooks/assets/use-stocks'
+import { useEffect, useState } from 'react'
 
 interface Props {
   closeDialog: () => void
@@ -31,6 +34,12 @@ const formSchema = z.object({
 })
 
 export default function CreateOrderForm({ closeDialog }: Props) {
+  const [options, setOptions] = useState<{
+    label: string
+    value: string
+  }[]>([])
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,6 +51,14 @@ export default function CreateOrderForm({ closeDialog }: Props) {
   })
 
   const { createStockOrder } = useOrders()
+  const { getStocks } = useStocks()
+
+  useEffect(() => {
+    setOptions(getStocks.data?.map((stock) => ({
+      label: stock.ticker,
+      value: stock.ticker
+    })) || [])
+  }, [getStocks.data])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -59,18 +76,13 @@ export default function CreateOrderForm({ closeDialog }: Props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className='w-full flex flex-col gap-2'
       >
-        <FormField
-          control={form.control}
-          name="ticker"
-          render={({ field }) => (
-            <FormItem className=''>
-              <FormLabel>Ticker</FormLabel>
-              <FormControl>
-                <Input type='text' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <ComboboxForm
+          label='Ticker'
+          form={form}
+          fieldName='ticker'
+          options={options}
+          className='w-full'
+          inputTextAlight='center'
         />
         <div className='w-full flex justify-between items-start gap-6'>
           <FormField
@@ -80,7 +92,7 @@ export default function CreateOrderForm({ closeDialog }: Props) {
               <FormItem className=''>
                 <FormLabel>Quantity</FormLabel>
                 <FormControl>
-                  <Input type='number' {...field} />
+                  <Input className='text-center' type='number' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
