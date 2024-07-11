@@ -6,9 +6,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { PlusIcon } from 'lucide-react'
+import { PlusIcon, Trash2Icon } from 'lucide-react'
 import EditOrderForm from './edit-order-form'
 import { StockOrder } from '@/models/assets/stock'
+import useOrders from '@/hooks/assets/use-orders'
 
 interface Props {
   selectedOrder: StockOrder | undefined
@@ -18,6 +19,8 @@ interface Props {
 }
 
 export default function CreateOrderDialog({ selectedOrder, setSelectedOrder, openDialog, setOpenDialog }: Props) {
+  const { deleteStockOrder } = useOrders()
+
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
@@ -30,7 +33,19 @@ export default function CreateOrderDialog({ selectedOrder, setSelectedOrder, ope
       </DialogTrigger>
       <DialogContent className='w-full max-w-[358px] border-none bg-card2 text-card2-foreground rounded-lg'>
         <DialogHeader>
-          <DialogTitle>{selectedOrder ? 'Edit Order' : 'Add Stock Order'}</DialogTitle>
+          <div className='w-full flex justify-between items-baseline'>
+            <DialogTitle>{selectedOrder ? 'Edit Order' : 'Add Stock Order'}</DialogTitle>
+            {selectedOrder && (
+              <Button size='icon' variant='destructive'
+                onClick={() => {
+                  deleteStockOrder.mutate(selectedOrder.id)
+                  setOpenDialog(false)
+                }}
+              >
+                <Trash2Icon />
+              </Button>
+            )}
+          </div>
         </DialogHeader>
         <EditOrderForm
           closeDialog={() => setOpenDialog(false)}

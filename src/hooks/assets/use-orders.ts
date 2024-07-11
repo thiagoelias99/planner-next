@@ -52,7 +52,19 @@ const useOrders = () => {
     }
   })
 
-  return { getStockOrders, createStockOrder, updateStockOrder }
+  const deleteStockOrder = useMutation({
+    mutationFn: async (id: string) => {
+      await api.delete(`/stocks/orders/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      getStockOrders.refetch()
+    }
+  })
+
+  return { getStockOrders, createStockOrder, updateStockOrder, deleteStockOrder }
 }
 
 export default useOrders
