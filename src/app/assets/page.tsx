@@ -17,7 +17,10 @@ export default function Assets() {
       </section>
       <section className='w-full p-4 flex flex-col gap-4'>
         <ul className='contents'>
-          <AssetItem title='Stocks' value={10000000} href='assets/stocks'/>
+          <AssetItem title='Stocks' value={0} href='assets/my_stocks' />
+        </ul>
+        <ul className='contents'>
+          <AssetItem title='GEneral Stocks' value={0} href='assets/stocks' />
         </ul>
       </section>
     </div>

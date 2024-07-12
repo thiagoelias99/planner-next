@@ -38,6 +38,24 @@ export interface StockOrderUpdateDto extends StockOrderCreateDto {
   id: string
 }
 
+export interface StockSummary {
+  stocks: StockSummaryItem[]
+  reits: StockSummaryItem[]
+  etfs: StockSummaryItem[]
+  golds: StockSummaryItem[]
+  cryptos: StockSummaryItem[]
+  internationals: StockSummaryItem[]
+}
+
+export interface StockSummaryItem extends Stock {
+  quantity: number
+  totalInvestedValue: number
+  currentTotalValue: number
+  averagePrice: number
+  profitability: number
+  gainsAndLosses: number
+  orders: StockOrder[]
+}
 
 export enum StockType {
   STOCK = 'Stock',
