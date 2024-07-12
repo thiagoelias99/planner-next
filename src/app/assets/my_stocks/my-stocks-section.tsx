@@ -18,7 +18,7 @@ export default function MyStocksSection({ data, className }: MyStocksSectionProp
         <div className='w-full flex justify-between items-baseline'>
           <span className='text-lg font-bold text-card-foreground'>Stocks</span>
         </div>
-        <TableWrapper className='max-h-[480px]'>
+        <TableWrapper className=''>
           <Table className='relative'>
             <TableHeader className=''>
               <TableRow className='hover:bg-transparent'>
@@ -38,9 +38,9 @@ export default function MyStocksSection({ data, className }: MyStocksSectionProp
               {data?.map(stock => (
                 <TableRow key={stock.ticker}>
                   <TableCell>{stock.ticker}</TableCell>
-                  <TableCell className='text-left'>{stock.name}</TableCell>
+                  <TableCell className='text-left line-clamp-1'>{stock.name}</TableCell>
                   <TableCell>{formatCurrency(stock.price)}</TableCell>
-                  <TableCell><Percentage value={stock.changePercent} /></TableCell>
+                  <TableCell><Percentage value={stock.changePercent / 100} /></TableCell>
                   <TableCell>{stock.quantity}</TableCell>
                   <TableCell>{formatCurrency(stock.currentTotalValue)}</TableCell>
                   <TableCell>{formatCurrency(stock.averagePrice)}</TableCell>
@@ -48,10 +48,10 @@ export default function MyStocksSection({ data, className }: MyStocksSectionProp
                   <TableCell
                     className={`${stock.gainsAndLosses > 0 ? 'text-green-500' : stock.gainsAndLosses === 0 ? '' : 'text-red-500'}`}
                   >{formatCurrency(stock.gainsAndLosses)}</TableCell>
-                  <TableCell>{format(new Date(stock.updatedAt), 'd MMM yy')}</TableCell>
+                  <TableCell className='line-clamp-1'>{format(new Date(stock.updatedAt), 'd MMM yy H:mm')}</TableCell>
                 </TableRow>
               ))}
-              <TableRow>
+              <TableRow className='hover:bg-transparent hover:font-bold'>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
