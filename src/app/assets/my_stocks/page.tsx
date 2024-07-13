@@ -1,26 +1,57 @@
 'use client'
 
 import ModuleBar from '@/components/module-bar'
-import { Button } from '@/components/ui/button'
-import { RefreshCwIcon } from 'lucide-react'
 import React from 'react'
 import MyStocksSection from './my-stocks-section'
 import useStocks from '@/hooks/assets/use-stocks'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function MyStocksPage() {
   const { getSummary } = useStocks()
-
   return (
     <div className='w-full max-w-[1440px] m-auto p-4'>
-      <ModuleBar title="My Orders" backHref='/assets'>
-        <Button size='icon'>
-          <RefreshCwIcon />
-        </Button>
+      <ModuleBar title="My Stocks" backHref='/assets'>
       </ModuleBar>
-      <MyStocksSection
-        data={getSummary.data?.stocks}
-        className='mt-4'
-      />
+      <Tabs defaultValue="stocks" className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
+        <TabsList className='bg-transparent'>
+          <CustomTabsTrigger value="stocks">Stocks</CustomTabsTrigger>
+          <CustomTabsTrigger value="reits">REITs</CustomTabsTrigger>
+          <CustomTabsTrigger value="internationals">Internationals</CustomTabsTrigger>
+          <CustomTabsTrigger value="golds">Golds</CustomTabsTrigger>
+          <CustomTabsTrigger value="cryptos">Cryptos</CustomTabsTrigger>
+        </TabsList>
+        <TabsContent value="stocks">
+          <MyStocksSection
+            data={getSummary.data?.stocks}
+          />
+        </TabsContent>
+        <TabsContent value="reits">
+          <MyStocksSection
+            data={getSummary.data?.reits}
+          />
+        </TabsContent>
+        <TabsContent value="internationals">
+          <MyStocksSection
+            data={getSummary.data?.internationals}
+          />
+        </TabsContent>
+        <TabsContent value="golds">
+          <MyStocksSection
+            data={getSummary.data?.golds}
+          />
+        </TabsContent>
+        <TabsContent value="cryptos">
+          <MyStocksSection
+            data={getSummary.data?.cryptos}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
+  )
+}
+
+function CustomTabsTrigger({ value, children }: { value: string, children: React.ReactNode }) {
+  return (
+    <TabsTrigger className='text-lg font-bold text-card-foreground' value={value}>{children}</TabsTrigger>
   )
 }
