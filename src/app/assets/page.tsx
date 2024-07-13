@@ -1,4 +1,7 @@
+'use client'
+
 import ModuleBar from '@/components/module-bar'
+import useStocks from '@/hooks/assets/use-stocks'
 import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
 import { ArrowRightIcon } from 'lucide-react'
@@ -7,6 +10,8 @@ import React from 'react'
 import { ClassNameValue } from 'tailwind-merge'
 
 export default function Assets() {
+  const { getSummary } = useStocks()
+
   return (
     <div className='py-4'>
       <ModuleBar title='Assets' className='px-4' />
@@ -17,9 +22,11 @@ export default function Assets() {
       </section>
       <section className='w-full p-4 flex flex-col gap-4'>
         <ul className='contents'>
-          <AssetItem title='Stocks' value={0} href='assets/my_stocks' />
-        </ul>
-        <ul className='contents'>
+          <AssetItem title='Stocks' value={getSummary.data?.stocks.currentTotalValue || 0} href='assets/my_stocks?init=stocks' />
+          <AssetItem title='REITs' value={getSummary.data?.reits.currentTotalValue || 0} href='assets/my_stocks?init=reits' />
+          <AssetItem title='Internationals' value={getSummary.data?.internationals.currentTotalValue || 0} href='assets/my_stocks?init=internationals' />
+          <AssetItem title='Golds' value={getSummary.data?.golds.currentTotalValue || 0} href='assets/my_stocks?init=golds' />
+          <AssetItem title='Cryptos' value={getSummary.data?.cryptos.currentTotalValue || 0} href='assets/my_stocks?init=cryptos' />
           <AssetItem title='GEneral Stocks' value={0} href='assets/stocks' />
         </ul>
       </section>

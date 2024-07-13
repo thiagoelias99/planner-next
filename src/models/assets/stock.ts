@@ -39,12 +39,18 @@ export interface StockOrderUpdateDto extends StockOrderCreateDto {
 }
 
 export interface StockSummary {
-  stocks: StockSummaryItem[]
-  reits: StockSummaryItem[]
-  etfs: StockSummaryItem[]
-  golds: StockSummaryItem[]
-  cryptos: StockSummaryItem[]
-  internationals: StockSummaryItem[]
+  stocks: StockSummaryClassView
+  reits: StockSummaryClassView
+  etfs: StockSummaryClassView
+  golds: StockSummaryClassView
+  cryptos: StockSummaryClassView
+  internationals: StockSummaryClassView
+}
+
+export interface StockSummaryClassView {
+  currentTotalValue: number
+  gainsAndLosses: number
+  items: StockSummaryItem[]
 }
 
 export interface StockSummaryItem extends Stock {

@@ -5,14 +5,16 @@ import React from 'react'
 import MyStocksSection from './my-stocks-section'
 import useStocks from '@/hooks/assets/use-stocks'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useSearchParams } from 'next/navigation'
 
 export default function MyStocksPage() {
+  const searchParams = useSearchParams()
   const { getSummary } = useStocks()
   return (
     <div className='w-full max-w-[1440px] m-auto p-4'>
       <ModuleBar title="My Stocks" backHref='/assets'>
       </ModuleBar>
-      <Tabs defaultValue="stocks" className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
+      <Tabs defaultValue={searchParams.get('init') || 'stocks'} className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
         <TabsList className='bg-transparent'>
           <CustomTabsTrigger value="stocks">Stocks</CustomTabsTrigger>
           <CustomTabsTrigger value="reits">REITs</CustomTabsTrigger>
@@ -22,27 +24,27 @@ export default function MyStocksPage() {
         </TabsList>
         <TabsContent value="stocks">
           <MyStocksSection
-            data={getSummary.data?.stocks}
+            data={getSummary.data?.stocks.items}
           />
         </TabsContent>
         <TabsContent value="reits">
           <MyStocksSection
-            data={getSummary.data?.reits}
+            data={getSummary.data?.reits.items}
           />
         </TabsContent>
         <TabsContent value="internationals">
           <MyStocksSection
-            data={getSummary.data?.internationals}
+            data={getSummary.data?.internationals.items}
           />
         </TabsContent>
         <TabsContent value="golds">
           <MyStocksSection
-            data={getSummary.data?.golds}
+            data={getSummary.data?.golds.items}
           />
         </TabsContent>
         <TabsContent value="cryptos">
           <MyStocksSection
-            data={getSummary.data?.cryptos}
+            data={getSummary.data?.cryptos.items}
           />
         </TabsContent>
       </Tabs>
