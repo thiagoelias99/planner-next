@@ -19,26 +19,31 @@ export default function StockTabs() {
       </TabsList>
       <TabsContent value="stocks">
         <MyStocksSection
+          isLoading={getSummary.isFetching}
           data={getSummary.data?.stocks.items}
         />
       </TabsContent>
       <TabsContent value="reits">
         <MyStocksSection
+          isLoading={getSummary.isFetching}
           data={getSummary.data?.reits.items}
         />
       </TabsContent>
       <TabsContent value="internationals">
         <MyStocksSection
+          isLoading={getSummary.isFetching}
           data={getSummary.data?.internationals.items}
         />
       </TabsContent>
       <TabsContent value="golds">
         <MyStocksSection
+          isLoading={getSummary.isFetching}
           data={getSummary.data?.golds.items}
         />
       </TabsContent>
       <TabsContent value="cryptos">
         <MyStocksSection
+          isLoading={getSummary.isFetching}
           data={getSummary.data?.cryptos.items}
         />
       </TabsContent>

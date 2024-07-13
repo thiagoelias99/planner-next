@@ -123,7 +123,7 @@ const TableFrame = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('flex flex-col w-full bg-card rounded-lg p-2 pt-4 space-y-1', className)}
+    className={cn('flex flex-col w-full bg-card rounded-lg p-2 pt-4 space-y-1 shadow-shape', className)}
     {...props}
   />
 ))

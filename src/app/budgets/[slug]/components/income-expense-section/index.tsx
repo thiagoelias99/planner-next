@@ -7,6 +7,7 @@ import { Budget } from '@/models/budget/budget'
 import { cn } from '@/lib/utils'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { formatCurrency } from '@/lib/format-currency'
+import { Card } from '@/components/ui/card'
 
 interface Props {
   summary: BudgetSummary
@@ -92,7 +93,7 @@ function Item({ items, checkBoxHandler, onItemTouchHandler, className, title, sh
   const itemsToShow = showDeleted ? items : items.filter((item) => !item.transactions[0].deleted).sort((a, b) => b.transactions[0].value - a.transactions[0].value)
 
   return (
-    <div className={cn('w-full lg:w-[49%] bg-card text-card-foreground px-2 pt-4 pb-2 rounded-lg', className)}>
+    <Card className={cn('w-full lg:w-[49%] px-2 pt-4 pb-2', className)}>
       <div className='flex justify-between items-center'>
         <Header1>{title}</Header1>
         <div className='flex justify-end items-end gap-2'>
@@ -110,6 +111,6 @@ function Item({ items, checkBoxHandler, onItemTouchHandler, className, title, sh
           />
         ))}
       </div>
-    </div>
+    </Card>
   )
 }
