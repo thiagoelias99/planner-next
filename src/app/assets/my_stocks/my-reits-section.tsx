@@ -1,19 +1,22 @@
+'use client'
+
 import Percentage from '@/components/ui/percentage'
 import { Skeleton } from '@/components/ui/skeleton'
 import { TableWrapper, TableHeader, TableRow, TableHead, TableBody, Table, TableCell } from '@/components/ui/table'
 import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
-import { StockSummaryItem } from '@/models/assets/stock'
+import { StockSummaryClassView } from '@/models/assets/stock'
 import { format } from 'date-fns'
 import { ClassNameValue } from 'tailwind-merge'
+import EditDividendsDialog from './_components/edit-dividends-dialog'
 
 interface MyStocksSectionProps {
-  data: StockSummaryItem[] | undefined
+  data: StockSummaryClassView | undefined
   isLoading?: boolean
   className?: ClassNameValue
 }
 
-export default function MyStocksSection({ data, className, isLoading = false }: MyStocksSectionProps) {
+export default function MyReitsSection({ data, className, isLoading = false }: MyStocksSectionProps) {
   return (
     <div className={cn('w-full', className)}>
       {isLoading ? (<LoadingPlaceholder />) : (
@@ -28,13 +31,15 @@ export default function MyStocksSection({ data, className, isLoading = false }: 
                 <TableHead>Quantity</TableHead>
                 <TableHead>Current Value</TableHead>
                 <TableHead>Average Price</TableHead>
-                <TableHead>Profitability</TableHead>
-                <TableHead>Gain & Losses</TableHead>
+                <TableHead>Profit %</TableHead>
+                <TableHead>G & L</TableHead>
+                <TableHead>Dividends</TableHead>
+                <TableHead>DY</TableHead>
                 <TableHead>Updated</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.map(stock => (
+              {data?.items.map(stock => (
                 <TableRow key={stock.ticker}>
                   <TableCell>{stock.ticker}</TableCell>
                   <TableCell className='text-left line-clamp-1'>{stock.name}</TableCell>
@@ -47,6 +52,9 @@ export default function MyStocksSection({ data, className, isLoading = false }: 
                   <TableCell
                     className={`${stock.gainsAndLosses > 0 ? 'text-green-500' : stock.gainsAndLosses === 0 ? '' : 'text-red-500'}`}
                   >{formatCurrency(stock.gainsAndLosses)}</TableCell>
+                  {/* <TableCell>{formatCurrency(stock.dividends)}</TableCell> */}
+                  <EditDividendsDialog stock={stock} />
+                  <TableCell><Percentage value={stock.dividendYield/100} colorize={false} useSymbols={false} /></TableCell>
                   <TableCell className='line-clamp-1'>{format(new Date(stock.updatedAt), 'd MMM yy H:mm')}</TableCell>
                 </TableRow>
               ))}
@@ -56,14 +64,12 @@ export default function MyStocksSection({ data, className, isLoading = false }: 
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
-                <TableCell>{formatCurrency(data?.reduce((acc, stock) => {
-                  return acc + stock.currentTotalValue
-                }, 0))}</TableCell>
+                <TableCell>{formatCurrency(data?.currentTotalValue)}</TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
-                <TableCell>{formatCurrency(data?.reduce((acc, stock) => {
-                  return acc + stock.gainsAndLosses
-                }, 0))}</TableCell>
+                <TableCell>{formatCurrency(data?.gainsAndLosses)}</TableCell>
+                <TableCell>{formatCurrency(data?.dividends)}</TableCell>
+                <TableCell></TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableBody>

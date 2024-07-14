@@ -4,6 +4,8 @@ export interface Stock {
   price: number
   open: number
   changePercent: number
+  dividends: number
+  dividendYield: number
   stockType: string
   updatedAt: Date
 }
@@ -13,6 +15,10 @@ export interface StockCreateDto {
   name: string
   price: number
   stockType: StockType
+}
+
+export interface StockUpdateDto extends Partial<StockCreateDto> {
+  dividends?: number
 }
 
 export interface StockOrder {
@@ -50,6 +56,7 @@ export interface StockSummary {
 export interface StockSummaryClassView {
   currentTotalValue: number
   gainsAndLosses: number
+  dividends: number
   items: StockSummaryItem[]
 }
 

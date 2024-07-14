@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import MyStocksSection from './my-stocks-section'
 import useStocks from '@/hooks/assets/use-stocks'
 import { useSearchParams } from 'next/navigation'
+import MyReitsSection from './my-reits-section'
 
 export default function StockTabs() {
   const searchParams = useSearchParams()
@@ -24,9 +25,9 @@ export default function StockTabs() {
         />
       </TabsContent>
       <TabsContent value="reits">
-        <MyStocksSection
+        <MyReitsSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.reits.items}
+          data={getSummary.data?.reits}
         />
       </TabsContent>
       <TabsContent value="internationals">
