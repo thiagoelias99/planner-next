@@ -1,13 +1,13 @@
 'use client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import MyStocksSection from './my-stocks-section'
-import useStocks from '@/hooks/assets/use-stocks'
 import { useSearchParams } from 'next/navigation'
 import MyReitsSection from './my-reits-section'
+import useAssets from '@/hooks/assets/use-assets'
 
 export default function StockTabs() {
   const searchParams = useSearchParams()
-  const { getSummary } = useStocks()
+  const { getSummary } = useAssets()
 
   return (
     <Tabs defaultValue={searchParams.get('init') || 'stocks'} className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
@@ -21,31 +21,31 @@ export default function StockTabs() {
       <TabsContent value="stocks">
         <MyStocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.stocks.items}
+          data={getSummary.data?.stocks.stocks.items}
         />
       </TabsContent>
       <TabsContent value="reits">
         <MyReitsSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.reits}
+          data={getSummary.data?.stocks.reits}
         />
       </TabsContent>
       <TabsContent value="internationals">
         <MyStocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.internationals.items}
+          data={getSummary.data?.stocks.internationals.items}
         />
       </TabsContent>
       <TabsContent value="golds">
         <MyStocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.golds.items}
+          data={getSummary.data?.stocks.golds.items}
         />
       </TabsContent>
       <TabsContent value="cryptos">
         <MyStocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.cryptos.items}
+          data={getSummary.data?.stocks.cryptos.items}
         />
       </TabsContent>
     </Tabs>

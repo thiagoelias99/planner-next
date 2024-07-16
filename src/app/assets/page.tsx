@@ -2,6 +2,7 @@
 
 import ModuleBar from '@/components/module-bar'
 import { Card } from '@/components/ui/card'
+import useAssets from '@/hooks/assets/use-assets'
 import useStocks from '@/hooks/assets/use-stocks'
 import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
@@ -11,7 +12,7 @@ import React from 'react'
 import { ClassNameValue } from 'tailwind-merge'
 
 export default function Assets() {
-  const { getSummary } = useStocks()
+  const { getSummary } = useAssets()
 
   return (
     <div className='py-4'>
@@ -25,11 +26,11 @@ export default function Assets() {
       </section>
       <section className='w-full p-4 flex flex-col gap-4'>
         <ul className='contents'>
-          <AssetItem title='Stocks' isLoading={getSummary.isFetching} value={getSummary.data?.stocks.currentTotalValue || 0} href='assets/my_stocks?init=stocks' />
-          <AssetItem title='REITs' isLoading={getSummary.isFetching} value={getSummary.data?.reits.currentTotalValue || 0} href='assets/my_stocks?init=reits' />
-          <AssetItem title='Internationals' isLoading={getSummary.isFetching} value={getSummary.data?.internationals.currentTotalValue || 0} href='assets/my_stocks?init=internationals' />
-          <AssetItem title='Golds' isLoading={getSummary.isFetching} value={getSummary.data?.golds.currentTotalValue || 0} href='assets/my_stocks?init=golds' />
-          <AssetItem title='Cryptos' isLoading={getSummary.isFetching} value={getSummary.data?.cryptos.currentTotalValue || 0} href='assets/my_stocks?init=cryptos' />
+          <AssetItem title='Stocks' isLoading={getSummary.isFetching} value={getSummary.data?.stocksTotalValue || 0} href='assets/my_stocks?init=stocks' />
+          <AssetItem title='REITs' isLoading={getSummary.isFetching} value={getSummary.data?.reitsTotalValue || 0} href='assets/my_stocks?init=reits' />
+          <AssetItem title='Internationals' isLoading={getSummary.isFetching} value={getSummary.data?.internationalsTotalValue || 0} href='assets/my_stocks?init=internationals' />
+          <AssetItem title='Golds' isLoading={getSummary.isFetching} value={getSummary.data?.goldsTotalValue || 0} href='assets/my_stocks?init=golds' />
+          <AssetItem title='Cryptos' isLoading={getSummary.isFetching} value={getSummary.data?.cryptosTotalValue || 0} href='assets/my_stocks?init=cryptos' />
           <AssetItem title='GEneral Stocks' href='assets/stocks' />
         </ul>
       </section>

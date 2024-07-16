@@ -2,10 +2,10 @@ import { useRouter } from 'next/navigation'
 import { useMutation, useQuery } from 'react-query'
 import axios, { AxiosError } from 'axios'
 
-import { UserStock } from '@/models/user-stock'
 import useToken from '../use-token'
 import { Stock, StockCreateDto, StockSummary, StockUpdateDto } from '@/models/assets/stock'
 import { api } from '@/services/api/api'
+import { queryClient } from '@/services/webclient/queryClient'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 const useStocks = () => {
@@ -76,7 +76,7 @@ const useStocks = () => {
       })
 
       getStocks.refetch()
-      getSummary.refetch()
+      await queryClient.invalidateQueries('assetsSummary')
     }
   })
 
