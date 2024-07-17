@@ -3,7 +3,6 @@
 import ModuleBar from '@/components/module-bar'
 import { Card } from '@/components/ui/card'
 import useAssets from '@/hooks/assets/use-assets'
-import useStocks from '@/hooks/assets/use-stocks'
 import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
 import { ArrowRightIcon, Loader2Icon } from 'lucide-react'
@@ -24,13 +23,26 @@ export default function Assets() {
           </Card>
         </NextLink>
       </section>
-      <section className='w-full p-4 flex flex-col gap-4'>
+      <section className='w-full p-4 flex flex-col gap-4 max-w-96 mx-auto'>
+        <div className={cn('w-full bg-card rounded-lg p-4 flex flex-row justify-between items-center shadow-shape',)}>
+          <div className="flex justify-start items-center gap-2">
+            <h2 className='text-base font-semibold'>Total</h2>
+          </div>
+          {getSummary.isFetching ? (
+            <Loader2Icon className='animate-spin' />
+          ) : (
+            <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
+          )}
+        </div>
         <ul className='contents'>
+          <AssetItem title='Cash Boxes' href='assets/my_stocks?init=cashbox' isLoading={getSummary.isFetching} value={getSummary.data?.cashBoxesTotalValue} />
+          <AssetItem title='Fixed Incomes' href='assets/my_stocks?init=fixed' isLoading={getSummary.isFetching} value={getSummary.data?.fixedIncomesTotalValue} />
           <AssetItem title='Stocks' isLoading={getSummary.isFetching} value={getSummary.data?.stocksTotalValue || 0} href='assets/my_stocks?init=stocks' />
           <AssetItem title='REITs' isLoading={getSummary.isFetching} value={getSummary.data?.reitsTotalValue || 0} href='assets/my_stocks?init=reits' />
           <AssetItem title='Internationals' isLoading={getSummary.isFetching} value={getSummary.data?.internationalsTotalValue || 0} href='assets/my_stocks?init=internationals' />
           <AssetItem title='Golds' isLoading={getSummary.isFetching} value={getSummary.data?.goldsTotalValue || 0} href='assets/my_stocks?init=golds' />
           <AssetItem title='Cryptos' isLoading={getSummary.isFetching} value={getSummary.data?.cryptosTotalValue || 0} href='assets/my_stocks?init=cryptos' />
+          <AssetItem title='Pensions' href='assets/my_stocks?init=pension' isLoading={getSummary.isFetching} value={getSummary.data?.pensionsTotalValue} />
           <AssetItem title='GEneral Stocks' href='assets/stocks' />
         </ul>
       </section>

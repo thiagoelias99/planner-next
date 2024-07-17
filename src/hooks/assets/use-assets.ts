@@ -17,7 +17,8 @@ const useAssets = () => {
       })
 
       return data
-    }
+    },
+    staleTime: 1000 * 60 * 5
   })
 
   return { getSummary, refresh: getSummary.refetch }

@@ -4,19 +4,24 @@ import MyStocksSection from './my-stocks-section'
 import { useSearchParams } from 'next/navigation'
 import MyReitsSection from './my-reits-section'
 import useAssets from '@/hooks/assets/use-assets'
+import CashBoxSection from './cash-box-section'
+import FixedIncomesSection from './fixed-income'
 
 export default function StockTabs() {
   const searchParams = useSearchParams()
   const { getSummary } = useAssets()
 
   return (
-    <Tabs defaultValue={searchParams.get('init') || 'stocks'} className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
-      <TabsList className='bg-transparent'>
+    <Tabs defaultValue={searchParams.get('init') || 'cashbox'} className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
+      <TabsList className='bg-transparent shadow-none'>
+        <CustomTabsTrigger value="cashbox">Cash Boxes</CustomTabsTrigger>
+        <CustomTabsTrigger value="fixed">Fixed Incomes</CustomTabsTrigger>
         <CustomTabsTrigger value="stocks">Stocks</CustomTabsTrigger>
         <CustomTabsTrigger value="reits">REITs</CustomTabsTrigger>
         <CustomTabsTrigger value="internationals">Internationals</CustomTabsTrigger>
         <CustomTabsTrigger value="golds">Golds</CustomTabsTrigger>
         <CustomTabsTrigger value="cryptos">Cryptos</CustomTabsTrigger>
+        <CustomTabsTrigger value="pension">Pensions</CustomTabsTrigger>
       </TabsList>
       <TabsContent value="stocks">
         <MyStocksSection
@@ -46,6 +51,24 @@ export default function StockTabs() {
         <MyStocksSection
           isLoading={getSummary.isFetching}
           data={getSummary.data?.stocks.cryptos.items}
+        />
+      </TabsContent>
+      <TabsContent value='cashbox'>
+        <CashBoxSection
+          isLoading={getSummary.isFetching}
+          data={getSummary.data?.fixedIncomes.cashBoxes}
+        />
+      </TabsContent>
+      <TabsContent value='pension'>
+        <CashBoxSection
+          isLoading={getSummary.isFetching}
+          data={getSummary.data?.fixedIncomes.pensions}
+        />
+      </TabsContent>
+      <TabsContent value='fixed'>
+        <FixedIncomesSection
+          isLoading={getSummary.isFetching}
+          data={getSummary.data?.fixedIncomes.fixedIncomes}
         />
       </TabsContent>
     </Tabs>
