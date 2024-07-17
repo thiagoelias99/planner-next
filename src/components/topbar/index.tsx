@@ -71,7 +71,7 @@ const TopBar = () => {
             </nav>
           </div>
           <SheetFooter className='w-full px-2 flex flex-col justify-start items-start'>
-            <p className='text-lg hover:bg-primary px-2 py-2 rounded hover:text-primary-foreground cursor-pointer'
+            <p className='w-full text-lg hover:bg-primary px-2 py-2 rounded hover:text-primary-foreground cursor-pointer transition-colors duration-300'
               onClick={handleLogout}
             >Logout</p>
 

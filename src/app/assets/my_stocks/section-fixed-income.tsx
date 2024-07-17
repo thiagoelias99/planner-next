@@ -1,27 +1,31 @@
-import Percentage from '@/components/ui/percentage'
-import { Skeleton } from '@/components/ui/skeleton'
 import { TableWrapper, TableHeader, TableRow, TableHead, TableBody, Table, TableCell } from '@/components/ui/table'
-import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
 import { FixedIncome } from '@/models/assets/fixed-income'
-import { format } from 'date-fns'
 import { ClassNameValue } from 'tailwind-merge'
 import EditFixedIncomeDialog from './_components/edit-fixed-income-dialog'
 import { useState } from 'react'
+import LoadingTablePlaceholder from './_components/loading-table-placeholder'
+import CustomTableRow from './_components/custom-table-row'
+import CustomCellDescription from './_components/custom-cell-description'
+import CustomCellCurrency from './_components/custom-cell-currency'
+import CustomCellDate from './_components/custom-cell-date'
+import CustomCellPercentage from './_components/custom-cell-percentage'
+import CustomCellPercentageMinimal from './_components/custom-cell-percentage-min'
+import CustomTableRowSummary from './_components/custom-table-row-summary'
 
-interface MyStocksSectionProps {
+interface Props {
   data: FixedIncome[] | undefined
   isLoading?: boolean
   className?: ClassNameValue
 }
 
-export default function FixedIncomesSection({ data, className, isLoading = false }: MyStocksSectionProps) {
+export default function FixedIncomesSection({ data, className, isLoading = false }: Props) {
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedItem, setSelectedItem] = useState<FixedIncome | undefined>(undefined)
 
   return (
     <div className={cn('w-full', className)}>
-      {isLoading ? (<LoadingPlaceholder />) :
+      {isLoading ? (<LoadingTablePlaceholder />) :
         (
           <div className='w-full space-y-2'>
             <div className='w-full flex justify-end items-start gap-2'>
@@ -33,11 +37,12 @@ export default function FixedIncomesSection({ data, className, isLoading = false
               />
             </div>
             <TableWrapper className=''>
-              <Table className='relative'>
+              <Table className=''>
                 <TableHeader className=''>
                   <TableRow className='hover:bg-transparent'>
                     <TableHead>Description</TableHead>
                     <TableHead>Investment</TableHead>
+                    <TableHead>Current</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Due Date</TableHead>
                     <TableHead>Fix Rate</TableHead>
@@ -52,32 +57,37 @@ export default function FixedIncomesSection({ data, className, isLoading = false
                 </TableHeader>
                 <TableBody>
                   {data?.map(item => (
-                    <TableRow
+                    <CustomTableRow
                       key={item.id}
                       onClick={() => {
                         setSelectedItem(item)
                         setOpenDialog(true)
                       }}
+                      className='hover:cursor-pointer'
                     >
-                      <TableCell className='text-left line-clamp-1 min-w-48'>{item.description}</TableCell>
-                      <TableCell className='min-w-32'>{formatCurrency(item.initialInvestment)}</TableCell>
-                      <TableCell className='min-w-28'>{format(new Date(item.initialDate), 'd MMM yy')}</TableCell>
-                      <TableCell className='min-w-28'>{format(new Date(item.dueDate), 'd MMM yy')}</TableCell>
-                      <TableCell className='min-w-24'><Percentage useSymbols={false} colorize={false} value={item.fixedRate} /></TableCell>
+                      <CustomCellDescription>{item.description}</CustomCellDescription>
+                      <CustomCellCurrency value={item.initialInvestment} />
+                      <CustomCellCurrency value={item.currentValue} />
+                      <CustomCellDate date={item.initialDate} />
+                      <CustomCellDate date={item.dueDate} />
+                      <CustomCellPercentageMinimal value={item.fixedRate} />
                       <TableCell className='min-w-28'>{item.posFixedIndex}</TableCell>
                       <TableCell className='min-w-32'>{item.pastDays}</TableCell>
                       <TableCell className='min-w-32'>{item.remainingDays}</TableCell>
-                      <TableCell className='min-w-28'><Percentage useSymbols={false} colorize={false} value={item.taxRate} /></TableCell>
-                      <TableCell className='min-w-32'>{formatCurrency(item.realValue)}</TableCell>
-                      <TableCell><Percentage value={item.profitability} /></TableCell>
-                      <TableCell className='min-w-32'>{formatCurrency(item.gainsAndLosses)}</TableCell>
-                    </TableRow>
+                      <CustomCellPercentageMinimal value={item.taxRate} />
+                      <CustomCellCurrency value={item.realValue} />
+                      <CustomCellPercentage value={item.profitability} />
+                      <CustomCellCurrency value={item.gainsAndLosses} />
+                    </CustomTableRow>
                   ))}
-                  <TableRow className='hover:bg-transparent hover:font-bold'>
+                  <CustomTableRowSummary>
                     <TableCell></TableCell>
-                    <TableCell>{formatCurrency(data?.reduce((acc, item) => {
+                    <CustomCellCurrency value={data?.reduce((acc, item) => {
                       return acc + item.initialInvestment
-                    }, 0))}</TableCell>
+                    }, 0)} />
+                    <CustomCellCurrency value={data?.reduce((acc, item) => {
+                      return acc + item.currentValue
+                    }, 0)} />
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
@@ -85,34 +95,19 @@ export default function FixedIncomesSection({ data, className, isLoading = false
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
-                    <TableCell>{formatCurrency(data?.reduce((acc, stock) => {
+                    <CustomCellCurrency value={data?.reduce((acc, stock) => {
                       return acc + stock.realValue
-                    }, 0))}</TableCell>
+                    }, 0)} />
                     <TableCell></TableCell>
-                    <TableCell>{formatCurrency(data?.reduce((acc, stock) => {
+                    <CustomCellCurrency value={data?.reduce((acc, stock) => {
                       return acc + stock.gainsAndLosses
-                    }, 0))}</TableCell>
-                  </TableRow>
+                    }, 0)} />
+                  </CustomTableRowSummary>
                 </TableBody>
               </Table>
             </TableWrapper>
           </div>
         )}
-    </div>
-  )
-}
-
-function LoadingPlaceholder() {
-  return (
-    <div className='w-full space-y-4 rounded-lg p-4'>
-      {[1, 2, 3, 4, 5].map((_, index) => (
-        <div key={index} className='w-full flex justify-between'>
-          <Skeleton className='w-56 h-12' />
-          <Skeleton className='w-48 h-12' />
-          <Skeleton className='w-36 h-12' />
-          <Skeleton className='w-40 h-12' />
-        </div>
-      ))}
     </div>
   )
 }

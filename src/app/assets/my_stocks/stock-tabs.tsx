@@ -1,11 +1,11 @@
 'use client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import MyStocksSection from './my-stocks-section'
+import StocksSection from './section-stocks'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import MyReitsSection from './my-reits-section'
+import MyReitsSection from './section-reits'
 import useAssets from '@/hooks/assets/use-assets'
-import CashBoxSection from './cash-box-section'
-import FixedIncomesSection from './fixed-income-section'
+import CashBoxAndPensionSection from './section-cash-pension'
+import FixedIncomesSection from './section-fixed-income'
 
 export default function StockTabs() {
   const searchParams = useSearchParams()
@@ -25,7 +25,7 @@ export default function StockTabs() {
 
   return (
     <Tabs defaultValue={searchParams.get('init') || 'cashbox'} className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
-      <TabsList className='bg-transparent shadow-none'>
+      <TabsList className='bg-transparent shadow-0'>
         <CustomTabsTrigger value="cashbox">Cash Boxes</CustomTabsTrigger>
         <CustomTabsTrigger value="fixed">Fixed Incomes</CustomTabsTrigger>
         <CustomTabsTrigger value="stocks">Stocks</CustomTabsTrigger>
@@ -36,9 +36,9 @@ export default function StockTabs() {
         <CustomTabsTrigger value="pension">Pensions</CustomTabsTrigger>
       </TabsList>
       <TabsContent value="stocks">
-        <MyStocksSection
+        <StocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.stocks.stocks.items}
+          data={getSummary.data?.stocks.stocks}
         />
       </TabsContent>
       <TabsContent value="reits">
@@ -48,31 +48,31 @@ export default function StockTabs() {
         />
       </TabsContent>
       <TabsContent value="internationals">
-        <MyStocksSection
+        <StocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.stocks.internationals.items}
+          data={getSummary.data?.stocks.internationals}
         />
       </TabsContent>
       <TabsContent value="golds">
-        <MyStocksSection
+        <StocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.stocks.golds.items}
+          data={getSummary.data?.stocks.golds}
         />
       </TabsContent>
       <TabsContent value="cryptos">
-        <MyStocksSection
+        <StocksSection
           isLoading={getSummary.isFetching}
-          data={getSummary.data?.stocks.cryptos.items}
+          data={getSummary.data?.stocks.cryptos}
         />
       </TabsContent>
       <TabsContent value='cashbox'>
-        <CashBoxSection
+        <CashBoxAndPensionSection
           isLoading={getSummary.isFetching}
           data={getSummary.data?.fixedIncomes.cashBoxes}
         />
       </TabsContent>
       <TabsContent value='pension'>
-        <CashBoxSection
+        <CashBoxAndPensionSection
           isLoading={getSummary.isFetching}
           data={getSummary.data?.fixedIncomes.pensions}
         />

@@ -1,27 +1,34 @@
 'use client'
 
-import Percentage from '@/components/ui/percentage'
-import { Skeleton } from '@/components/ui/skeleton'
 import { TableWrapper, TableHeader, TableRow, TableHead, TableBody, Table, TableCell } from '@/components/ui/table'
 import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
 import { StockSummaryClassView } from '@/models/assets/stock'
-import { format } from 'date-fns'
 import { ClassNameValue } from 'tailwind-merge'
 import EditDividendsDialog from './_components/edit-dividends-dialog'
 import NextLink from 'next/link'
 import { Button } from '@/components/ui/button'
+import CustomCellDateTime from './_components/custom-cell-date-time'
+import CustomTableRow from './_components/custom-table-row'
+import CustomCellCurrency from './_components/custom-cell-currency'
+import CustomCellTicker from './_components/custom-cell-ticker'
+import CustomCellDescription from './_components/custom-cell-description'
+import CustomCellPercentage from './_components/custom-cell-percentage'
+import CustomCellGainAndLosses from './_components/custom-cell-gain-losses'
+import CustomCellPercentageMinimal from './_components/custom-cell-percentage-min'
+import LoadingTablePlaceholder from './_components/loading-table-placeholder'
+import CustomTableRowSummary from './_components/custom-table-row-summary'
 
-interface MyStocksSectionProps {
+interface Props {
   data: StockSummaryClassView | undefined
   isLoading?: boolean
   className?: ClassNameValue
 }
 
-export default function MyReitsSection({ data, className, isLoading = false }: MyStocksSectionProps) {
+export default function MyReitsSection({ data, className, isLoading = false }: Props) {
   return (
     <div className={cn('w-full', className)}>
-      {isLoading ? (<LoadingPlaceholder />) : (
+      {isLoading ? (<LoadingTablePlaceholder />) : (
         <div className='w-full space-y-2'>
           <div className='w-full flex justify-end items-start gap-2'>
             <NextLink href='/assets/orders'>
@@ -36,7 +43,7 @@ export default function MyReitsSection({ data, className, isLoading = false }: M
             </NextLink>
           </div>
           <TableWrapper className=''>
-            <Table className='relative'>
+            <Table className=''>
               <TableHeader className=''>
                 <TableRow className='hover:bg-transparent'>
                   <TableHead>Ticker</TableHead>
@@ -55,57 +62,40 @@ export default function MyReitsSection({ data, className, isLoading = false }: M
               </TableHeader>
               <TableBody>
                 {data?.items.map(stock => (
-                  <TableRow key={stock.ticker}>
-                    <TableCell className='min-w-28'>{stock.ticker}</TableCell>
-                    <TableCell className='text-left line-clamp-1 min-w-48'>{stock.name}</TableCell>
-                    <TableCell className='min-w-32'>{formatCurrency(stock.price)}</TableCell>
-                    <TableCell><Percentage value={stock.changePercent / 100} /></TableCell>
+                  <CustomTableRow key={stock.ticker}>
+                    <CustomCellTicker>{stock.ticker}</CustomCellTicker>
+                    <CustomCellDescription>{stock.name}</CustomCellDescription>
+                    <CustomCellCurrency value={stock.price} />
+                    <CustomCellPercentage value={stock.changePercent / 100} />
                     <TableCell>{stock.quantity}</TableCell>
-                    <TableCell className='min-w-32'>{formatCurrency(stock.currentTotalValue)}</TableCell>
-                    <TableCell className='min-w-32'>{formatCurrency(stock.averagePrice)}</TableCell>
-                    <TableCell><Percentage value={stock.profitability} /></TableCell>
-                    <TableCell
-                      className={`min-w-32 ${stock.gainsAndLosses > 0 ? 'text-green-500' : stock.gainsAndLosses === 0 ? '' : 'text-red-500'}`}
-                    >{formatCurrency(stock.gainsAndLosses)}</TableCell>
+                    <CustomCellCurrency value={stock.currentTotalValue} />
+                    <CustomCellCurrency value={stock.averagePrice} />
+                    <CustomCellPercentage value={stock.profitability} />
+                    <CustomCellGainAndLosses value={stock.gainsAndLosses} />
                     <EditDividendsDialog stock={stock} />
-                    <TableCell><Percentage value={stock.dividendYield / 100} colorize={false} useSymbols={false} /></TableCell>
-                    <TableCell className='line-clamp-1 min-w-36'>{format(new Date(stock.updatedAt), 'd MMM yy H:mm')}</TableCell>
-                  </TableRow>
+                    <CustomCellPercentageMinimal value={stock.dividendYield / 100} />
+                    <CustomCellDateTime date={stock.updatedAt} />
+                  </CustomTableRow>
                 ))}
-                <TableRow className='hover:bg-transparent hover:font-bold'>
+                <CustomTableRowSummary>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
-                  <TableCell>{formatCurrency(data?.currentTotalValue)}</TableCell>
+                  <CustomCellCurrency value={data?.currentTotalValue} />
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell>{formatCurrency(data?.gainsAndLosses)}</TableCell>
                   <TableCell>{formatCurrency(data?.dividends)}</TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
-                </TableRow>
+                </CustomTableRowSummary>
               </TableBody>
             </Table>
           </TableWrapper>
         </div>
       )}
-    </div>
-  )
-}
-
-function LoadingPlaceholder() {
-  return (
-    <div className='w-full space-y-4 rounded-lg p-4'>
-      {[1, 2, 3, 4, 5].map((_, index) => (
-        <div key={index} className='w-full flex justify-between'>
-          <Skeleton className='w-56 h-12' />
-          <Skeleton className='w-48 h-12' />
-          <Skeleton className='w-36 h-12' />
-          <Skeleton className='w-40 h-12' />
-        </div>
-      ))}
     </div>
   )
 }

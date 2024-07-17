@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className='dark'>
       <QueryClientProvider client={queryClient}>
-        <body className={roboto.className}>
+        <body className={`overflow-y-auto [&::-webkit-scrollbar]:hidden ${roboto.className}`}>
           {/* If current route is login, don't show the top bar */}
           {pathname !== '/login' && <TopBar />}
           <main className={`${pathname === '/login' ? 'pt-0' : 'pt-12'}`}
