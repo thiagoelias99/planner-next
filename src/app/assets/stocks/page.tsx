@@ -18,7 +18,7 @@ export default function Stocks() {
     <div className='py-4'>
       <ModuleBar
         title="Stocks"
-        backHref='/assets'
+        backHref='/assets/my_stocks?init=stocks'
         className='px-4'
       >
         <Button size='icon' onClick={_ => setOpenEditDialog(true)}>

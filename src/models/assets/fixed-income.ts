@@ -7,6 +7,16 @@ export interface CashBoxPension {
   updatedAt: Date
 }
 
+export interface CashBoxPensionCreateDto {
+  description: string
+  value: number
+  type: CashBoxAndPensionType
+}
+
+export interface CashBoxPensionUpdateDto extends Partial<CashBoxPensionCreateDto> {
+  id: string
+}
+
 export enum CashBoxAndPensionType {
   CASH_BOX = 'Cash box',
   PENSION = 'Pension'

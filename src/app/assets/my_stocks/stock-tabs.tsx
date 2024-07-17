@@ -1,7 +1,7 @@
 'use client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import MyStocksSection from './my-stocks-section'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import MyReitsSection from './my-reits-section'
 import useAssets from '@/hooks/assets/use-assets'
 import CashBoxSection from './cash-box-section'
@@ -9,7 +9,19 @@ import FixedIncomesSection from './fixed-income'
 
 export default function StockTabs() {
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
   const { getSummary } = useAssets()
+
+  function handleTabChange(value: string) {
+    router.push(`${pathname}?init=${value}`)
+  }
+
+  function CustomTabsTrigger({ value, children }: { value: string, children: React.ReactNode }) {
+    return (
+      <TabsTrigger onClick={_ => handleTabChange(value)} className='text-lg font-bold text-card-foreground' value={value}>{children}</TabsTrigger>
+    )
+  }
 
   return (
     <Tabs defaultValue={searchParams.get('init') || 'cashbox'} className="w-full bg-card rounded-lg p-2 pt-4 mt-4">
@@ -72,11 +84,5 @@ export default function StockTabs() {
         />
       </TabsContent>
     </Tabs>
-  )
-}
-
-function CustomTabsTrigger({ value, children }: { value: string, children: React.ReactNode }) {
-  return (
-    <TabsTrigger className='text-lg font-bold text-card-foreground' value={value}>{children}</TabsTrigger>
   )
 }
