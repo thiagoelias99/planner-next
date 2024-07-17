@@ -8,18 +8,18 @@ import {
 } from '@/components/ui/dialog'
 import { PlusIcon, Trash2Icon } from 'lucide-react'
 import useOrders from '@/hooks/assets/use-orders'
-import { CashBoxPension } from '@/models/assets/fixed-income'
-import EditCashForm from './edit-cash-box-form'
+import { FixedIncome } from '@/models/assets/fixed-income'
+import EditFixedIncomeForm from './edit-fixed-income-form'
 
 interface Props {
-  selectedItem: CashBoxPension | undefined
-  setSelectedItem: (item: CashBoxPension | undefined) => void
+  selectedItem: FixedIncome | undefined
+  setSelectedItem: (item: FixedIncome | undefined) => void
   openDialog: boolean
   setOpenDialog: (open: boolean) => void
 }
 
-export default function EditCashBoxDialog({ selectedItem, setSelectedItem, openDialog, setOpenDialog }: Props) {
-  const { deleteCashBoxPensionOrder } = useOrders()
+export default function EditFixedIncomeDialog({ selectedItem, setSelectedItem, openDialog, setOpenDialog }: Props) {
+  const { deleteFixedIncomeOrder } = useOrders()
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -34,11 +34,11 @@ export default function EditCashBoxDialog({ selectedItem, setSelectedItem, openD
       <DialogContent className='w-full max-w-[358px] border-none bg-card2 text-card2-foreground rounded-lg'>
         <DialogHeader>
           <div className='w-full flex justify-between items-baseline'>
-            <DialogTitle>{selectedItem ? 'Edit Cash Box / Pension' : 'Add Cash Box / Pension'}</DialogTitle>
+            <DialogTitle>{selectedItem ? 'Edit Fixed Income' : 'Add Fixed Income'}</DialogTitle>
             {selectedItem && (
               <Button size='icon' variant='destructive'
                 onClick={() => {
-                  deleteCashBoxPensionOrder.mutate(selectedItem.id)
+                  deleteFixedIncomeOrder.mutate(selectedItem.id)
                   setOpenDialog(false)
                 }}
               >
@@ -47,7 +47,7 @@ export default function EditCashBoxDialog({ selectedItem, setSelectedItem, openD
             )}
           </div>
         </DialogHeader>
-        <EditCashForm
+        <EditFixedIncomeForm
           closeDialog={() => setOpenDialog(false)}
           selectedItem={selectedItem}
         />

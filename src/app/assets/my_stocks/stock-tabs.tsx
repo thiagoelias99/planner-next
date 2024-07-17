@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import MyReitsSection from './my-reits-section'
 import useAssets from '@/hooks/assets/use-assets'
 import CashBoxSection from './cash-box-section'
-import FixedIncomesSection from './fixed-income'
+import FixedIncomesSection from './fixed-income-section'
 
 export default function StockTabs() {
   const searchParams = useSearchParams()

@@ -41,6 +41,20 @@ export interface FixedIncome {
   updatedAt: Date
 }
 
+export interface FixedIncomeCreateDto {
+  description: string
+  initialInvestment: number
+  initialDate: Date
+  dueDate: Date
+  currentValue?: number
+  fixedRate?: number
+  posFixedIndex?: PosFixedIndexType
+}
+
+export interface FixedIncomeUpdateDto extends Partial<FixedIncomeCreateDto> {
+  id: string
+}
+
 export enum PosFixedIndexType {
   NONE = 'None',
   CDI = 'CDI',

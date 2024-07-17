@@ -3,7 +3,7 @@ import useToken from '../use-token'
 import { api } from '@/services/api/api'
 import { StockOrder, StockOrderCreateDto, StockOrderUpdateDto } from '@/models/assets/stock'
 import { queryClient } from '@/services/webclient/queryClient'
-import { CashBoxPension, CashBoxPensionCreateDto, CashBoxPensionUpdateDto } from '@/models/assets/fixed-income'
+import { CashBoxPension, CashBoxPensionCreateDto, CashBoxPensionUpdateDto, FixedIncome, FixedIncomeCreateDto, FixedIncomeUpdateDto } from '@/models/assets/fixed-income'
 
 const useOrders = () => {
   const { token } = useToken()
@@ -113,7 +113,63 @@ const useOrders = () => {
     }
   })
 
-  return { getStockOrders, createStockOrder, updateStockOrder, deleteStockOrder, createCashBoxPensionOrder, updateCashBoxPensionOrder, deleteCashBoxPensionOrder}
+  const createFixedIncomeOrder = useMutation({
+    mutationFn: async (dto: FixedIncomeCreateDto) => {
+      const { data } = await api.post<FixedIncome>('/fixed_incomes', { ...dto, fixedRate: !!dto.fixedRate ? (dto.fixedRate / 100) : undefined }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      await queryClient.invalidateQueries('assetsSummary')
+
+      return data
+    }
+  })
+
+  const updateFixedIncomeOrder = useMutation({
+    mutationFn: async (dto: FixedIncomeUpdateDto) => {
+      const { id, ...rest } = dto
+
+      const { data } = await api.patch<FixedIncome>(`/fixed_incomes/${id}`, {
+        ...rest,
+        fixedRate: !!rest.fixedRate ? (rest.fixedRate / 100) : undefined
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      await queryClient.invalidateQueries('assetsSummary')
+
+      return data
+    }
+  })
+
+  const deleteFixedIncomeOrder = useMutation({
+    mutationFn: async (id: string) => {
+      await api.delete(`/fixed_incomes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      await queryClient.invalidateQueries('assetsSummary')
+    }
+  })
+
+  return {
+    getStockOrders,
+    createStockOrder,
+    updateStockOrder,
+    deleteStockOrder,
+    createCashBoxPensionOrder,
+    updateCashBoxPensionOrder,
+    deleteCashBoxPensionOrder,
+    createFixedIncomeOrder,
+    updateFixedIncomeOrder,
+    deleteFixedIncomeOrder
+  }
 }
 
 export default useOrders
