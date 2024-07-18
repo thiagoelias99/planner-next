@@ -20,7 +20,8 @@ export interface CashBoxPensionUpdateDto extends Partial<CashBoxPensionCreateDto
 export enum CashBoxAndPensionType {
   CASH_BOX = 'Cash box',
   PENSION = 'Pension',
-  PROPERTY = 'Property'
+  PROPERTY = 'Property',
+  SHARE = 'Share'
 }
 
 export interface FixedIncome {
@@ -68,10 +69,12 @@ export interface FixedIncomeSummary {
   totalCashBoxesValue: number
   totalPensionsValue: number
   totalPropertiesValue: number
+  totalShareValue: number
   totalFixedIncomeValue: number
   totalCurrentValue: number
   cashBoxes: CashBoxPension[]
   pensions: CashBoxPension[]
   properties: CashBoxPension[]
+  share: CashBoxPension[]
   fixedIncomes: FixedIncome[]
 }

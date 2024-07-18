@@ -16,14 +16,15 @@ interface Props {
   setSelectedItem: (item: CashBoxPension | undefined) => void
   openDialog: boolean
   setOpenDialog: (open: boolean) => void
+  hiddenTrigger?: boolean
 }
 
-export default function EditCashBoxDialog({ selectedItem, setSelectedItem, openDialog, setOpenDialog }: Props) {
+export default function EditCashBoxDialog({ selectedItem, setSelectedItem, openDialog, setOpenDialog, hiddenTrigger = false }: Props) {
   const { deleteCashBoxPensionOrder } = useOrders()
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className={hiddenTrigger ? 'hidden' : ''}>
         <Button
           size='icon'
           onClick={() => setSelectedItem(undefined)}

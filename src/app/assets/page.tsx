@@ -7,11 +7,15 @@ import { formatPercentage } from '@/lib/format-percentage'
 import { cn } from '@/lib/utils'
 import { ArrowRightIcon, Loader2Icon } from 'lucide-react'
 import NextLink from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { ClassNameValue } from 'tailwind-merge'
+import EditCashBoxDialog from './my_stocks/_components/edit-cash-box-dialog'
+import { CashBoxPension } from '@/models/assets/fixed-income'
 
 export default function Assets() {
   const { getSummary } = useAssets()
+  const [openDialog, setOpenDialog] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<CashBoxPension | undefined>(undefined)
 
   return (
     <div className='py-4'>
@@ -27,6 +31,26 @@ export default function Assets() {
             <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
           )}
         </div>
+        <div
+          role='button'
+          onClick={() => {
+            setSelectedItem(getSummary.data?.fixedIncomes.share[0])
+            setOpenDialog(true)
+          }}
+          className={cn('w-full bg-card rounded-lg p-4 flex flex-row justify-between items-center shadow-shape',)}
+        >
+          <div className="flex justify-start items-center gap-2">
+            <h2 className='text-base font-semibold'>To share</h2>
+          </div>
+          {getSummary.isFetching ? (
+            <Loader2Icon className='animate-spin' />
+          ) : (
+            <div className='flex justify-end items-center gap-4'>
+              <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.sharesTotalValue)} </p>
+              <p className='text-lg font-bold'>{formatPercentage(getSummary.data && getSummary.data?.sharesPercentage / 100)}</p>
+            </div>
+          )}
+        </div>
         <ul className='contents'>
           <AssetItem title='Cash Boxes' href='assets/my_stocks?init=cashbox' isLoading={getSummary.isFetching} value={getSummary.data?.cashBoxesTotalValue} percentage={getSummary.data && getSummary.data?.cashBoxesPercentage / 100} />
           <AssetItem title='Fixed Incomes' href='assets/my_stocks?init=fixed' isLoading={getSummary.isFetching} value={getSummary.data?.fixedIncomesTotalValue} percentage={getSummary.data && getSummary.data?.fixedIncomesPercentage / 100} />
@@ -39,6 +63,13 @@ export default function Assets() {
           <AssetItem title='Properties' href='assets/my_stocks?init=properties' isLoading={getSummary.isFetching} value={getSummary.data?.propertiesTotalValue} percentage={getSummary.data && getSummary.data?.propertiesPercentage / 100} />
         </ul>
       </section>
+      <EditCashBoxDialog
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        hiddenTrigger
+      />
     </div>
   )
 }
