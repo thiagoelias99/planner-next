@@ -1,7 +1,6 @@
 'use client'
 
 import ModuleBar from '@/components/module-bar'
-import { Card } from '@/components/ui/card'
 import useAssets from '@/hooks/assets/use-assets'
 import { formatCurrency } from '@/lib/format-currency'
 import { cn } from '@/lib/utils'
@@ -36,6 +35,7 @@ export default function Assets() {
           <AssetItem title='Golds' isLoading={getSummary.isFetching} value={getSummary.data?.goldsTotalValue || 0} href='assets/my_stocks?init=golds' />
           <AssetItem title='Cryptos' isLoading={getSummary.isFetching} value={getSummary.data?.cryptosTotalValue || 0} href='assets/my_stocks?init=cryptos' />
           <AssetItem title='Pensions' href='assets/my_stocks?init=pension' isLoading={getSummary.isFetching} value={getSummary.data?.pensionsTotalValue} />
+          <AssetItem title='Properties' href='assets/my_stocks?init=properties' isLoading={getSummary.isFetching} value={getSummary.data?.propertiesTotalValue} />
         </ul>
       </section>
     </div>

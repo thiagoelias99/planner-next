@@ -12,6 +12,7 @@ export interface AssetsSummary {
   goldsTotalValue: number
   cashBoxesTotalValue: number
   pensionsTotalValue: number
+  propertiesTotalValue: number
   fixedIncomesTotalValue: number
   currentTotalValue: number
   stocksPercentage: number
@@ -23,4 +24,5 @@ export interface AssetsSummary {
   cashBoxesPercentage: number
   pensionsPercentage: number
   fixedIncomesPercentage: number
+  propertiesPercentage: number
 }

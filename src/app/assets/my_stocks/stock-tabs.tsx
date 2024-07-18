@@ -34,6 +34,7 @@ export default function StockTabs() {
         <CustomTabsTrigger value="golds">Golds</CustomTabsTrigger>
         <CustomTabsTrigger value="cryptos">Cryptos</CustomTabsTrigger>
         <CustomTabsTrigger value="pension">Pensions</CustomTabsTrigger>
+        <CustomTabsTrigger value="properties">Properties</CustomTabsTrigger>
       </TabsList>
       <TabsContent value="stocks">
         <StocksSection
@@ -81,6 +82,12 @@ export default function StockTabs() {
         <FixedIncomesSection
           isLoading={getSummary.isFetching}
           data={getSummary.data?.fixedIncomes.fixedIncomes}
+        />
+      </TabsContent>
+      <TabsContent value='properties'>
+        <CashBoxAndPensionSection
+          isLoading={getSummary.isFetching}
+          data={getSummary.data?.fixedIncomes.properties}
         />
       </TabsContent>
     </Tabs>

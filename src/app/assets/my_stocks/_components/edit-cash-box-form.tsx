@@ -85,7 +85,7 @@ export default function EditCashForm({ closeDialog, selectedItem }: Props) {
             control={form.control}
             name="value"
             render={({ field }) => (
-              <FormItem className=''>
+              <FormItem className='w-full'>
                 <FormLabel>Value</FormLabel>
                 <div className='w-full flex justify-start items-center gap-4'>
                   <span>R$</span>

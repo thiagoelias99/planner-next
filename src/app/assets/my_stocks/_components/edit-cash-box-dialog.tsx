@@ -34,7 +34,7 @@ export default function EditCashBoxDialog({ selectedItem, setSelectedItem, openD
       <DialogContent className='w-full max-w-[358px] border-none bg-card2 text-card2-foreground rounded-lg'>
         <DialogHeader>
           <div className='w-full flex justify-between items-baseline'>
-            <DialogTitle>{selectedItem ? 'Edit Cash Box / Pension' : 'Add Cash Box / Pension'}</DialogTitle>
+            <DialogTitle>{selectedItem ? 'Edit Cash Box / Pension / Property' : 'Add Cash Box / Pension / Property'}</DialogTitle>
             {selectedItem && (
               <Button size='icon' variant='destructive'
                 onClick={() => {
