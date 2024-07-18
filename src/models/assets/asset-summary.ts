@@ -17,14 +17,36 @@ export interface AssetsSummary {
   fixedIncomesTotalValue: number
   currentTotalValue: number
   stocksPercentage: number
+  stocksPercentagePlanned: number
+  stocksAdjust: number
   reitsPercentage: number
+  reitsPercentagePlanned: number
+  reitsAdjust: number
   etfsPercentage: number
+  etfsPercentagePlanned: number
+  etfsAdjust: number
   internationalsPercentage: number
+  internationalsPercentagePlanned: number
+  internationalsAdjust: number
   cryptosPercentage: number
+  cryptosPercentagePlanned: number
+  cryptosAdjust: number
   goldsPercentage: number
+  goldsPercentagePlanned: number
+  goldsAdjust: number
   cashBoxesPercentage: number
+  cashBoxesPercentagePlanned: number
+  cashBoxesAdjust: number
   pensionsPercentage: number
+  pensionsPercentagePlanned: number
+  pensionsAdjust: number
   fixedIncomesPercentage: number
+  fixedIncomesPercentagePlanned: number
+  fixedIncomesAdjust: number
   propertiesPercentage: number
+  propertiesPercentagePlanned: number
+  propertiesAdjust: number
   sharesPercentage: number
+  sharesPercentagePlanned: number
+  sharesAdjust: number
 }
