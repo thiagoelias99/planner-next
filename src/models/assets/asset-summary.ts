@@ -49,4 +49,46 @@ export interface AssetsSummary {
   sharesPercentage: number
   sharesPercentagePlanned: number
   sharesAdjust: number
+  lastMonthHistoric: AssetsHistory
+}
+
+export interface AssetsHistory {
+  id: string
+  date: string
+  stocksTotalValue: number
+  reitsTotalValue: number
+  etfsTotalValue: number
+  internationalsTotalValue: number
+  cryptosTotalValue: number
+  goldsTotalValue: number
+  cashBoxesTotalValue: number
+  pensionsTotalValue: number
+  fixedIncomesTotalValue: number
+  propertiesTotalValue: number
+  sharesTotalValue: number
+  generalTotalValue: number
+  
+  stocksPercentage: number
+  reitsPercentage: number
+  etfsPercentage: number
+  internationalsPercentage: number
+  cryptosPercentage: number
+  goldsPercentage: number
+  cashBoxesPercentage: number
+  pensionsPercentage: number
+  fixedIncomesPercentage: number
+  propertiesPercentage: number
+  sharesPercentage: number
+
+  stocksGainLosses: number
+  reitsGainLosses: number
+  etfsGainLosses: number
+  internationalsGainLosses: number
+  cryptosGainLosses: number
+  goldsGainLosses: number
+  cashBoxesGainLosses: number
+  pensionsGainLosses: number
+  fixedIncomesGainLosses: number
+  propertiesGainLosses: number
+  sharesGainLosses: number
 }
