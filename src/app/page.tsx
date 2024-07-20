@@ -1,12 +1,12 @@
-import NextLink from 'next/link'
+import AssetsSection from './_components/assets-section'
 
 export default function Home() {
 
   return (
-    <main>
-      <NextLink href="/stocks" passHref>
-        <p>Stocks</p>
-      </NextLink >
+    <main className='py-4'>
+      <AssetsSection
+        className='px-4'
+      />
     </main>
   )
 }

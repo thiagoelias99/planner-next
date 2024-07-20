@@ -79,6 +79,7 @@ export interface AssetsHistory {
   fixedIncomesPercentage: number
   propertiesPercentage: number
   sharesPercentage: number
+  generalPercentage: number
 
   stocksGainLosses: number
   reitsGainLosses: number
@@ -91,4 +92,5 @@ export interface AssetsHistory {
   fixedIncomesGainLosses: number
   propertiesGainLosses: number
   sharesGainLosses: number
+  generalGainLosses: number
 }
