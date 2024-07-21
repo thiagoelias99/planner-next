@@ -2,6 +2,10 @@ import { useMutation, useQuery } from 'react-query'
 import useToken from '../use-token'
 import { CreateTodoDto, ToDoItem, Todo } from '@/models/todos/todo'
 import axios from 'axios'
+import { api } from '@/services/api/api'
+import { todo } from 'node:test'
+import { Item } from '@radix-ui/react-select'
+import { addHours } from 'date-fns'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -13,13 +17,28 @@ const useToDos = () => {
       return
     }
 
-    const response = await fetch(`${apiUrl}/todos`, {
+    const timezoneOffset = new Date().getTimezoneOffset() / 60
+    const response = await api.get<Todo>('/todos', {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
 
-    return response.json() as Promise<Todo>
+    //Correct the timezone offset
+    const items = response.data.items.map((item: ToDoItem) => {
+      let date = new Date(item.date)
+      date = addHours(date, timezoneOffset)
+      return {
+        ...item,
+        date
+      }
+
+    })
+
+    const response2 = {...response.data, items}
+
+    console.log(response2)
+    return response2
   })
 
   const createTodo = useMutation({
