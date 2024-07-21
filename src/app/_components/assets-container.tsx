@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, Card2, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card2 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import useAssets from '@/hooks/assets/use-assets'
 import { formatCurrency } from '@/lib/format-currency'
@@ -12,30 +12,23 @@ export default function AssetsContainer() {
   const { getSummary } = useAssets()
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Assets</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Card2 className='w-full flex justify-between items-center px-4 py-2'>
-          {getSummary.isLoading ? (
-            <LoadingPlaceholder />
-          ) : (
-            <div className='contents'>
-              <div className='space-y-2'>
-                <p className='font-semibold'>Current balance</p>
-                <div className={cn(`flex justify-start items-center ${getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? 'text-success' : 'text-destructive'}`,)}>
-                  {getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? <ArrowUpIcon size={20} /> : <ArrowDownIcon size={20} />
-                  }
-                  <p>{formatCurrency(getSummary.data?.lastMonthHistoric.generalGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.generalPercentage)})</p>
-                </div>
-              </div>
-              <p className='text-xl font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
+    <Card2 className='w-full flex justify-between items-center px-4 py-2'>
+      {getSummary.isLoading ? (
+        <LoadingPlaceholder />
+      ) : (
+        <div className='contents'>
+          <div className='space-y-2'>
+            <p className='font-semibold'>Current balance</p>
+            <div className={cn(`flex justify-start items-center ${getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? 'text-success' : 'text-destructive'}`,)}>
+              {getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? <ArrowUpIcon size={20} /> : <ArrowDownIcon size={20} />
+              }
+              <p>{formatCurrency(getSummary.data?.lastMonthHistoric.generalGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.generalPercentage)})</p>
             </div>
-          )}
-        </Card2>
-      </CardContent>
-    </Card>
+          </div>
+          <p className='text-xl font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
+        </div>
+      )}
+    </Card2>
   )
 }
 
