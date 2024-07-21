@@ -8,7 +8,7 @@ import { formatPercentage } from '@/lib/format-percentage'
 import { cn } from '@/lib/utils'
 import { ArrowDownIcon, ArrowUpIcon } from 'lucide-react'
 
-export default function AssetsContainer() {
+export default function AssetsItem() {
   const { getSummary } = useAssets()
 
   return (

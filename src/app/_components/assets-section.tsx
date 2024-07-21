@@ -1,5 +1,5 @@
 import React from 'react'
-import AssetsContainer from './assets-container'
+import AssetsItem from './assets-item'
 import { ClassNameValue } from 'tailwind-merge'
 import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,7 +19,7 @@ export default function AssetsSection({ className }: Props) {
           </NextLink>
         </CardHeader>
         <CardContent>
-          <AssetsContainer />
+          <AssetsItem />
         </CardContent>
       </Card>
     </section>
