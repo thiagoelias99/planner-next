@@ -67,6 +67,7 @@ export interface AssetsHistory {
   propertiesTotalValue: number
   sharesTotalValue: number
   generalTotalValue: number
+  financialInjectionsTotalValue: number
   
   stocksPercentage: number
   reitsPercentage: number
@@ -79,6 +80,7 @@ export interface AssetsHistory {
   fixedIncomesPercentage: number
   propertiesPercentage: number
   sharesPercentage: number
+  passiveGainLossesPercentage: number
   generalPercentage: number
 
   stocksGainLosses: number
@@ -92,5 +94,6 @@ export interface AssetsHistory {
   fixedIncomesGainLosses: number
   propertiesGainLosses: number
   sharesGainLosses: number
+  passiveGainLosses: number
   generalGainLosses: number
 }

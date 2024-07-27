@@ -21,7 +21,8 @@ export enum CashBoxAndPensionType {
   CASH_BOX = 'Cash box',
   PENSION = 'Pension',
   PROPERTY = 'Property',
-  SHARE = 'Share'
+  SHARE = 'Share',
+  FINANCIAL_INJECTION = 'Financial injection'
 }
 
 export interface FixedIncome {
@@ -70,11 +71,13 @@ export interface FixedIncomeSummary {
   totalPensionsValue: number
   totalPropertiesValue: number
   totalShareValue: number
+  totalFinancialInjections: number
   totalFixedIncomeValue: number
   totalCurrentValue: number
   cashBoxes: CashBoxPension[]
   pensions: CashBoxPension[]
   properties: CashBoxPension[]
   share: CashBoxPension[]
+  financialInjections: CashBoxPension[]
   fixedIncomes: FixedIncome[]
 }

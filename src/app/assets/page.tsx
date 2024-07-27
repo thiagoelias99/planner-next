@@ -28,7 +28,25 @@ export default function Assets() {
           {getSummary.isFetching ? (
             <Loader2Icon className='animate-spin' />
           ) : (
-            <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
+            <div className='w-full flex flex-col justify-end items-end'>
+              <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
+              <div className='w-full flex justify-end items-center gap-4'>
+                <div className='w-full flex flex-col justify-center items-center'>
+                  <p>Passive Grow</p>
+                  <div className='w-full flex flex-col justify-center items-center'>
+                    <p>{formatCurrency(getSummary.data?.lastMonthHistoric.passiveGainLosses)}</p>
+                    <p>{formatPercentage(getSummary.data?.lastMonthHistoric.passiveGainLossesPercentage)}</p>
+                  </div>
+                </div>
+                <div className='w-full flex flex-col justify-center items-center'>
+                  <p>Total Grow</p>
+                  <div className='w-full flex flex-col justify-center items-center'>
+                    <p>{formatCurrency(getSummary.data?.lastMonthHistoric.generalGainLosses)}</p>
+                    <p>{formatPercentage(getSummary.data?.lastMonthHistoric.generalPercentage)}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
         <div
@@ -48,6 +66,25 @@ export default function Assets() {
             <div className='flex justify-end items-center gap-4'>
               <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.sharesTotalValue)} </p>
               <p className='text-lg font-bold'>{formatPercentage(getSummary.data && getSummary.data?.sharesPercentage / 100)}</p>
+            </div>
+          )}
+        </div>
+        <div
+          role='button'
+          onClick={() => {
+            setSelectedItem(getSummary.data?.fixedIncomes.financialInjections[0])
+            setOpenDialog(true)
+          }}
+          className={cn('w-full bg-card rounded-lg p-4 flex flex-row justify-between items-center shadow-shape',)}
+        >
+          <div className="flex justify-start items-center gap-2">
+            <h2 className='text-base font-semibold'>Financial Injection</h2>
+          </div>
+          {getSummary.isFetching ? (
+            <Loader2Icon className='animate-spin' />
+          ) : (
+            <div className='flex justify-end items-center gap-4'>
+              <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.fixedIncomes.totalFinancialInjections)} </p>
             </div>
           )}
         </div>
