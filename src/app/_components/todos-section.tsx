@@ -6,12 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import NextLink from 'next/link'
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
-import { getDate, getMonth, getYear, isBefore, isToday, isTomorrow, startOfToday } from 'date-fns'
-import { Budget } from '@/models/budget/budget'
-import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
+import { isBefore, isToday, isTomorrow, startOfToday } from 'date-fns'
 import { useEffect, useState } from 'react'
-import BudgetItem from '../budgets/[slug]/components/income-expense-section/budget-item'
-import CreateBudgetDialog from '../budgets/[slug]/components/edit-dialog'
 import useToDos from '@/hooks/todos/use-todo'
 import { ToDoItem } from '@/models/todos/todo'
 import TodoItem from '../todo/item'
@@ -22,15 +18,31 @@ interface Props {
 }
 
 export default function ToDosSection({ className }: Props) {
-  const { getToDos, updateTodo } = useToDos()
+  const { getToDos } = useToDos()
 
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [selectedItem, setSelectedItem] = useState<ToDoItem | undefined>(undefined)
+  const [todayTodos, setTodayTodos] = useState<ToDoItem[]>([])
+  const [tomorrowTodos, setTomorrowTodos] = useState<ToDoItem[]>([])
 
   function handleEdit(todo: ToDoItem) {
     setSelectedItem(todo)
     setOpenEditDialog(true)
   }
+
+  useEffect(() => {
+    if (getToDos.data) {
+      const _todayTodos = getToDos.data.items.filter(todo => isToday(todo.date) || (isBefore(todo.date, startOfToday()) && !todo.completed))
+      const _tomorrowTodos = getToDos.data.items.filter(todo => isTomorrow(todo.date))
+
+      // Sort by title
+      _todayTodos.sort((a, b) => a.title.localeCompare(b.title))
+      _tomorrowTodos.sort((a, b) => a.title.localeCompare(b.title))
+
+      setTodayTodos(_todayTodos)
+      setTomorrowTodos(_tomorrowTodos)
+    }
+  }, [getToDos.data])
 
   return (
     <section className={cn('', className)}>
@@ -47,21 +59,27 @@ export default function ToDosSection({ className }: Props) {
           </Button>
         </CardHeader>
         <CardContent className='space-y-2'>
-          {getToDos.data?.items.filter(todo => (isToday(todo.date) || isBefore(todo.date, startOfToday()))).map(todo => (
+          {todayTodos.map(todo => (
             <TodoItem
               key={todo.id}
               {...todo}
               handleEdit={handleEdit}
             />
           ))}
-          <CardTitle>Tomorrow</CardTitle>
-          {getToDos.data?.items.filter(todo => isTomorrow(todo.date)).map(todo => (
+          {todayTodos.length === 0 && (
+            <p className='text-gray-500'>No todos for today</p>
+          )}
+          <CardTitle className='pt-4'>Tomorrow</CardTitle>
+          {tomorrowTodos.map(todo => (
             <TodoItem
               key={todo.id}
               {...todo}
               handleEdit={handleEdit}
             />
           ))}
+          {tomorrowTodos.length === 0 && (
+            <p className='text-gray-500'>No todos for tomorrow</p>
+          )}
         </CardContent>
       </Card>
       <EditTodoDialog

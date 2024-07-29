@@ -42,8 +42,11 @@ export default function BudgetsSection({ className }: Props) {
     }
   }, [getSummary.data])
 
+  /*
+  * Filter budgets that are not checked and are expected to be checked today
+  */
   function filterBudgets(budgets: Budget[]): Budget[] {
-    return budgets.filter((budget => budget.expectedMonthDay === getDate(new Date())))
+    return budgets.filter((budget => (budget.expectedMonthDay === getDate(new Date()) || !budget.transactions[0].checked)))
   }
 
   function checkBoxHandler(parentId: string, id: string, checked: boolean) {

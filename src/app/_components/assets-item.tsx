@@ -22,15 +22,15 @@ export default function AssetsItem() {
             <div className={cn(`flex justify-start items-center ${getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? 'text-success' : 'text-destructive'}`,)}>
               {getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? <ArrowUpIcon size={20} /> : <ArrowDownIcon size={20} />
               }
-              <p>{formatCurrency(getSummary.data?.lastMonthHistoric.generalGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.generalPercentage)})</p>
+              <p className='text-sm'>{formatCurrency(getSummary.data?.lastMonthHistoric.generalGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.generalPercentage)})</p>
             </div>
             <div className={cn(`flex justify-start items-center ${getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? 'text-success' : 'text-destructive'}`,)}>
               {getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? <ArrowUpIcon size={20} /> : <ArrowDownIcon size={20} />
               }
-              <p>{formatCurrency(getSummary.data?.lastMonthHistoric.passiveGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.passiveGainLossesPercentage)}) passive</p>
+              <p className='text-sm'>{formatCurrency(getSummary.data?.lastMonthHistoric.passiveGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.passiveGainLossesPercentage)}) passive</p>
             </div>
           </div>
-          <p className='text-xl font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
+          <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
         </div>
       )}
     </Card2>
