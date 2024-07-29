@@ -5,12 +5,16 @@ import useAssets from '@/hooks/assets/use-assets'
 import { formatCurrency } from '@/lib/format-currency'
 import { formatPercentage } from '@/lib/format-percentage'
 import { cn } from '@/lib/utils'
-import { ArrowRightIcon, Loader2Icon } from 'lucide-react'
+import { ArrowRightIcon, ArrowUpIcon, Loader2Icon } from 'lucide-react'
 import NextLink from 'next/link'
 import React, { useState } from 'react'
 import { ClassNameValue } from 'tailwind-merge'
 import EditCashBoxDialog from './my_stocks/_components/edit-cash-box-dialog'
 import { CashBoxPension } from '@/models/assets/fixed-income'
+import { Card, Card2, CardHeader, CardTitle } from '@/components/ui/card'
+import AssetCard from './_components/asset-card'
+import AssetGrowCard from './_components/asset-grow-card'
+import AssetAdjustCard from './_components/asset-adjust-card'
 
 export default function Assets() {
   const { getSummary } = useAssets()
@@ -21,174 +25,266 @@ export default function Assets() {
     <div className='py-4'>
       <ModuleBar title='Assets' className='px-4' />
       <section className='w-full p-4 flex flex-col gap-4 max-w-[560px] mx-auto'>
-        <div className={cn('w-full bg-card rounded-lg p-4 flex flex-row justify-between items-center shadow-shape',)}>
-          <div className="flex justify-start items-center gap-2">
-            <h2 className='text-base font-semibold'>Total</h2>
-          </div>
-          {getSummary.isFetching ? (
-            <Loader2Icon className='animate-spin' />
-          ) : (
-            <div className='w-full flex flex-col justify-end items-end'>
-              <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.currentTotalValue)}</p>
-              <div className='w-full flex justify-end items-center gap-4'>
-                <div className='w-full flex flex-col justify-center items-center'>
-                  <p>Passive Grow</p>
-                  <div className='w-full flex flex-col justify-center items-center'>
-                    <p>{formatCurrency(getSummary.data?.lastMonthHistoric.passiveGainLosses)}</p>
-                    <p>{formatPercentage(getSummary.data?.lastMonthHistoric.passiveGainLossesPercentage)}</p>
-                  </div>
-                </div>
-                <div className='w-full flex flex-col justify-center items-center'>
-                  <p>Total Grow</p>
-                  <div className='w-full flex flex-col justify-center items-center'>
-                    <p>{formatCurrency(getSummary.data?.lastMonthHistoric.generalGainLosses)}</p>
-                    <p>{formatPercentage(getSummary.data?.lastMonthHistoric.generalPercentage)}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        <div
-          role='button'
-          onClick={() => {
-            setSelectedItem(getSummary.data?.fixedIncomes.share[0])
-            setOpenDialog(true)
-          }}
-          className={cn('w-full bg-card rounded-lg p-4 flex flex-row justify-between items-center shadow-shape',)}
+
+        <AssetCard
+          isLoading={getSummary.isFetching}
+          title='Current Total'
+          value={getSummary.data?.currentTotalValue || 0}
         >
-          <div className="flex justify-start items-center gap-2">
-            <h2 className='text-base font-semibold'>To share</h2>
+          <div className='w-full flex justify-center items-start gap-4'>
+            <AssetGrowCard
+              isLoading={getSummary.isFetching}
+              title='Passive Grow'
+              value={getSummary.data?.lastMonthHistoric.passiveGainLosses}
+              percentage={getSummary.data?.lastMonthHistoric.passiveGainLossesPercentage}
+            />
+            <AssetGrowCard
+              isLoading={getSummary.isFetching}
+              title='Total Grow'
+              value={getSummary.data?.lastMonthHistoric.generalGainLosses}
+              percentage={getSummary.data?.lastMonthHistoric.generalPercentage}
+            />
           </div>
-          {getSummary.isFetching ? (
-            <Loader2Icon className='animate-spin' />
-          ) : (
-            <div className='flex justify-end items-center gap-4'>
-              <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.sharesTotalValue)} </p>
-              <p className='text-lg font-bold'>{formatPercentage(getSummary.data && getSummary.data?.sharesPercentage / 100)}</p>
-            </div>
-          )}
-        </div>
+        </AssetCard>
+
         <div
           role='button'
           onClick={() => {
             setSelectedItem(getSummary.data?.fixedIncomes.financialInjections[0])
             setOpenDialog(true)
           }}
-          className={cn('w-full bg-card rounded-lg p-4 flex flex-row justify-between items-center shadow-shape',)}
         >
-          <div className="flex justify-start items-center gap-2">
-            <h2 className='text-base font-semibold'>Financial Injection</h2>
-          </div>
-          {getSummary.isFetching ? (
-            <Loader2Icon className='animate-spin' />
-          ) : (
-            <div className='flex justify-end items-center gap-4'>
-              <p className='text-lg font-bold'>{formatCurrency(getSummary.data?.fixedIncomes.totalFinancialInjections)} </p>
-            </div>
-          )}
+          <AssetCard
+            isLoading={getSummary.isFetching}
+            title='Financial Injection'
+            value={getSummary.data?.fixedIncomes.financialInjections[0].value}
+          />
         </div>
+
+        <div
+          role='button'
+          onClick={() => {
+            setSelectedItem(getSummary.data?.fixedIncomes.share[0])
+            setOpenDialog(true)
+          }}
+        >
+          <AssetCard
+            isLoading={getSummary.isFetching}
+            title='To Share'
+            value={getSummary.data?.sharesTotalValue}
+            percentage={(getSummary.data?.sharesPercentage || 0) / 100}
+          />
+        </div>
+
         <ul className='contents'>
-          <AssetItem
-            title='Cash Boxes'
-            href='assets/my_stocks?init=cashbox'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.cashBoxesTotalValue}
-            percentage={getSummary.data && getSummary.data?.cashBoxesPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.cashBoxesPercentagePlanned / 100}
-            adjust={getSummary.data?.cashBoxesAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.cashBoxesPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.cashBoxesGainLosses || 0}
-          />
-          <AssetItem
-            title='Fixed Incomes'
-            href='assets/my_stocks?init=fixed'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.fixedIncomesTotalValue}
-            percentage={getSummary.data && getSummary.data?.fixedIncomesPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.fixedIncomesPercentagePlanned / 100}
-            adjust={getSummary.data?.fixedIncomesAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.fixedIncomesPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.fixedIncomesGainLosses || 0}
-          />
-          <AssetItem
-            title='Stocks'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.stocksTotalValue || 0}
-            href='assets/my_stocks?init=stocks'
-            percentage={getSummary.data && getSummary.data?.stocksPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.stocksPercentagePlanned / 100}
-            adjust={getSummary.data?.stocksAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.stocksPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.stocksGainLosses || 0}
-          />
-          <AssetItem
-            title='REITs'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.reitsTotalValue || 0}
-            href='assets/my_stocks?init=reits'
-            percentage={getSummary.data && getSummary.data?.reitsPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.reitsPercentagePlanned / 100}
-            adjust={getSummary.data?.reitsAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.reitsPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.reitsGainLosses || 0}
-          />
-          <AssetItem
-            title='Internationals'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.internationalsTotalValue || 0}
-            href='assets/my_stocks?init=internationals'
-            percentage={getSummary.data && getSummary.data?.internationalsPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.internationalsPercentagePlanned / 100}
-            adjust={getSummary.data?.internationalsAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.internationalsPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.internationalsGainLosses || 0}
-          />
-          <AssetItem
-            title='Golds'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.goldsTotalValue || 0}
-            href='assets/my_stocks?init=golds'
-            percentage={getSummary.data && getSummary.data?.goldsPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.goldsPercentagePlanned / 100}
-            adjust={getSummary.data?.goldsAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.goldsPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.goldsGainLosses || 0}
-          />
-          <AssetItem
-            title='Cryptos'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.cryptosTotalValue || 0}
-            href='assets/my_stocks?init=cryptos'
-            percentage={getSummary.data && getSummary.data?.cryptosPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.cryptosPercentagePlanned / 100}
-            adjust={getSummary.data?.cryptosAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.cryptosPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.cryptosGainLosses || 0}
-          />
-          <AssetItem
-            title='Pensions'
-            href='assets/my_stocks?init=pension'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.pensionsTotalValue}
-            percentage={getSummary.data && getSummary.data?.pensionsPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.pensionsPercentagePlanned / 100}
-            adjust={getSummary.data?.pensionsAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.pensionsPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.pensionsGainLosses || 0}
-          />
-          <AssetItem
-            title='Properties'
-            href='assets/my_stocks?init=properties'
-            isLoading={getSummary.isFetching}
-            value={getSummary.data?.propertiesTotalValue}
-            percentage={getSummary.data && getSummary.data?.propertiesPercentage / 100}
-            percentagePlanned={getSummary.data && getSummary.data?.propertiesPercentagePlanned / 100}
-            adjust={getSummary.data?.propertiesAdjust}
-            percentageGrow={getSummary.data?.lastMonthHistoric.propertiesPercentage || 0}
-            gainAndLoss={getSummary.data?.lastMonthHistoric.propertiesGainLosses || 0}
-          />
+          <NextLink href='assets/my_stocks?init=cashbox' >
+            <AssetCard
+              title='Cash Boxes'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.cashBoxesTotalValue}
+              percentage={getSummary.data && getSummary.data?.cashBoxesPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.cashBoxesAdjust}
+                  percentage={getSummary.data && getSummary.data?.cashBoxesPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.cashBoxesGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.cashBoxesPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=fixed' >
+            <AssetCard
+              title='Fixed Incomes'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.fixedIncomesTotalValue}
+              percentage={getSummary.data && getSummary.data?.fixedIncomesPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.fixedIncomesAdjust}
+                  percentage={getSummary.data && getSummary.data?.fixedIncomesPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.fixedIncomesGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.fixedIncomesPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=stocks' >
+            <AssetCard
+              title='Stock'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.stocksTotalValue}
+              percentage={getSummary.data && getSummary.data?.stocksPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.stocksAdjust}
+                  percentage={getSummary.data && getSummary.data?.stocksPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.stocksGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.stocksPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=reits' >
+            <AssetCard
+              title='REITs'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.reitsTotalValue}
+              percentage={getSummary.data && getSummary.data?.reitsPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.reitsAdjust}
+                  percentage={getSummary.data && getSummary.data?.reitsPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.reitsGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.reitsPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=internationals' >
+            <AssetCard
+              title='Internationals'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.internationalsTotalValue}
+              percentage={getSummary.data && getSummary.data?.internationalsPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.internationalsAdjust}
+                  percentage={getSummary.data && getSummary.data?.internationalsPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.internationalsGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.internationalsPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=golds' >
+            <AssetCard
+              title='Golds'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.goldsTotalValue}
+              percentage={getSummary.data && getSummary.data?.goldsPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.goldsAdjust}
+                  percentage={getSummary.data && getSummary.data?.goldsPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.goldsGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.goldsPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=cryptos' >
+            <AssetCard
+              title='Cryptos'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.cryptosTotalValue}
+              percentage={getSummary.data && getSummary.data?.cryptosPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.cryptosAdjust}
+                  percentage={getSummary.data && getSummary.data?.cryptosPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.cryptosGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.cryptosPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=pension' >
+            <AssetCard
+              title='Pensions'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.pensionsTotalValue}
+              percentage={getSummary.data && getSummary.data?.pensionsPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.pensionsAdjust}
+                  percentage={getSummary.data && getSummary.data?.pensionsPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.pensionsGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.pensionsPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
+
+          <NextLink href='assets/my_stocks?init=properties' >
+            <AssetCard
+              title='Properties'
+              isLoading={getSummary.isFetching}
+              value={getSummary.data?.propertiesTotalValue}
+              percentage={getSummary.data && getSummary.data?.propertiesPercentage / 100}
+            >
+              <div className='w-full flex justify-center items-start gap-4'>
+                <AssetAdjustCard
+                  isLoading={getSummary.isFetching}
+                  value={getSummary.data?.propertiesAdjust}
+                  percentage={getSummary.data && getSummary.data?.propertiesPercentagePlanned / 100}
+                />
+                <AssetGrowCard
+                  isLoading={getSummary.isFetching}
+                  title='Total Grow'
+                  value={getSummary.data?.lastMonthHistoric.propertiesGainLosses}
+                  percentage={getSummary.data?.lastMonthHistoric.propertiesPercentage}
+                />
+              </div>
+            </AssetCard>
+          </NextLink>
         </ul>
+
       </section>
       <EditCashBoxDialog
         selectedItem={selectedItem}
@@ -198,52 +294,5 @@ export default function Assets() {
         hiddenTrigger
       />
     </div>
-  )
-}
-
-interface AssetItemProps {
-  title: string
-  value?: number
-  percentage?: number
-  percentagePlanned: number | undefined
-  percentageGrow: number
-  gainAndLoss: number
-  adjust: number | undefined
-  href: string
-  isLoading?: boolean
-  className?: ClassNameValue
-}
-
-function AssetItem({ title, href, value, className, isLoading = false, percentage = 0, percentagePlanned = 0, adjust = 0, percentageGrow, gainAndLoss }: AssetItemProps) {
-  return (
-    <li>
-      <NextLink href={href} className={cn('w-full bg-card rounded-lg p-4 flex flex-row justify-between items-center shadow-shape', className)}>
-        <div className="flex justify-start items-center gap-2">
-          <h2 className='text-base font-semibold'>{title}</h2>
-          <ArrowRightIcon size={16} />
-        </div>
-        {isLoading ? (
-          <Loader2Icon className='animate-spin' />
-        ) : (
-          <div className='flex flex-row justify-end items-center gap-4'>
-            <div>
-              <div className='flex justify-end items-center gap-4'>
-                <p className='text-lg font-bold'>{formatCurrency(value)} </p>
-                <p className='text-lg font-bold'>{formatPercentage(percentage)}</p>
-              </div>
-              <div className='flex justify-end items-center gap-4 text-sm'>
-                <p className='italic'>To adjust</p>
-                <p>{formatCurrency(adjust)}</p>
-                <p>{formatPercentage(percentagePlanned)}</p>
-              </div>
-            </div>
-            <div>
-              <p>{formatPercentage(percentageGrow)}</p>
-              <p>{formatCurrency(gainAndLoss)}</p>
-            </div>
-          </div>
-        )}
-      </NextLink>
-    </li>
   )
 }
