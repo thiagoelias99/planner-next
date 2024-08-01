@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import NextLink from 'next/link'
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
-import { getDate, getMonth, getYear } from 'date-fns'
+import { getDate, getMonth, getYear, isPast } from 'date-fns'
 import { Budget } from '@/models/budget/budget'
 import useBudgetSummaryFromMonth from '@/hooks/budgets/use-budget-summary-for-month'
 import { useEffect, useState } from 'react'
@@ -43,10 +43,11 @@ export default function BudgetsSection({ className }: Props) {
   }, [getSummary.data])
 
   /*
-  * Filter budgets that are not checked and are expected to be checked today
+  * Filter budgets that expected to be checked today and budgets that have not been checked in the past
   */
   function filterBudgets(budgets: Budget[]): Budget[] {
-    return budgets.filter((budget => (budget.expectedMonthDay === getDate(new Date()) || !budget.transactions[0].checked)))
+    // return budgets.filter((budget => (budget.expectedMonthDay === getDate(new Date()) || !budget.transactions[0].checked)))
+    return budgets.filter((budget => (budget.expectedMonthDay === getDate(new Date()) || (!budget.transactions[0].checked) && isPast(new Date(budget.transactions[0].date)))))
   }
 
   function checkBoxHandler(parentId: string, id: string, checked: boolean) {
