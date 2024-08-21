@@ -24,8 +24,8 @@ export default function AssetsItem() {
               }
               <p className='text-sm'>{formatCurrency(getSummary.data?.lastMonthHistoric.generalGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.generalPercentage)})</p>
             </div>
-            <div className={cn(`flex justify-start items-center ${getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? 'text-success' : 'text-destructive'}`,)}>
-              {getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.generalGainLosses > 0 ? <ArrowUpIcon size={20} /> : <ArrowDownIcon size={20} />
+            <div className={cn(`flex justify-start items-center ${getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.passiveGainLossesPercentage > 0 ? 'text-success' : 'text-destructive'}`,)}>
+              {getSummary.data?.lastMonthHistoric.generalGainLosses && getSummary.data.lastMonthHistoric.passiveGainLossesPercentage > 0 ? <ArrowUpIcon size={20} /> : <ArrowDownIcon size={20} />
               }
               <p className='text-sm'>{formatCurrency(getSummary.data?.lastMonthHistoric.passiveGainLosses)} ({formatPercentage(getSummary.data?.lastMonthHistoric.passiveGainLossesPercentage)}) passive</p>
             </div>
