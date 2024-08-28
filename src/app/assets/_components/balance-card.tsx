@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import Currency from '@/components/ui/currency'
 import Percentage from '@/components/ui/percentage'
 import useAssets from '@/hooks/assets/use-assets'
@@ -11,6 +11,7 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart'
 import BalanceChart from './balance-chart'
+import { formatCurrency } from '@/lib/format-currency'
 
 interface Props {
   className?: ClassNameValue
@@ -41,10 +42,11 @@ export default function BalanceCard({ className }: Props) {
             className='text-3xl'
           />
         </div>
-        <div>
+        <div className='flex flex-col justify-start items-end'>
           <Currency
             value={getSummary.data?.lastMonthHistoric.generalGainLosses || 0}
             colorize
+            useSignals
           />
           <Percentage
             value={getSummary.data?.lastMonthHistoric.generalPercentage || 0}
@@ -60,6 +62,16 @@ export default function BalanceCard({ className }: Props) {
           chartConfig={chartConfig}
         />
       </CardContent>
+      <CardFooter className='justify-end mt-2'>
+        <p className='text-muted-foreground font-thin text-xs'>
+          Invested in this month {' '}
+          <strong
+            className='text-base text-foreground underline underline-offset-4 decoration-primary decoration-4 cursor-pointer'
+            role='button'
+          >{formatCurrency(getSummary.data?.fixedIncomes.financialInjections[0].value || 0)}
+          </strong>
+        </p>
+      </CardFooter>
     </Card>
   )
 }
