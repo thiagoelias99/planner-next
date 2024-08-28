@@ -16,7 +16,7 @@ export default function AssetCard({ title, value, percentage, children, isLoadin
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className='font-hand'>{title}</CardTitle>
       </CardHeader>
       <Card2 className='w-full flex flex-col justify-center items-center gap-1 px-2 py-3'>
         {isLoading ? (

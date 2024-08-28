@@ -4,17 +4,23 @@
 
 @layer base {
   :root {
-    --background: 206 54% 97%; /* #f3f8fb */
-    --foreground: 221 23% 27%; /* #353f54 */
+    --background: 206 54% 97%;
+    /* #f3f8fb */
+    --foreground: 221 23% 27%;
+    /* #353f54 */
 
-    --card: 208 36% 91%; /* #e0e9f0 */
-    --card-foreground: 221 23% 27%; /* #353f54 */
+    --card: 208 36% 91%;
+    /* #e0e9f0 */
+    --card-foreground: 221 23% 27%;
+    /* #353f54 */
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 216 91% 67%; /* #5d9af7 */
-    --primary-foreground: 0 0% 97%; /* #f7f7f7 */
+    --primary: 216 91% 67%;
+    /* #5d9af7 */
+    --primary-foreground: 0 0% 97%;
+    /* #f7f7f7 */
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -25,34 +31,51 @@
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 84.2% 60.2%; /* #ef4444 */
-    --destructive-foreground: 210 40% 98%; /* #f8fafc */
+    --destructive: 0 84.2% 60.2%;
+    /* #ef4444 */
+    --destructive-foreground: 210 40% 98%;
+    /* #f8fafc */
 
-    --border: 214.3 31.8% 91.4%; /* #e2e8f0 */
-    --input: 214.3 31.8% 91.4%; /* #e2e8f0 */
-    --ring: 214.3 31.8% 91.4%; /* #e2e8f0 */
+    --border: 214.3 31.8% 91.4%;
+    /* #e2e8f0 */
+    --input: 214.3 31.8% 91.4%;
+    /* #e2e8f0 */
+    --ring: 214.3 31.8% 91.4%;
+    /* #e2e8f0 */
 
-    --success: 106 33% 52%; /* #6fac5c */
-    --failure: 0 84.2% 60.2%; /* #ef4444 */
+    --success: 106 33% 52%;
+    /* #6fac5c */
+    --failure: 0 84.2% 60.2%;
+    /* #ef4444 */
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 214 10% 13%; /* #1e2125 */
-    --foreground: 216 17% 77%; /* #bac2ce */
+    --background: 214 10% 13%;
+    /* #1e2125 */
+    --foreground: 216 17% 77%;
+    /* #bac2ce */
 
-    --card: 672 56% 2%; /* #060702 */
-    --card-foreground: 216 17% 77%; /* #bac2ce */
+    --card: 672 56% 2%;
+    /* #060702 */
+    --card-foreground: 216 17% 77%;
+    /* #bac2ce */
 
-    --card2: 214 9% 15%; /* #24272B */
-    --card2-foreground: 216 17% 77%; /* #bac2ce */
+    --card2: 214 9% 15%;
+    /* #24272B */
+    --card2-foreground: 216 17% 77%;
+    /* #bac2ce */
 
-    --popover: 672 56% 2%; /* #060702 */
-    --popover-foreground: 216 17% 77%; /* #bac2ce */
+    --popover: 672 56% 2%;
+    /* #060702 */
+    --popover-foreground: 216 17% 77%;
+    /* #bac2ce */
 
-    --primary: 271 71% 42%; /* #6F1FB8 */
-    --primary-foreground: 180 100% 100%; /* #FDFFFF */
+    --primary: 271 71% 42%;
+    /* #6F1FB8 */
+    --primary-foreground: 180 100% 100%;
+    /* #FDFFFF */
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -60,20 +83,30 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 271 71% 42%; /* #6F1FB8 */
-    --accent-foreground: 180 100% 100%; /* #FDFFFF */
+    --accent: 271 71% 42%;
+    /* #6F1FB8 */
+    --accent-foreground: 180 100% 100%;
+    /* #FDFFFF */
 
-    --destructive: 6 38% 46%; /* #a25249 */
-    --destructive-foreground: 180 100% 100%; /* #FDFFFF */
+    --destructive: 6 38% 46%;
+    /* #a25249 */
+    --destructive-foreground: 180 100% 100%;
+    /* #FDFFFF */
 
-    --border: 216 17% 77%; /* #bac2ce */
-    --input: 216 17% 77%; /* #bac2ce */
-    --ring: 216 17% 77%; /* #bac2ce */
+    --border: 216 17% 77%;
+    /* #bac2ce */
+    --input: 216 17% 77%;
+    /* #bac2ce */
+    --ring: 216 17% 77%;
+    /* #bac2ce */
 
-    --success: 126 93% 30%; /* #059212 */
-    --success-foreground: 180 100% 100%; /* #FDFFFF */
+    --success: 126 93% 30%;
+    /* #059212 */
+    --success-foreground: 180 100% 100%;
+    /* #FDFFFF */
 
-    --failure: 6 38% 46%; /* #a25249 */
+    --failure: 6 38% 46%;
+    /* #a25249 */
 
     --radius: 0.5rem;
   }
@@ -83,7 +116,26 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  :root {
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
