@@ -139,3 +139,19 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+/* Assets colors */
+@layer base {
+  :root {
+    --stocks: 12 76% 61%;
+    --reits: 197 37% 24%;
+    --internationals: 43 74% 66%;
+    --cryptos: 173 58% 39%;
+    --golds: 27 87% 67%;
+    --cashBoxes: 220 70% 50%;
+    --pensions: 160 60% 45%;
+    --fixedIncomes: 30 80% 55%;
+    --properties: 280 65% 60%;
+    --others: 340 75% 55%;
+  }
+}

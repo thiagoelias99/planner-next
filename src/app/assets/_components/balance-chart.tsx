@@ -15,7 +15,7 @@ export default function BalanceChart({ chartData, chartConfig }: Props) {
   return (
     <ChartContainer
       config={chartConfig}
-      className='w-full min-h-[120px] max-h-[260px]'
+      className='w-full min-h-[120px] max-h-[320px]'
     >
       <AreaChart
         accessibilityLayer

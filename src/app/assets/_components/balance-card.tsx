@@ -33,7 +33,7 @@ export default function BalanceCard({ className }: Props) {
   } satisfies ChartConfig
 
   return (
-    <Card className={cn(' px-6', className)}>
+    <Card className={cn('px-4 h-full w-full flex flex-col', className)}>
       <CardHeader>
         <div>
           <h2>Balance</h2>
@@ -56,7 +56,7 @@ export default function BalanceCard({ className }: Props) {
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className='flex-1'>
         <BalanceChart
           chartData={chartData}
           chartConfig={chartConfig}
