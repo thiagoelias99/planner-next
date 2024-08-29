@@ -2,6 +2,7 @@ import { Header1 } from '@/components/ui/typography'
 import { format } from 'date-fns'
 import BalanceCard from './_components/balance-card'
 import CurrentAssetsCard from './_components/current-assets-card'
+import AssetsTable from './_components/assets-table'
 
 export default function Page() {
   return (
@@ -10,6 +11,7 @@ export default function Page() {
       <div className='w-full grid grid-cols-3 gap-4'>
         <BalanceCard className='col-span-2' />
         <CurrentAssetsCard />
+        <AssetsTable className='col-span-3' />
       </div>
     </div>
   )
