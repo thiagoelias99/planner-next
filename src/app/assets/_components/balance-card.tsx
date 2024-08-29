@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/chart'
 import BalanceChart from './balance-chart'
 import { formatCurrency } from '@/lib/format-currency'
+import InvestedInputDialog from './invested-input-dialog'
 
 interface Props {
   className?: ClassNameValue
@@ -65,11 +66,10 @@ export default function BalanceCard({ className }: Props) {
       <CardFooter className='justify-end mt-2'>
         <p className='text-muted-foreground font-thin text-xs'>
           Invested in this month {' '}
-          <strong
-            className='text-base text-foreground underline underline-offset-4 decoration-primary decoration-4 cursor-pointer'
-            role='button'
-          >{formatCurrency(getSummary.data?.fixedIncomes.financialInjections[0].value || 0)}
-          </strong>
+          <InvestedInputDialog
+            currentValue={getSummary.data?.fixedIncomes.financialInjections[0].value || 0}
+            id={getSummary.data?.fixedIncomes.financialInjections[0].id || ''}
+          />
         </p>
       </CardFooter>
     </Card>
