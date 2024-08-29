@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import BalanceCard from './_components/balance-card'
 import CurrentAssetsCard from './_components/current-assets-card'
 import AssetsTable from './_components/assets-table'
+import AmountToShare from './_components/amount-to-share'
 
 export default function Page() {
   return (
@@ -11,6 +12,7 @@ export default function Page() {
       <div className='w-full grid grid-cols-3 gap-4'>
         <BalanceCard className='col-span-2' />
         <CurrentAssetsCard />
+        <AmountToShare className='col-span-3 justify-end' />
         <AssetsTable className='col-span-3' />
       </div>
     </div>
