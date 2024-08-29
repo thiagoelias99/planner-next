@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/table'
 import useAssets from '@/hooks/assets/use-assets'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 import { ClassNameValue } from 'tailwind-merge'
 
 
@@ -31,8 +32,12 @@ export default function AssetsTable({ className }: Props) {
     currentPercent: number,
     goal: number,
     adjustment: number,
-    color: string
+    color: string,
+    slug: string
   }
+
+  const linkPath = 'assets/my_stocks?init='
+
   const tableData: TableData[] = [
     {
       name: 'Fixed Incomes',
@@ -42,7 +47,9 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.fixedIncomesPercentage || 0,
       goal: getSummary.data?.fixedIncomesPercentagePlanned || 0,
       adjustment: getSummary.data?.fixedIncomesAdjust || 0,
-      color: 'hsl(var(--fixedIncomes))'
+      color: 'hsl(var(--fixedIncomes))',
+      slug: 'fixed'
+
     },
     {
       name: 'Cash Boxes',
@@ -52,7 +59,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.cashBoxesPercentage || 0,
       goal: getSummary.data?.cashBoxesPercentagePlanned || 0,
       adjustment: getSummary.data?.cashBoxesAdjust || 0,
-      color: 'hsl(var(--cashBoxes))'
+      color: 'hsl(var(--cashBoxes))',
+      slug: 'cashbox'
     },
     {
       name: 'Stocks',
@@ -62,7 +70,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.stocksPercentage || 0,
       goal: getSummary.data?.stocksPercentagePlanned || 0,
       adjustment: getSummary.data?.stocksAdjust || 0,
-      color: 'hsl(var(--stocks))'
+      color: 'hsl(var(--stocks))',
+      slug: 'stocks'
     },
     {
       name: 'Reits',
@@ -72,7 +81,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.reitsPercentage || 0,
       goal: getSummary.data?.reitsPercentagePlanned || 0,
       adjustment: getSummary.data?.reitsAdjust || 0,
-      color: 'hsl(var(--reits))'
+      color: 'hsl(var(--reits))',
+      slug: 'reits'
     },
     {
       name: 'Internationals',
@@ -82,7 +92,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.internationalsPercentage || 0,
       goal: getSummary.data?.internationalsPercentagePlanned || 0,
       adjustment: getSummary.data?.internationalsAdjust || 0,
-      color: 'hsl(var(--internationals))'
+      color: 'hsl(var(--internationals))',
+      slug: 'internationals'
     },
     {
       name: 'Gold',
@@ -92,7 +103,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.goldsPercentage || 0,
       goal: getSummary.data?.goldsPercentagePlanned || 0,
       adjustment: getSummary.data?.goldsAdjust || 0,
-      color: 'hsl(var(--golds))'
+      color: 'hsl(var(--golds))',
+      slug: 'golds'
     },
     {
       name: 'Cryptos',
@@ -102,7 +114,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.cryptosPercentage || 0,
       goal: getSummary.data?.cryptosPercentagePlanned || 0,
       adjustment: getSummary.data?.cryptosAdjust || 0,
-      color: 'hsl(var(--cryptos))'
+      color: 'hsl(var(--cryptos))',
+      slug: 'cryptos'
     },
     {
       name: 'Pensions',
@@ -112,7 +125,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.pensionsPercentage || 0,
       goal: getSummary.data?.pensionsPercentagePlanned || 0,
       adjustment: getSummary.data?.pensionsAdjust || 0,
-      color: 'hsl(var(--pensions))'
+      color: 'hsl(var(--pensions))',
+      slug: 'pension'
     },
     {
       name: 'Properties',
@@ -122,7 +136,8 @@ export default function AssetsTable({ className }: Props) {
       currentPercent: getSummary.data?.propertiesPercentage || 0,
       goal: getSummary.data?.propertiesPercentagePlanned || 0,
       adjustment: getSummary.data?.propertiesAdjust || 0,
-      color: 'hsl(var(--properties))'
+      color: 'hsl(var(--properties))',
+      slug: 'properties'
     }
   ]
 
@@ -144,21 +159,23 @@ export default function AssetsTable({ className }: Props) {
         </TableHeader>
         <TableBody>
           {tableData.map((data, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <div
-                  className='w-2 h-6 rounded'
-                  style={{ backgroundColor: data.color }}
-                />
-              </TableCell>
-              <TableCell className='text-start'>{data.name}</TableCell>
-              <TableCell><Currency value={data.balance} className='justify-center' /></TableCell>
-              <TableCell><Currency value={data.chg} colorize className='justify-center' /></TableCell>
-              <TableCell><Percentage value={data.chgPercent} colorize useSymbols className='justify-center' /></TableCell>
-              <TableCell><Percentage value={data.currentPercent / 100} className='justify-center' /></TableCell>
-              <TableCell><Percentage value={data.goal / 100} className='justify-center' /></TableCell>
-              <TableCell><Currency value={data.adjustment} useSymbols className='justify-center' /></TableCell>
-            </TableRow>
+            <Link key={index} href={`${linkPath}${data.slug}`} passHref className='contents'>
+              <TableRow>
+                <TableCell>
+                  <div
+                    className='w-2 h-6 rounded'
+                    style={{ backgroundColor: data.color }}
+                  />
+                </TableCell>
+                <TableCell className='text-start'>{data.name}</TableCell>
+                <TableCell><Currency value={data.balance} className='justify-center' /></TableCell>
+                <TableCell><Currency value={data.chg} colorize className='justify-center' /></TableCell>
+                <TableCell><Percentage value={data.chgPercent} colorize useSymbols className='justify-center' /></TableCell>
+                <TableCell><Percentage value={data.currentPercent / 100} className='justify-center' /></TableCell>
+                <TableCell><Percentage value={data.goal / 100} className='justify-center' /></TableCell>
+                <TableCell><Currency value={data.adjustment} useSymbols className='justify-center' /></TableCell>
+              </TableRow>
+            </Link>
           ))}
         </TableBody>
       </Table>
