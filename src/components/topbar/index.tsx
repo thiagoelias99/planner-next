@@ -38,7 +38,7 @@ const TopBar = () => {
   }, [])
 
   return (
-    <header className='w-screen fixed h-12 px-4 bg-card flex flex-row justify-between items-center'>
+    <header className='w-screen fixed h-12 px-4 bg-card flex flex-row justify-between items-center z-10'>
       <Sheet
         open={isSheetOpen}
         onOpenChange={setIsSheetOpen}

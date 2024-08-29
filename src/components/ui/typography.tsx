@@ -2,20 +2,20 @@ import { ClassNameValue } from 'tailwind-merge'
 import { cn } from '@/lib/utils'
 
 interface Props {
-  classnames?: ClassNameValue
+  className?: ClassNameValue
   children?: React.ReactNode
 }
 
-const Header1 = ({ classnames, children }: Props) => {
+const Header1 = ({ className: classnames, children }: Props) => {
   return (
     <h1 className={cn(
-      'text-lg md:text-xl lg:text-3xl',
+      'text-2xl lg:text-3xl',
       classnames
     )}>{children}</h1>
   )
 }
 
-const Header2 = ({ classnames, children }: Props) => {
+const Header2 = ({ className: classnames, children }: Props) => {
   return (
     <h2 className={cn(
       'text-base font-semibold',
@@ -24,7 +24,7 @@ const Header2 = ({ classnames, children }: Props) => {
   )
 }
 
-const Header3 = ({ classnames, children }: Props) => {
+const Header3 = ({ className: classnames, children }: Props) => {
   return (
     <h3 className={cn(
       'text-base font-semibold',
@@ -33,7 +33,7 @@ const Header3 = ({ classnames, children }: Props) => {
   )
 }
 
-const Header4 = ({ classnames, children }: Props) => {
+const Header4 = ({ className: classnames, children }: Props) => {
   return (
     <h4 className={cn(
       'text-base',

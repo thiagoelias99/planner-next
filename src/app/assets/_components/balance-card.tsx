@@ -11,7 +11,6 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart'
 import BalanceChart from './balance-chart'
-import { formatCurrency } from '@/lib/format-currency'
 import InvestedInputDialog from './invested-input-dialog'
 
 interface Props {
@@ -40,7 +39,7 @@ export default function BalanceCard({ className }: Props) {
           <h2>Balance</h2>
           <Currency
             value={getSummary.data?.currentTotalValue || 0}
-            className='text-3xl'
+            className='text-2xl sm:text-3xl'
           />
         </div>
         <div className='flex flex-col justify-start items-end'>
@@ -63,7 +62,7 @@ export default function BalanceCard({ className }: Props) {
           chartConfig={chartConfig}
         />
       </CardContent>
-      <CardFooter className='justify-end mt-2'>
+      <CardFooter className='justify-center sm:justify-end mt-2'>
         <p className='text-muted-foreground font-thin text-xs'>
           Invested in this month {' '}
           <InvestedInputDialog
