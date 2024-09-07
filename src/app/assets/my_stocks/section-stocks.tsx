@@ -31,7 +31,7 @@ export default function StocksSection({ data, className, isLoading = false }: Pr
                 Orders
               </Button>
             </NextLink>
-            <NextLink href='/assets/stocks'>
+            <NextLink href='/assets/tickers'>
               <Button>
                 Tickers
               </Button>

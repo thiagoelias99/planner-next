@@ -11,9 +11,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { ComboboxForm } from '@/components/ui/combobox-form'
-import { StockType } from '@/models/assets/stock'
+import { Stock, StockType } from '@/models/assets/stock'
 import { z } from 'zod'
 import useStocks from '@/hooks/assets/use-stocks'
+import { useEffect } from 'react'
 
 const formSchema = z.object({
   ticker: z.string().min(2).max(6),
@@ -29,10 +30,11 @@ const formSchema = z.object({
 interface EditStockDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  selectedStock?: Stock | null
 }
 
-export default function EditStockDialog({ open, onOpenChange }: EditStockDialogProps) {
-  const { createStock } = useStocks()
+export default function EditStockDialog({ open, onOpenChange, selectedStock }: EditStockDialogProps) {
+  const { createStock, updateStock } = useStocks()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,13 +46,35 @@ export default function EditStockDialog({ open, onOpenChange }: EditStockDialogP
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      await createStock.mutate(values)
+  useEffect(() => {
+    if (selectedStock) {
+      form.setValue('name', selectedStock.name)
+      form.setValue('ticker', selectedStock.ticker)
+      form.setValue('price', selectedStock.price)
+      form.setValue('stockType', selectedStock.stockType as StockType)
+    } else {
       form.reset()
-      onOpenChange(false)
-    } catch (error) {
-      throw error
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedStock])
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (selectedStock) {
+      try {
+        await updateStock.mutate(values)
+        form.reset()
+        onOpenChange(false)
+      } catch (error) {
+        throw error
+      }
+    } else {
+      try {
+        await createStock.mutate(values)
+        form.reset()
+        onOpenChange(false)
+      } catch (error) {
+        throw error
+      }
     }
   }
 
@@ -81,7 +105,10 @@ export default function EditStockDialog({ open, onOpenChange }: EditStockDialogP
                 <FormItem className=''>
                   <FormLabel>Ticker</FormLabel>
                   <FormControl>
-                    <Input type='text' {...field} />
+                    <Input
+                      type='text' {...field}
+                      disabled={selectedStock !== null}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
