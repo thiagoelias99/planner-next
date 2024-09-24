@@ -12,7 +12,7 @@ import useLogin from '@/hooks/use-login'
 
 const TopBar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const [isServerOnline, setIsServerOnline] = useState(false)
+  // const [isServerOnline, setIsServerOnline] = useState(false)
   const { logout } = useLogin()
   const router = useRouter()
 
@@ -22,20 +22,20 @@ const TopBar = () => {
     router.push('/login')
   }
 
-  const checkServer = async () => {
-    try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL as string)
-      if (response.ok) {
-        setIsServerOnline(true)
-      }
-    } catch (error) {
-      setIsServerOnline(false)
-    }
-  }
+  // const checkServer = async () => {
+  //   try {
+  //     const response = await fetch(process.env.NEXT_PUBLIC_API_URL as string)
+  //     if (response.ok) {
+  //       setIsServerOnline(true)
+  //     }
+  //   } catch (error) {
+  //     setIsServerOnline(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    checkServer()
-  }, [])
+  // useEffect(() => {
+  //   checkServer()
+  // }, [])
 
   return (
     <header className='w-screen fixed h-12 px-4 bg-card flex flex-row justify-between items-center z-10'>
@@ -81,10 +81,10 @@ const TopBar = () => {
           </SheetFooter>
         </SheetContent>
       </Sheet>
-      <div className='flex flex-row justify-end items-center gap-2'>
+      {/* <div className='flex flex-row justify-end items-center gap-2'>
         <span className='text-sm'>Server</span>
         {isServerOnline ? <CheckIcon className='' /> : <Loader2Icon className='animate-spin' />}
-      </div>
+      </div> */}
     </header>
   )
 }
