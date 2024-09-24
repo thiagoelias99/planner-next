@@ -12,6 +12,8 @@ import localFont from 'next/font/local'
 // import { useEffect } from 'react'
 // import { Toaster } from '@/components/ui/toaster'
 import Providers from '@/providers'
+import { Suspense } from 'react'
+import PageLoading from '@/components/page-loading'
 
 // const roboto = Roboto({
 //   subsets: ['latin'],
@@ -46,7 +48,10 @@ export default function RootLayout({
           {/* If current route is login, don't show the top bar */}
           {/* {pathname !== '/login' && <TopBar />} */}
           {/* <main className={`${pathname === '/login' ? 'pt-0' : 'pt-12'}`}          > */}
-          {children}
+          <Suspense fallback={<PageLoading />}>
+            {children}
+          </Suspense>
+          {/* </main> */}
           {/* <Toaster /> */}
         </Providers>
       </body>

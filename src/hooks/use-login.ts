@@ -11,9 +11,7 @@ const useLogin = () => {
   const { setToken } = useToken()
   const [isLoading, setIsLoading] = useState(false)
 
-  const login = async ({ email, storage }: { email: string, storage: 'local' | 'session'  }) => {
-    console.log(callbackUrl)
-
+  const login = async ({ email, storage }: { email: string, storage: 'local' | 'session' }) => {
     setIsLoading(true)
     try {
       const response = await axios.get<{ url: string }>(`${apiUrl}/kinde_login?provider=email&email=${email}&callbackUrl=${callbackUrl}?storage=${storage}`)
@@ -22,7 +20,7 @@ const useLogin = () => {
         return response.data.url
       } else {
         throw new Error('Erro ao realizar login!')
-      }    
+      }
     } catch (error) {
       localStorage.removeItem('token')
       sessionStorage.removeItem('token')
@@ -61,13 +59,40 @@ const useLogin = () => {
     }
   }
 
+  const loginWithProvider = async ({ provider, storage }: { provider: 'google' | 'github', storage: 'local' | 'session' }) => {
+    setIsLoading(true)
+    try {
+      const response = await axios.get<{ url: string }>(`${apiUrl}/kinde_login?provider=${provider}&callbackUrl=${callbackUrl}?storage=${storage}`)
+
+      setIsLoading(false)
+
+      if (response.status === 200) {
+        return response.data.url
+      } else {
+        throw new Error('Erro ao realizar login!')
+      }
+    } catch (error) {
+      localStorage.removeItem('token')
+      sessionStorage.removeItem('token')
+      setToken(null)
+      console.log(error)
+
+      setIsLoading(false)
+
+      toast({
+        variant: 'destructive',
+        title: 'Erro ao realizar login!',
+      })
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('token')
     sessionStorage.removeItem('token')
     setToken(null)
   }
 
-  return { login, logout, isLoading }
+  return { login, loginWithProvider, logout, isLoading }
 }
 
 export default useLogin

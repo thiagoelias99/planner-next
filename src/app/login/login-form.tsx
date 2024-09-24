@@ -13,6 +13,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useState } from 'react'
 import useLogin from '@/hooks/use-login'
 import { useToast } from '@/components/ui/use-toast'
+import SocialButton from './_components/social-button'
+import googleLogo from '../../../public/logo-google-480.png'
+import githubLogo from '../../../public/logo-github-240.png'
 
 export default function LoginForm() {
   const formSchema = z.object({
@@ -23,7 +26,7 @@ export default function LoginForm() {
 
   const navigate = useRouter()
   const { toast } = useToast()
-  const { login, isLoading } = useLogin()
+  const { login, loginWithProvider, isLoading } = useLogin()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,8 +38,22 @@ export default function LoginForm() {
       storage: keepConnected ? 'local' : 'session',
     })
 
-    if (result) {
-      navigate.push(result)
+    handleRedirect(result)
+
+    // if (result) {
+    //   navigate.push(result)
+    // } else {
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Erro ao realizar login!',
+    //     description: 'Tente novamente mais tarde.',
+    //   })
+    // }
+  }
+
+  function handleRedirect(url?: string) {
+    if (url) {
+      navigate.push(url)
     } else {
       toast({
         variant: 'destructive',
@@ -87,6 +104,34 @@ export default function LoginForm() {
               Entrar</Button>
           </form>
         </Form>
+
+        <div className='mt-4 space-y-2'>
+          <p className='py-2 w-full text-center'>-- OU --</p>
+          <SocialButton
+            providerName='Google'
+            providerLogo={googleLogo}
+            onClick={async () => {
+              const result = await loginWithProvider({
+                provider: 'google',
+                storage: keepConnected ? 'local' : 'session',
+              })
+
+              handleRedirect(result)
+            }}
+          />
+          <SocialButton
+            providerName='Github'
+            providerLogo={githubLogo}
+            onClick={async () => {
+              const result = await loginWithProvider({
+                provider: 'github',
+                storage: keepConnected ? 'local' : 'session',
+              })
+
+              handleRedirect(result)
+            }}
+          />
+        </div>
       </CardContent>
     </Card>
   )
