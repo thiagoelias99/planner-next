@@ -12,7 +12,7 @@ const LoginPage = () => {
   return (
     <main className='w-screen h-screen flex flex-col'>
       <div className={`relative w-full ${showSignUp ? 'h-[64px]' : 'h-[30%]'} bg-primary flex items-center justify-center`}>
-        <div className={showSignUp ? 'h-[100%]' : 'h-[80%]'}>
+        <div className={`max-w-screen-sm mx-auto ${showSignUp ? 'h-[100%]' : 'h-[80%]'}`}>
           <Image
             src="/logo-1024.png"
             alt="App logo"
@@ -20,7 +20,6 @@ const LoginPage = () => {
             objectFit='contain'
           />
         </div>
-
       </div>
       <div className='w-full sm:max-w-[460px] sm:m-auto flex-1 bg-background flex flex-col items-center justify-start'>
         {showSignUp ? <SignUpForm setShowSignUp={setShowSignUp} /> : <LoginForm />}

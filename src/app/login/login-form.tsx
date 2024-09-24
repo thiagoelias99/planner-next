@@ -8,22 +8,21 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
 import { Loader2Icon } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useState } from 'react'
-import useToken from '@/hooks/use-token'
 import useLogin from '@/hooks/use-login'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function LoginForm() {
   const formSchema = z.object({
-    password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W+)(.{6,30})$/, 'A senha deve conter no mínimo 6 dígitos sendo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial'),
     email: z.string().email(),
   })
 
-  const [keepConnected, setKeepConnected] = useState(false)
+  const [keepConnected, setKeepConnected] = useState(true)
 
   const navigate = useRouter()
+  const { toast } = useToast()
   const { login, isLoading } = useLogin()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,17 +30,19 @@ export default function LoginForm() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const result = await login(values)
+    const result = await login({
+      email: values.email,
+      storage: keepConnected ? 'local' : 'session',
+    })
 
     if (result) {
-      if (keepConnected) {
-        localStorage.setItem('token', result.accessToken)
-        sessionStorage.removeItem('token')
-      } else {
-        sessionStorage.setItem('token', result.accessToken)
-        localStorage.removeItem('token')
-      }
-      navigate.push('/')
+      navigate.push(result)
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Erro ao realizar login!',
+        description: 'Tente novamente mais tarde.',
+      })
     }
   }
 
@@ -61,20 +62,6 @@ export default function LoginForm() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="Digite seu email..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <PasswordInput
-                      placeholder="Digite sua senha..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

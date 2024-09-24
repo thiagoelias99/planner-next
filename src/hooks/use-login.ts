@@ -4,24 +4,25 @@ import useToken from './use-token'
 import { toast } from './use-toast'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
+const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
+const callbackUrl = `${serverUrl}/auth_callback`
 
 const useLogin = () => {
   const { setToken } = useToken()
   const [isLoading, setIsLoading] = useState(false)
 
-  const login = async ({ email, password }: { email: string, password: string }) => {
+  const login = async ({ email, storage }: { email: string, storage: 'local' | 'session'  }) => {
+    console.log(callbackUrl)
+
     setIsLoading(true)
     try {
-      const { data: response } = await axios.post<{ accessToken: string }>(`${apiUrl}/login`, {
-        email,
-        password
-      })
+      const response = await axios.get<{ url: string }>(`${apiUrl}/kinde_login?provider=email&email=${email}&callbackUrl=${callbackUrl}?storage=${storage}`)
 
-      if (response.accessToken) {
-        setToken(response.accessToken)
-      }
-
-      return response
+      if (response.status === 200) {
+        return response.data.url
+      } else {
+        throw new Error('Erro ao realizar login!')
+      }    
     } catch (error) {
       localStorage.removeItem('token')
       sessionStorage.removeItem('token')
